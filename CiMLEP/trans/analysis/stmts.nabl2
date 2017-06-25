@@ -10,7 +10,7 @@ rules
 	
 Stmts[[ [] ^ (scope) ]] :=
 	
-	distinct/name V(scope) | error @NAMES.
+	distinct/name W(scope) | error @NAMES.
  
 Stmts[[ [x|xs] ^ (scope) ]] :=
 		new sc,

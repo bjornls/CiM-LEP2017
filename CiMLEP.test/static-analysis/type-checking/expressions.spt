@@ -81,15 +81,15 @@ test test invalid copy function, missing parameter[[
 test test array concat[[
   signal i[3];
   signal n[3];
-  signal in[6];
-  in = i ++ n;
+  signal inn[6];
+  inn = i ++ n;
 ]] 0 errors
 
 test test array concat only for signals[[
   int i[3];
   int n[3];
-  int in[6];
-  in = i ++ n;
+  int inn[6];
+  inn = i ++ n;
 ]] >= 1 errors
 
 
@@ -111,3 +111,33 @@ test test invalid skeleton operator[[
   int n;
   int c = copy[n^2/2](foo()) *_C_* add;
 ]] >= 1 errors
+
+
+/*
+	Duplication tests
+*/
+
+
+test duplicate local variables [[
+  int i;
+  int i;
+]] >= 1 errors
+
+/*
+	correct tests that are buggy
+*/
+
+//test duplicate local variables with funcblock id[[
+//  int mul;
+//]] >= 1 errors
+
+//test duplicate local variables with sigparam id[[
+//  int in;
+//]] >= 1 errors
+
+test cannot assign value to variable which is defined later[[
+  h = 0;
+  int h;
+]] >= 1 errors
+
+

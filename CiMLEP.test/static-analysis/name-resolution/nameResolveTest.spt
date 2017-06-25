@@ -1,0 +1,65 @@
+module nameResolveTest
+
+language CiMLEP
+
+test resolve parameter to sig parameter [[
+	FuncBlock(add,  (40,32), 180, 125, ((0,0), 90, 1)((0,32), 270, 0), ((40,0), 90, 0));
+	FuncBlock(mul, (120,160), 803, 4407, ((0,0), 0, 0)((32,160), 180, 0), ((120,64), 90, 0));
+	
+	component main<in[8] | out[4]>(){
+		
+	}
+	
+	component foo<a[n], b[ [[n]] ] | out[1]>(int [[n]]){
+		
+	}
+]] resolve #1 to #2
+
+test resolve parameter to sig parameter [[
+	FuncBlock(add,  (40,32), 180, 125, ((0,0), 90, 1)((0,32), 270, 0), ((40,0), 90, 0));
+	FuncBlock(mul, (120,160), 803, 4407, ((0,0), 0, 0)((32,160), 180, 0), ((120,64), 90, 0));
+	
+	component main<a[ [[n]] ], b[n] | out[1]>(int [[n]]){
+		
+	}
+]] resolve #1 to #2
+
+test resolve to funcblock identifier [[
+	FuncBlock([[add]],  (40,32), 180, 125, ((0,0), 90, 1)((0,32), 270, 0), ((40,0), 90, 0));
+	FuncBlock(mul, (120,160), 803, 4407, ((0,0), 0, 0)((32,160), 180, 0), ((120,64), 90, 0));
+	
+	component main<in[8] | out[4]>(){
+		comp c = [[add]];
+	}
+]] resolve #2 to #1
+
+test resolve to int [[
+	component main<in[8] | out[4]>(){
+		int [[i]];
+		[[i]] = 2;
+	}
+]] resolve #2 to #1
+
+test resolve sigparams [[
+	component main<[[in]] [8] | out[4]>(){
+		[[in]] => out[1];
+	}
+]] resolve #2 to #1
+
+test resolve sigparams [[
+	component main<in [8] | [[out]] [4]>(){
+		in => [[out]] [1];
+	}
+]] resolve #2 to #1
+
+test resolve to component funtion [[
+	component main<in [8] | out [4]>(){
+		in => [[foo()]] => out[2];
+	}
+	
+	component [[foo]]<a[4] | b[2]>(){}
+]] resolve #1 to #2
+
+
+
+
