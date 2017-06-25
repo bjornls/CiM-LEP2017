@@ -2,6 +2,7 @@ module deref
 //
 imports
 	src-gen/signatures/-
+	analysis/cimlep
 //	exp-trans
 //	lib
 	helper
@@ -251,7 +252,7 @@ rules
 //	*/
 //	
 	deref-by-type(|ast, modArray*, varArray*, compTuples*):
-		(Array(Comp()), exp) -> (resCompTuples*, elem*)
+		(Array(TComp()), exp) -> (resCompTuples*, elem*)
 		with
 			(resCompTuples*, elem*) := <deref-skel(|ast, varArray*, compTuples*)> exp
 	
@@ -259,9 +260,9 @@ rules
 		(Array(type), exp) -> (resCompTuples*, elem*)
 		with
 			(resCompTuples*, elem*) := <array-to-list(|ast, modArray*, varArray*, compTuples*, type)> exp
-//			
+			
 	deref-by-type(|ast, modArray*, varArray*, compTuples*):
-		(Comp(), exp) -> (resCompTuples*, elem)
+		(TComp(), exp) -> (resCompTuples*, elem)
 		with
 			(resCompTuples*, elem):= <deref-skel(|ast, varArray*, compTuples*)> exp
 			
@@ -269,26 +270,7 @@ rules
 		(other, exp) -> (compTuples*, elem)
 		with
 			elem := <exp-to-int(|"Error",varArray*, [])> exp
-//	
-//	array-to-list(|ast, modArray*, varArray*, compTuples*, type):
-//		ManualDefinition([elem | array*]) -> (resCompTuples*, res*)
-//		with
-//			(newCompTuples*, res1) := <deref-by-type(|ast, modArray*, varArray*, compTuples*)>(type, elem);
-//			(resCompTuples*, res2*) := <array-to-list(|ast, modArray*, varArray*, newCompTuples*, type)> ManualDefinition(array*);
-//			res* :=<merge>(res1, res2*)
-//			
-//	array-to-list(|ast, modArray*, varArray*, compTuples*, type):
-//		ManualDefinition([]) -> (compTuples*, res*)
-//		with
-//			res* := []
-//			
-//	array-to-list(|ast, modArray*, varArray*, compTuples*, type):
-//		Append(array1, array2) -> (resCompTuples*, res*)
-//		with
-//			(newCompTuples*, elem) := <deref-by-type(|ast, modArray*, varArray*, compTuples*)>(type, array1);
-//			(resCompTuples*, elems*) := <deref-by-type(|ast, modArray*, varArray*, newCompTuples*)> (type, array2);
-//			res* :=<merge>(elem, elems*)
-//			
+		
 	array-to-list(|ast, modArray*, varArray*, compTuples*, type):
 		Interval(begin, interval, end) -> (compTuples*, res*)
 		with
@@ -301,35 +283,6 @@ rules
 				res* := <build-int-array(leq, add|intInterval, 1)>(intBegin, intEnd)
 			end
 			
-//	array-to-list(|ast, modArray*, varArray*, compTuples*, type):
-//		PartOfArray(array, part) -> (resCompTuples*, res*)
-//		with
-//			(unusedCompTuples*, partInts*) := <array-to-list(|ast, modArray*, varArray*, [], Integer())> part;
-//			(resCompTuples*, fullRes*) := <array-to-list(|ast, modArray*, varArray*, compTuples*, type)> array;
-//			res* := <map(inc; array-at-index(|fullRes*))> partInts*
-//			
-//	array-to-list(|ast, modArray*, varArray*, compTuples*, type):
-//		Increment(array, exp) -> (compTuples*, res*)
-//		with
-//			(unusedCompTuples*, arrayInts*) := <array-to-list(|ast, modArray*, varArray*, [], Integer())> array;
-//			length := <length> arrayInts*;
-//			intValue := <exp-to-int(|"Error",varArray*, [])> exp;
-//			res* := <zip(add)> (arrayInts*,  <copy>(length, intValue))
-//			
-//	array-to-list(|ast, modArray*, varArray*, compTuples*, type):
-//		ShiftRight(array, exp) -> (resCompTuples*, res*)
-//		with
-//			(resCompTuples*, unshiftedRes*) := <array-to-list(|ast, modArray*, varArray*, compTuples*, type)> array;
-//			intValue := <exp-to-int(|"Error",varArray*, [])> exp;
-//			res* := <shift-right(|intValue)> unshiftedRes*
-//			
-//	array-to-list(|ast, modArray*, varArray*, compTuples*, type):
-//		ShiftLeft(array, exp) -> (resCompTuples*, res*)
-//		with
-//			(resCompTuples*, unshiftedRes*) := <array-to-list(|ast, modArray*, varArray*, compTuples*, type)> array;
-//			intValue := <exp-to-int(|"Error",varArray*, [])> exp;
-//			res* := <shift-left(|intValue)> unshiftedRes*
-//			
 	array-to-list(|ast, modArray*, varArray*, compTuples*, type):
 		FunApp(Map(), Some(Func(VarRef(varId), exp)), [array]) -> (resCompTuples*, res*)
 		with
@@ -492,7 +445,7 @@ rules
 	deref-skel(|ast, varArray*, compTuples*):
 		arrayOfSkels -> (resCompTuples*, res)
 		with
-			(newCompTuples*, skelArray) := <array-to-list(|ast, [], varArray*, compTuples*, Comp())> arrayOfSkels;
+			(newCompTuples*, skelArray) := <array-to-list(|ast, [], varArray*, compTuples*, TComp())> arrayOfSkels;
 			(resCompTuples*, res) := <deref-skels(|ast, varArray*, newCompTuples*)> skelArray
 			
 	deref-skels(|ast, varArray*, compTuples*):
@@ -645,7 +598,7 @@ rules
 	fold-to-value(|ast, modArray*, varArray*, compTuples*):
 		FunApp(Fold(Right()), Some(OpApp(op)), [ar]) -> (resCompTuples*, res)
 		with
-			arrayType := Array(Comp())//<get-type; array-get-type> array*;
+			arrayType := Array(TComp())//<get-type; array-get-type> array*;
 			;(resCompTuples*, derefedArray*) := <array-to-list(|ast, modArray*, varArray*, compTuples*, arrayType)> ar;
 			res := <foldr(![], apply-op(|op, arrayType, ast, modArray*, varArray*, resCompTuples*))> derefedArray*
 			

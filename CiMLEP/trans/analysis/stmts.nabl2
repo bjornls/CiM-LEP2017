@@ -50,15 +50,24 @@ Stmts[[ [x|xs] ^ (scope) ]] :=
 	Var{id}.origin := Local().
 	
 [[VarAssign(varref, value) ^ (s)]] := 
-	[[varref ^ (s) : ty]], 
+	[[varref ^ (s) : ty]],
 	[[value ^ (s) : ty2]],
-	t1 == ty2 | error.
+	ty == ty2 | error.
 
 SubscrType[[Interval(_,_,_) ^ (s)]] := true.
 SubscrType[[exp ^ (s) ]] :=
 	[[exp ^ (s) : ty]],
 	ty == TInteger() | error "Must be an integer".
 	
+		
+[[ ArrayDecl(type,arId,exp) ^ (s) ]] := 
+	[[type ^ (s) : ty]],
+	Var{arId} <- s,
+	Var{arId} : Array(ty) !,
+	Var{arId}.origin := Local(),
+	[[exp ^ (s) : ety]],
+	ety == TInteger() | error "Subscript must be an integer".
+	
 [[Integer() ^ (s) : TInteger()]] := true.
 [[Comp() ^ (s) : TComp()]] := true.
-[[TSignal() ^ (s) : TSignal()]] := true.
+[[Signal() ^ (s) : TSignal()]] := true.

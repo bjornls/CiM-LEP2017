@@ -16,7 +16,7 @@ rules
 	
 [[Component(id,sigParamsIn,sigParamsOut,params,stmt) ^ (globalscope)]] := 
 	Component{id} <- globalscope,
-	Component{id} : Comp(),  
+	Component{id} : TComp(),  
 	new compscope,
 	compscope ---> globalscope,
 	distinct/name D(compscope) | error @NAMES,

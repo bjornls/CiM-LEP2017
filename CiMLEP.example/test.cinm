@@ -9,7 +9,6 @@ component main<in[8] | out[4]>(){
 
 //matrix multiplication for nxn matrix
 component matrix_mult<A[n^2], B[n^2] | out[n^2]>(int n){
-	
 	int i = 0;
 	loop<++>(i=0:n^2; A[i/n*n:i/n*n+n] ++ B[i%n:n:i%n+n^2]) => copy[n^2/2](inner_product(n)) *_C_* copy[n^2/2](inner_product(n)) => out[0 : n^2];
 } 

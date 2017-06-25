@@ -8,19 +8,23 @@ imports
   analysis/comps
 
 signature
-
+	
 	name resolution
         namespaces FuncBlock Component Var
      name resolution
      
      constructors
      
-	     TSignal 	: Type 
+     
+     	 CompFunc : Type -> Type
+     
+	     TSignal 	: Type
 	     TComp 		: Type
 	     TInteger 	: Type
 	     TIntArray	: Type
 	     
 	     IsIndex	: SuperType  
+	     IsCompArg  : CompType
      
      relations
      
@@ -33,6 +37,9 @@ rules
   init ^ (s) :=
   	TInteger()  <super! IsIndex(),
   	TIntArray()  <super! IsIndex(),
+  	
+  	Array(TComp()) 	<super! IsCompArg(),
+  	TComp() 		<super! IsCompArg(),
   
     new s.
     
@@ -45,7 +52,7 @@ rules
 [[FuncBlock(id, size, latency, energyCons, inPorts, outPorts) ^ (function_scope)]] := 
 	Var{id} <- function_scope,
 	Var{id}.origin := FuncBlock(),
-	Var{id} : Comp().
+	Var{id} : TComp().
 	
 
 

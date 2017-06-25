@@ -50,12 +50,12 @@ test test invalid map function, parameter not array[[
 
 
 test test valid copy function[[
-  int i;
+  int i; 
   int n;
-  comp cc[3];
+  comp cc[3]; 
   cc = copy[n^2/2](foo(n));
 ]] 0 errors
-
+ 
 test test invalid copy function, missing subscript[[
   int i;
   int n;
@@ -99,7 +99,7 @@ test test array concat only for signals[[
 
 test test skeleton operator with both comp and comp array[[
   int n;
-  comp c = copy[n^2/2](foo(n)) *_C_* add; 
+  comp c = copy[n^2/2](foo(n)) *_C_* add;  
 ]] 0 errors
 
 test test invalid skeleton operator[[

@@ -11,7 +11,7 @@ test increment [[incr(i,2)]] parse succeeds
 test reverse [[rev(array)]] parse succeeds
 test foldr [[foldr<+>(a)]] parse succeeds  
 test foldl [[foldl<+>(a)]] parse succeeds
-test map [[map<i = p + 2>(a)]] parse succeeds 
+test map [[map<i = p + 2>(a)]] parse succeeds  
 test copy [[copy[1](b)]] parse succeeds 
 
 //functions with incorrect application 

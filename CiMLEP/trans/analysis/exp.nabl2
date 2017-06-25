@@ -21,7 +21,7 @@ rules
 	//correct form is desugared to Repeat
 	false | error "This function is not being applied correctly.". 
 
-[[Repeat(amount, exp) ^ (s) : TComp()]] :=
+[[Repeat(amount, exp) ^ (s) : Array(TComp())]] :=
 	[[amount ^ (s) : aty]],
 	[[exp ^ (s) : ety]],
 	aty == TInteger() | error "Should be integer",
@@ -102,20 +102,15 @@ ConSkel[[Some(ConSkel(comp)) ^ (s) : ty]] :=
 	
 [[BinExp(_, exp1, exp2) ^ (s) : TInteger()]] :=	
 	[[exp1 ^ (s) : ty1]],
-	[[exp2 ^ (s) : ty2]], 
+	[[exp2 ^ (s) : ty2]],
 	[ty1, ty2] == [TInteger(), TInteger()] | error.
 	
-	
-//[[BinExp(ToThePower(), exp1, exp2) ^ (s) : TInteger()]] :=	
-//	[[exp1 ^ (s) : ty1]],
-//	[[exp2 ^ (s) : ty2]],
-//	[ty1, ty2] == [TInteger(), TInteger()] | error.	
-	
+		
 [[Connect(comp1,skel,comp2) ^ (s) : TComp()]] := 
 	[[comp1 ^ (s) : ty]],
-	ty == TComp() | error,
+	ty <super? IsCompArg() | error,
 	[[comp2 ^ (s) : ty2]],
-	ty2 == TComp() | error.
+	ty2 <super? IsCompArg()  | error.
 	
 [[ConcurSigLoop(varref,exp,signal) ^ (s) : TSignal()]] :=
 		[[ varref ^ (s) : vty ]],
@@ -129,5 +124,6 @@ ConSkel[[Some(ConSkel(comp)) ^ (s) : ty]] :=
 		[[ var ^ (s) : vty ]],
 		[[ var2 ^ (s) : vty2 ]],
 		[vty, vty2] == [TSignal(), TSignal()] | error.
+
 	
 	

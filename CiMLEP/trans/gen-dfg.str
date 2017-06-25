@@ -31,7 +31,7 @@ rules
    		<run-time; debug(!"run-time after dereference: ")>"";
    		systemTuples* := <tuples-to-dfg(|ast, [])> tuples*;
    		system := <main-to-dfg(|ast, systemTuples*)> statements*;
-   		<run-time; debug(!"run-time after spr: ")>""
+   		<run-time; debug(!"run-time after spr: ")>"" 
    		
 	tuples-to-dfg(|ast, systemTuples*):
 		tuples* -> resSystemTuples*
