@@ -1,0 +1,113 @@
+module expressions
+
+language CiMLEP
+
+fixture [[
+	FuncBlock(add,  (40,32), 180, 125, ((0,0), 90, 1)((0,32), 270, 0), ((40,0), 90, 0));
+	FuncBlock(mul, (120,160), 803, 4407, ((0,0), 0, 0)((32,160), 180, 0), ((120,64), 90, 0));
+	
+	component main<in[8] | out[4]>(){
+		[[...]]
+	}
+	
+	component foo<a[n], b[n] | out[1]>(int n){
+		
+	}
+]]
+
+/*
+	FunApp tests
+*/
+
+test test valid map function, interval parameter [[
+  int i;
+  int n;
+  comp cc[3];
+  cc = map<i=2^i>(log2(n):0);
+]] 0 errors
+ 
+test test valid map function, array parameter[[
+  int i;
+  int a[2];
+  int n;
+  comp cc[3];
+  cc = map<i=2^i>(a);
+]] 0 errors
+
+test test invalid map function, no parameters[[
+  int i;
+  int n; 
+  comp cc[3];
+  cc = map<i=2^i>();
+]] >= 1 errors
+
+test test invalid map function, parameter not array[[
+  int i;
+  int n;
+  comp cc[3];
+  cc = map<i=2^i>(1,2,3);
+]] >= 1 errors
+
+
+test test valid copy function[[
+  int i;
+  int n;
+  comp cc[3];
+  cc = copy[n^2/2](foo(n));
+]] 0 errors
+
+test test invalid copy function, missing subscript[[
+  int i;
+  int n;
+  comp cc[3];
+  cc = copy(foo(n));
+]] >= 1 errors
+
+test test invalid copy function, missing subscript[[
+  int i;
+  int n;
+  comp cc[3];
+  cc = copy<i=2^i>(foo(n));
+]] >= 1 errors
+
+test test invalid copy function, missing parameter[[
+  int i;
+  int n;
+  comp cc[3];
+  cc = copy<i=2^i>();
+]] >= 1 errors
+
+
+test test array concat[[
+  signal i[3];
+  signal n[3];
+  signal in[6];
+  in = i ++ n;
+]] 0 errors
+
+test test array concat only for signals[[
+  int i[3];
+  int n[3];
+  int in[6];
+  in = i ++ n;
+]] >= 1 errors
+
+
+/*
+	Skeleton tests
+*/
+
+test test skeleton operator with both comp and comp array[[
+  int n;
+  comp c = copy[n^2/2](foo(n)) *_C_* add; 
+]] 0 errors
+
+test test invalid skeleton operator[[
+  int n;
+  comp c = copy[n^2/2](foo()) *_C_* n;
+]] >= 1 errors
+
+test test invalid skeleton operator[[ 
+  int n;
+  int c = copy[n^2/2](foo()) *_C_* add;
+]] >= 1 errors

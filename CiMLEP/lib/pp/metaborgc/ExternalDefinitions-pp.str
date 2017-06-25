@@ -1,0 +1,383 @@
+module pp/metaborgc/ExternalDefinitions-pp
+
+imports
+  libstratego-gpp
+  libspoofax/sdf/pp
+  libspoofax/term/origin
+  libstratego-sglr
+  signatures/metaborgc/ExternalDefinitions-sig
+
+
+imports
+  signatures/metaborgc/Declarations-sig
+  signatures/metaborgc/Statements-sig
+  signatures/metaborgc/Preprocessor-sig
+
+
+imports
+  pp/metaborgc/Declarations-pp
+  pp/metaborgc/Statements-pp
+  pp/metaborgc/Preprocessor-pp
+
+
+strategies
+  prettyprint-example =
+    prettyprint-metaborgc
+
+  prettyprint-metaborgc =
+    fail
+
+  prettyprint-metaborgc(|sort) =
+    fail
+
+
+strategies
+  prettyprint-SDF-start-symbols =
+    prettyprint-metaborgc-start-symbols
+
+  prettyprint-metaborgc-start-symbols =
+    fail
+
+
+strategies
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-TranslationUnit
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-ExternalDecl
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-FuncDef
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-TranslationUnit>
+    where <?"TranslationUnit"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-ExternalDecl>
+    where <?"ExternalDecl"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-FuncDef>
+    where <?"FuncDef"> sort
+
+  prettyprint-metaborgc-TranslationUnit :
+    TranslationUnit(t1__) -> [ H(
+                                 [SOpt(HS(), "0")]
+                               , [t1__']
+                               )
+                             ]
+    with t1__' := <pp-V-list(prettyprint-metaborgc-ExternalDecl|"1")
+                   <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-TranslationUnit =
+    ?TranslationUnit(_)
+
+  metaborgc-get-indent :
+    (t@TranslationUnit(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"TranslationUnit"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@TranslationUnit(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"TranslationUnit"> sort
+    with switch !index
+           case ?1 :
+             separator := "\n\n"
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@TranslationUnit(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"TranslationUnit"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-ExternalDecl :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-ExternalDecl)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-FuncDef) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-ExternalDecl :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-ExternalDecl)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-Decl) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-FuncDef :
+    FuncDef(t1__, t2__, t3__, t4__) -> [ H(
+                                           [SOpt(HS(), "0")]
+                                         , [ t1__'
+                                           , S(" ")
+                                           , t2__'
+                                           , S(" ")
+                                           , t3__'
+                                           , S(" ")
+                                           , t4__'
+                                           ]
+                                         )
+                                       ]
+    with t1__' := <pp-H-list(prettyprint-metaborgc-DeclSpec|" ")
+                   <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-FuncDeclarator) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+    with t3__' := <pp-H-list(prettyprint-metaborgc-Decl|" ")
+                   <+ pp-one-Z(prettyprint-completion-aux)> t3__
+    with t4__' := <pp-one-Z(prettyprint-metaborgc-CompoundStm) <+ pp-one-Z(prettyprint-completion-aux)> t4__
+
+  is-metaborgc-FuncDef =
+    ?FuncDef(_, _, _, _)
+
+  metaborgc-get-indent :
+    ( t@FuncDef(t1__, t2__, t3__, t4__)
+    , index
+    ) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"FuncDef"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           case ?3 :
+             indent := ""
+           case ?4 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    ( t@FuncDef(t1__, t2__, t3__, t4__)
+    , index
+    ) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"FuncDef"> sort
+    with switch !index
+           case ?1 :
+             separator := " "
+           case ?2 :
+             separator := ""
+           case ?3 :
+             separator := " "
+           case ?4 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    ( t@FuncDef(t1__, t2__, t3__, t4__)
+    , index
+    ) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"FuncDef"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           case ?3 :
+             ws := " "
+           case ?4 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  is-metaborgc-TranslationUnit =
+    fail
+
+  is-metaborgc-ExternalDecl =
+    fail
+
+  is-metaborgc-FuncDef =
+    fail
+
+  prettyprint-metaborgc-TranslationUnit :
+    amb([h|hs]) -> <prettyprint-metaborgc-TranslationUnit> h
+
+  prettyprint-metaborgc-ExternalDecl :
+    amb([h|hs]) -> <prettyprint-metaborgc-ExternalDecl> h
+
+  prettyprint-metaborgc-FuncDef :
+    amb([h|hs]) -> <prettyprint-metaborgc-FuncDef> h
+
+  prettyprint-metaborgc-TranslationUnit :
+    TranslationUnit-Plhdr() -> [ H(
+                                   [SOpt(HS(), "0")]
+                                 , [S("$TranslationUnit")]
+                                 )
+                               ]
+
+  is-metaborgc-TranslationUnit =
+    ?TranslationUnit-Plhdr()
+
+  prettyprint-metaborgc-ExternalDecl :
+    ExternalDecl-Plhdr() -> [ H(
+                                [SOpt(HS(), "0")]
+                              , [S("$ExternalDecl")]
+                              )
+                            ]
+
+  is-metaborgc-ExternalDecl =
+    ?ExternalDecl-Plhdr()
+
+  prettyprint-metaborgc-FuncDef :
+    FuncDef-Plhdr() -> [ H(
+                           [SOpt(HS(), "0")]
+                         , [S("$FuncDef")]
+                         )
+                       ]
+
+  is-metaborgc-FuncDef =
+    ?FuncDef-Plhdr()
+
+  prettyprint-metaborgc-DeclSpec :
+    DeclSpec-Plhdr() -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$DeclSpec")]
+                          )
+                        ]
+
+  is-metaborgc-DeclSpec =
+    ?DeclSpec-Plhdr()
+
+  prettyprint-metaborgc-FuncDeclarator :
+    FuncDeclarator-Plhdr() -> [ H(
+                                  [SOpt(HS(), "0")]
+                                , [S("$FuncDeclarator")]
+                                )
+                              ]
+
+  is-metaborgc-FuncDeclarator =
+    ?FuncDeclarator-Plhdr()
+
+  prettyprint-metaborgc-Decl :
+    Decl-Plhdr() -> [ H(
+                        [SOpt(HS(), "0")]
+                      , [S("$Decl")]
+                      )
+                    ]
+
+  is-metaborgc-Decl =
+    ?Decl-Plhdr()
+
+  prettyprint-metaborgc-CompoundStm :
+    CompoundStm-Plhdr() -> [ H(
+                               [SOpt(HS(), "0")]
+                             , [S("$CompoundStm")]
+                             )
+                           ]
+
+  is-metaborgc-CompoundStm =
+    ?CompoundStm-Plhdr()
+
+  prettyprint-metaborgc-TranslationUnit :
+    TranslationUnit-Plhdr(_) -> [ H(
+                                    [SOpt(HS(), "0")]
+                                  , [S("$TranslationUnit")]
+                                  )
+                                ]
+
+  is-metaborgc-TranslationUnit =
+    ?TranslationUnit-Plhdr(_)
+
+  prettyprint-metaborgc-ExternalDecl :
+    ExternalDecl-Plhdr(_) -> [ H(
+                                 [SOpt(HS(), "0")]
+                               , [S("$ExternalDecl")]
+                               )
+                             ]
+
+  is-metaborgc-ExternalDecl =
+    ?ExternalDecl-Plhdr(_)
+
+  prettyprint-metaborgc-FuncDef :
+    FuncDef-Plhdr(_) -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$FuncDef")]
+                          )
+                        ]
+
+  is-metaborgc-FuncDef =
+    ?FuncDef-Plhdr(_)
+
+  prettyprint-metaborgc-DeclSpec :
+    DeclSpec-Plhdr(_) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$DeclSpec")]
+                           )
+                         ]
+
+  is-metaborgc-DeclSpec =
+    ?DeclSpec-Plhdr(_)
+
+  prettyprint-metaborgc-FuncDeclarator :
+    FuncDeclarator-Plhdr(_) -> [ H(
+                                   [SOpt(HS(), "0")]
+                                 , [S("$FuncDeclarator")]
+                                 )
+                               ]
+
+  is-metaborgc-FuncDeclarator =
+    ?FuncDeclarator-Plhdr(_)
+
+  prettyprint-metaborgc-Decl :
+    Decl-Plhdr(_) -> [ H(
+                         [SOpt(HS(), "0")]
+                       , [S("$Decl")]
+                       )
+                     ]
+
+  is-metaborgc-Decl =
+    ?Decl-Plhdr(_)
+
+  prettyprint-metaborgc-CompoundStm :
+    CompoundStm-Plhdr(_) -> [ H(
+                                [SOpt(HS(), "0")]
+                              , [S("$CompoundStm")]
+                              )
+                            ]
+
+  is-metaborgc-CompoundStm =
+    ?CompoundStm-Plhdr(_)
+
+  prettyprint-metaborgc-DeclSpec :
+    DeclSpec-Opt-Plhdr() -> [ H(
+                                []
+                              , [S("")]
+                              )
+                            ]
+
+  is-metaborgc-DeclSpec =
+    ?DeclSpec-Opt-Plhdr()
+
+  prettyprint-metaborgc-Decl :
+    Decl-Opt-Plhdr() -> [ H(
+                            []
+                          , [S("")]
+                          )
+                        ]
+
+  is-metaborgc-Decl =
+    ?Decl-Opt-Plhdr()

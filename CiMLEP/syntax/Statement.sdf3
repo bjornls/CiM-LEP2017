@@ -1,0 +1,41 @@
+module Statement
+
+imports
+	Common
+	Exp 
+	Type
+
+context-free start-symbols
+	Statement
+	
+sorts 
+	Statement
+	
+template options
+  tokenize: "("
+  keyword -/- [a-zA-Z]
+	
+context-free syntax
+
+	ConSkel.ConSkel = <<Exp> =\>>
+	
+	Signal.SigRef = <<ID>[<Exp>]>
+	Signal.SingleSigRef = <<ID>>
+
+	Statement.VarAssign = <<Exp> = <Exp>;>
+  	Statement.ArrayAssign = <<ID>[<Exp>] = <Exp>;>
+	Statement.SignalAssign = <<Exp> =\> <ConSkel?> <Exp>;>
+	Statement.Accolades = <{
+		<{Statement "\n"}*>
+	}>{left}
+	
+  Statement.VarDecl = <<Type> <ID>;>
+  Statement.VarDeclInit = <<Type> <ID> = <Exp>;>
+  
+//  //for 
+//  Statement.SignalDecl = <<ID>[<Exp>];>
+  
+  //Statement.SingleSignalDecl = <signal <ID>;>
+  Statement.ArrayDecl = <<Type> <ID>[<Exp>];>
+  
+  Statement.OutputAssign = <deprecated_out[<Exp>] \<= <Signal> \<= <Exp>;>

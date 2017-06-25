@@ -1,0 +1,7 @@
+module test
+
+language CiMLEP
+
+test parse [[
+
+]] parse succeeds

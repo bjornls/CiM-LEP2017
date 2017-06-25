@@ -1,0 +1,19 @@
+module Location
+
+imports
+  Common
+  IntPair
+  
+sorts
+  Location
+   
+context-free start-symbols
+  Location
+  
+template options
+  tokenize: "()[]"
+  keyword -/- [a-zA-Z]
+
+context-free syntax
+  //              position,  angle,  mirror
+  Location.Location = <(<IntPair>, <INT>, <INT>)> 

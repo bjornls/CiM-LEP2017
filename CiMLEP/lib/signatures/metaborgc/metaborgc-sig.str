@@ -1,0 +1,16 @@
+module signatures/metaborgc/metaborgc-sig
+
+imports
+  signatures/metaborgc/Common-sig
+  signatures/metaborgc/ExternalDefinitions-sig
+
+
+signature
+  constructors
+    Empty                 : Start
+    CProgram              : TranslationUnit -> Start
+    Start-Plhdr           : Start
+    TranslationUnit-Plhdr : TranslationUnit
+    Start-Plhdr           : COMPLETION-INSERTION -> Start
+    TranslationUnit-Plhdr : COMPLETION-INSERTION -> TranslationUnit
+    Start-Opt-Plhdr       : Start

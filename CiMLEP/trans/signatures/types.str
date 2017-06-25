@@ -1,0 +1,9 @@
+module signatures/types
+
+signature
+
+	constructors 
+		Int : Type 
+		Bool : Type
+		Comp : Type
+		Array : Type -> Type

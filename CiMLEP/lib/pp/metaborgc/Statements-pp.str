@@ -1,0 +1,1733 @@
+module pp/metaborgc/Statements-pp
+
+imports
+  libstratego-gpp
+  libspoofax/sdf/pp
+  libspoofax/term/origin
+  libstratego-sglr
+  signatures/metaborgc/Statements-sig
+
+
+imports
+  signatures/metaborgc/Expressions-sig
+  signatures/metaborgc/Common-sig
+  signatures/metaborgc/Declarations-sig
+
+
+imports
+  pp/metaborgc/Expressions-pp
+  pp/metaborgc/Common-pp
+  pp/metaborgc/Declarations-pp
+
+
+strategies
+  prettyprint-example =
+    prettyprint-metaborgc
+
+  prettyprint-metaborgc =
+    fail
+
+  prettyprint-metaborgc(|sort) =
+    fail
+
+
+strategies
+  prettyprint-SDF-start-symbols =
+    prettyprint-metaborgc-start-symbols
+
+  prettyprint-metaborgc-start-symbols =
+    fail
+
+
+strategies
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-Stm
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-MemberStm
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-AccessSpecifier
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-LabeledStm
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-CompoundStm
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-Compound
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-BlockItem
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-ExpStm
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-SelectionStm
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-IterStm
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-JmpStm
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-Stm>
+    where <?"Stm"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-MemberStm>
+    where <?"MemberStm"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-AccessSpecifier>
+    where <?"AccessSpecifier"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-LabeledStm>
+    where <?"LabeledStm"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-CompoundStm>
+    where <?"CompoundStm"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-Compound>
+    where <?"Compound"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-BlockItem>
+    where <?"BlockItem"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-ExpStm>
+    where <?"ExpStm"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-SelectionStm>
+    where <?"SelectionStm"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-IterStm>
+    where <?"IterStm"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-JmpStm>
+    where <?"JmpStm"> sort
+
+  prettyprint-metaborgc-Stm :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-Stm)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-MemberStm) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-Stm :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-Stm)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-LabeledStm) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-Stm :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-Stm)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-CompoundStm) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-Stm :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-Stm)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-ExpStm) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-Stm :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-Stm)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-SelectionStm) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-Stm :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-Stm)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-IterStm) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-Stm :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-Stm)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-JmpStm) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-Stm :
+    Sys(t1__, t2__, t3__) -> [ H(
+                                 [SOpt(HS(), "0")]
+                               , [ t1__'
+                                 , S("(")
+                                 , t2__'
+                                 , S(")")
+                                 , t3__'
+                                 ]
+                               )
+                             ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-ID) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-ID) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+    with t3__' := <pp-one-Z(prettyprint-metaborgc-CompoundStm) <+ pp-one-Z(prettyprint-completion-aux)> t3__
+
+  is-metaborgc-Stm =
+    ?Sys(_, _, _)
+
+  metaborgc-get-indent :
+    ( t@Sys(t1__, t2__, t3__)
+    , index
+    ) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"Stm"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           case ?3 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    ( t@Sys(t1__, t2__, t3__)
+    , index
+    ) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"Stm"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           case ?3 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    ( t@Sys(t1__, t2__, t3__)
+    , index
+    ) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"Stm"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := ""
+           case ?3 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-MemberStm :
+    MemberStm(t1__, t2__) -> [ H(
+                                 [SOpt(HS(), "0")]
+                               , [t1__', S(" : "), t2__']
+                               )
+                             ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-AccessSpecifier) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-Compound) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-MemberStm =
+    ?MemberStm(_, _)
+
+  metaborgc-get-indent :
+    (t@MemberStm(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"MemberStm"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@MemberStm(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"MemberStm"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@MemberStm(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"MemberStm"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-AccessSpecifier :
+    Public() -> [ H(
+                    [SOpt(HS(), "0")]
+                  , [S("public")]
+                  )
+                ]
+
+  is-metaborgc-AccessSpecifier =
+    ?Public()
+
+  metaborgc-get-indent :
+    (t@Public(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"AccessSpecifier"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Public(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"AccessSpecifier"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Public(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"AccessSpecifier"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-AccessSpecifier :
+    Private() -> [ H(
+                     [SOpt(HS(), "0")]
+                   , [S("private")]
+                   )
+                 ]
+
+  is-metaborgc-AccessSpecifier =
+    ?Private()
+
+  metaborgc-get-indent :
+    (t@Private(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"AccessSpecifier"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Private(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"AccessSpecifier"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Private(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"AccessSpecifier"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-AccessSpecifier :
+    Protected() -> [ H(
+                       [SOpt(HS(), "0")]
+                     , [S("protected")]
+                     )
+                   ]
+
+  is-metaborgc-AccessSpecifier =
+    ?Protected()
+
+  metaborgc-get-indent :
+    (t@Protected(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"AccessSpecifier"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Protected(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"AccessSpecifier"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Protected(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"AccessSpecifier"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-LabeledStm :
+    Label(t1__, t2__) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [t1__', S(" : "), t2__']
+                           )
+                         ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-ID) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-Stm) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-LabeledStm =
+    ?Label(_, _)
+
+  metaborgc-get-indent :
+    (t@Label(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"LabeledStm"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Label(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"LabeledStm"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Label(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"LabeledStm"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-LabeledStm :
+    Case(t1__, t2__) -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [ S("case ")
+                            , t1__'
+                            , S(" : ")
+                            , t2__'
+                            ]
+                          )
+                        ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-ConstExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-Stm) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-LabeledStm =
+    ?Case(_, _)
+
+  metaborgc-get-indent :
+    (t@Case(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"LabeledStm"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Case(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"LabeledStm"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Case(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"LabeledStm"> sort
+    with switch !index
+           case ?1 :
+             ws := " "
+           case ?2 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-LabeledStm :
+    Default(t1__) -> [ H(
+                         [SOpt(HS(), "0")]
+                       , [S("default : "), t1__']
+                       )
+                     ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-Stm) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-LabeledStm =
+    ?Default(_)
+
+  metaborgc-get-indent :
+    (t@Default(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"LabeledStm"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Default(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"LabeledStm"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Default(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"LabeledStm"> sort
+    with switch !index
+           case ?1 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-CompoundStm :
+    Block(t1__) -> [ H(
+                       [SOpt(HS(), "0")]
+                     , [S("{")]
+                     )
+                   , t1__'
+                   , H(
+                       [SOpt(HS(), "0")]
+                     , [S("}")]
+                     )
+                   ]
+    with t1__' := <pp-indent(|"2")> [ <pp-V-list(prettyprint-metaborgc-BlockItem) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+                                    ]
+
+  is-metaborgc-CompoundStm =
+    ?Block(_)
+
+  metaborgc-get-indent :
+    (t@Block(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"CompoundStm"> sort
+    with switch !index
+           case ?1 :
+             indent := "  "
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Block(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"CompoundStm"> sort
+    with switch !index
+           case ?1 :
+             separator := "\n"
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Block(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"CompoundStm"> sort
+    with switch !index
+           case ?1 :
+             ws := "\n  "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-Compound :
+    Compound(t1__) -> [ H(
+                          [SOpt(HS(), "0")]
+                        , [t1__']
+                        )
+                      ]
+    with t1__' := <pp-V-list(prettyprint-metaborgc-BlockItem) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-Compound =
+    ?Compound(_)
+
+  metaborgc-get-indent :
+    (t@Compound(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"Compound"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Compound(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"Compound"> sort
+    with switch !index
+           case ?1 :
+             separator := "\n"
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Compound(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"Compound"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-BlockItem :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-BlockItem)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-Decl) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-BlockItem :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-BlockItem)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-Stm) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-ExpStm :
+    ExpStm(t1__) -> [ H(
+                        [SOpt(HS(), "0")]
+                      , [t1__', S(";")]
+                      )
+                    ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-Exp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-ExpStm =
+    ?ExpStm(_)
+
+  metaborgc-get-indent :
+    (t@ExpStm(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"ExpStm"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@ExpStm(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"ExpStm"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@ExpStm(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"ExpStm"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-SelectionStm :
+    If(t1__, t2__) -> [ H(
+                          [SOpt(HS(), "0")]
+                        , [ S("if(")
+                          , t1__'
+                          , S(") ")
+                          , t2__'
+                          ]
+                        )
+                      ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-Exp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-Stm) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-SelectionStm =
+    ?If(_, _)
+
+  metaborgc-get-indent :
+    (t@If(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"SelectionStm"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@If(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"SelectionStm"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@If(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"SelectionStm"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-SelectionStm :
+    IfElse(t1__, t2__, t3__) -> [ H(
+                                    [SOpt(HS(), "0")]
+                                  , [ S("if(")
+                                    , t1__'
+                                    , S(") ")
+                                    , t2__'
+                                    , S(" else ")
+                                    , t3__'
+                                    ]
+                                  )
+                                ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-Exp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-Stm) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+    with t3__' := <pp-one-Z(prettyprint-metaborgc-Stm) <+ pp-one-Z(prettyprint-completion-aux)> t3__
+
+  is-metaborgc-SelectionStm =
+    ?IfElse(_, _, _)
+
+  metaborgc-get-indent :
+    ( t@IfElse(t1__, t2__, t3__)
+    , index
+    ) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"SelectionStm"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           case ?3 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    ( t@IfElse(t1__, t2__, t3__)
+    , index
+    ) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"SelectionStm"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           case ?3 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    ( t@IfElse(t1__, t2__, t3__)
+    , index
+    ) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"SelectionStm"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           case ?3 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-SelectionStm :
+    Switch(t1__, t2__) -> [ H(
+                              [SOpt(HS(), "0")]
+                            , [ S("switch(")
+                              , t1__'
+                              , S(") ")
+                              , t2__'
+                              ]
+                            )
+                          ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-Exp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-Stm) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-SelectionStm =
+    ?Switch(_, _)
+
+  metaborgc-get-indent :
+    (t@Switch(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"SelectionStm"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Switch(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"SelectionStm"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Switch(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"SelectionStm"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-IterStm :
+    While(t1__, t2__) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [ S("while(")
+                             , t1__'
+                             , S(") ")
+                             , t2__'
+                             ]
+                           )
+                         ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-Exp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-Stm) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-IterStm =
+    ?While(_, _)
+
+  metaborgc-get-indent :
+    (t@While(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"IterStm"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@While(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"IterStm"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@While(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"IterStm"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-IterStm :
+    Do(t1__, t2__) -> [ H(
+                          [SOpt(HS(), "0")]
+                        , [ S("do ")
+                          , t1__'
+                          , S(" while(")
+                          , t2__'
+                          , S(")")
+                          ]
+                        )
+                      ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-Stm) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-Exp) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-IterStm =
+    ?Do(_, _)
+
+  metaborgc-get-indent :
+    (t@Do(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"IterStm"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Do(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"IterStm"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Do(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"IterStm"> sort
+    with switch !index
+           case ?1 :
+             ws := " "
+           case ?2 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-IterStm :
+    For(t1__, t2__, t3__, t4__) -> [ H(
+                                       [SOpt(HS(), "0")]
+                                     , [ S("for(")
+                                       , t1__'
+                                       , S("; ")
+                                       , t2__'
+                                       , S("; ")
+                                       , t3__'
+                                       , S(") ")
+                                       , t4__'
+                                       ]
+                                     )
+                                   ]
+    with t1__' := <pp-option(
+                     pp-one-Z(prettyprint-metaborgc-Exp) <+ pp-one-Z(prettyprint-completion-aux)
+                   )> t1__
+    with t2__' := <pp-option(
+                     pp-one-Z(prettyprint-metaborgc-Exp) <+ pp-one-Z(prettyprint-completion-aux)
+                   )> t2__
+    with t3__' := <pp-option(
+                     pp-one-Z(prettyprint-metaborgc-Exp) <+ pp-one-Z(prettyprint-completion-aux)
+                   )> t3__
+    with t4__' := <pp-one-Z(prettyprint-metaborgc-Stm) <+ pp-one-Z(prettyprint-completion-aux)> t4__
+
+  is-metaborgc-IterStm =
+    ?For(_, _, _, _)
+
+  metaborgc-get-indent :
+    ( t@For(t1__, t2__, t3__, t4__)
+    , index
+    ) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"IterStm"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           case ?3 :
+             indent := ""
+           case ?4 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    ( t@For(t1__, t2__, t3__, t4__)
+    , index
+    ) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"IterStm"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           case ?3 :
+             separator := ""
+           case ?4 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    ( t@For(t1__, t2__, t3__, t4__)
+    , index
+    ) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"IterStm"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           case ?3 :
+             ws := " "
+           case ?4 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-IterStm :
+    DeclFor(t1__, t2__, t3__, t4__) -> [ H(
+                                           [SOpt(HS(), "0")]
+                                         , [ S("for(")
+                                           , t1__'
+                                           , S(" ")
+                                           , t2__'
+                                           , S("; ")
+                                           , t3__'
+                                           , S(") ")
+                                           , t4__'
+                                           ]
+                                         )
+                                       ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-Decl) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-option(
+                     pp-one-Z(prettyprint-metaborgc-Exp) <+ pp-one-Z(prettyprint-completion-aux)
+                   )> t2__
+    with t3__' := <pp-option(
+                     pp-one-Z(prettyprint-metaborgc-Exp) <+ pp-one-Z(prettyprint-completion-aux)
+                   )> t3__
+    with t4__' := <pp-one-Z(prettyprint-metaborgc-Stm) <+ pp-one-Z(prettyprint-completion-aux)> t4__
+
+  is-metaborgc-IterStm =
+    ?DeclFor(_, _, _, _)
+
+  metaborgc-get-indent :
+    ( t@DeclFor(t1__, t2__, t3__, t4__)
+    , index
+    ) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"IterStm"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           case ?3 :
+             indent := ""
+           case ?4 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    ( t@DeclFor(t1__, t2__, t3__, t4__)
+    , index
+    ) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"IterStm"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           case ?3 :
+             separator := ""
+           case ?4 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    ( t@DeclFor(t1__, t2__, t3__, t4__)
+    , index
+    ) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"IterStm"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           case ?3 :
+             ws := " "
+           case ?4 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-JmpStm :
+    Goto(t1__) -> [ H(
+                      [SOpt(HS(), "0")]
+                    , [ S("goto ")
+                      , t1__'
+                      , S(";")
+                      ]
+                    )
+                  ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-ID) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-JmpStm =
+    ?Goto(_)
+
+  metaborgc-get-indent :
+    (t@Goto(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"JmpStm"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Goto(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"JmpStm"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Goto(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"JmpStm"> sort
+    with switch !index
+           case ?1 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-JmpStm :
+    Continue() -> [ H(
+                      [SOpt(HS(), "0")]
+                    , [S("continue;")]
+                    )
+                  ]
+
+  is-metaborgc-JmpStm =
+    ?Continue()
+
+  metaborgc-get-indent :
+    (t@Continue(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"JmpStm"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Continue(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"JmpStm"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Continue(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"JmpStm"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-JmpStm :
+    Break() -> [ H(
+                   [SOpt(HS(), "0")]
+                 , [S("break;")]
+                 )
+               ]
+
+  is-metaborgc-JmpStm =
+    ?Break()
+
+  metaborgc-get-indent :
+    (t@Break(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"JmpStm"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Break(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"JmpStm"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Break(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"JmpStm"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-JmpStm :
+    Return(t1__) -> [ H(
+                        [SOpt(HS(), "0")]
+                      , [ S("return ")
+                        , t1__'
+                        , S(";")
+                        ]
+                      )
+                    ]
+    with t1__' := <pp-option(
+                     pp-one-Z(prettyprint-metaborgc-Exp) <+ pp-one-Z(prettyprint-completion-aux)
+                   )> t1__
+
+  is-metaborgc-JmpStm =
+    ?Return(_)
+
+  metaborgc-get-indent :
+    (t@Return(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"JmpStm"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Return(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"JmpStm"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Return(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"JmpStm"> sort
+    with switch !index
+           case ?1 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  is-metaborgc-Stm =
+    fail
+
+  is-metaborgc-MemberStm =
+    fail
+
+  is-metaborgc-AccessSpecifier =
+    fail
+
+  is-metaborgc-LabeledStm =
+    fail
+
+  is-metaborgc-CompoundStm =
+    fail
+
+  is-metaborgc-Compound =
+    fail
+
+  is-metaborgc-BlockItem =
+    fail
+
+  is-metaborgc-ExpStm =
+    fail
+
+  is-metaborgc-SelectionStm =
+    fail
+
+  is-metaborgc-IterStm =
+    fail
+
+  is-metaborgc-JmpStm =
+    fail
+
+  prettyprint-metaborgc-Stm :
+    amb([h|hs]) -> <prettyprint-metaborgc-Stm> h
+
+  prettyprint-metaborgc-MemberStm :
+    amb([h|hs]) -> <prettyprint-metaborgc-MemberStm> h
+
+  prettyprint-metaborgc-AccessSpecifier :
+    amb([h|hs]) -> <prettyprint-metaborgc-AccessSpecifier> h
+
+  prettyprint-metaborgc-LabeledStm :
+    amb([h|hs]) -> <prettyprint-metaborgc-LabeledStm> h
+
+  prettyprint-metaborgc-CompoundStm :
+    amb([h|hs]) -> <prettyprint-metaborgc-CompoundStm> h
+
+  prettyprint-metaborgc-Compound :
+    amb([h|hs]) -> <prettyprint-metaborgc-Compound> h
+
+  prettyprint-metaborgc-BlockItem :
+    amb([h|hs]) -> <prettyprint-metaborgc-BlockItem> h
+
+  prettyprint-metaborgc-ExpStm :
+    amb([h|hs]) -> <prettyprint-metaborgc-ExpStm> h
+
+  prettyprint-metaborgc-SelectionStm :
+    amb([h|hs]) -> <prettyprint-metaborgc-SelectionStm> h
+
+  prettyprint-metaborgc-IterStm :
+    amb([h|hs]) -> <prettyprint-metaborgc-IterStm> h
+
+  prettyprint-metaborgc-JmpStm :
+    amb([h|hs]) -> <prettyprint-metaborgc-JmpStm> h
+
+  prettyprint-metaborgc-MemberStm :
+    MemberStm-Plhdr() -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$MemberStm")]
+                           )
+                         ]
+
+  is-metaborgc-MemberStm =
+    ?MemberStm-Plhdr()
+
+  prettyprint-metaborgc-AccessSpecifier :
+    AccessSpecifier-Plhdr() -> [ H(
+                                   [SOpt(HS(), "0")]
+                                 , [S("$AccessSpecifier")]
+                                 )
+                               ]
+
+  is-metaborgc-AccessSpecifier =
+    ?AccessSpecifier-Plhdr()
+
+  prettyprint-metaborgc-ConstExp :
+    ConstExp-Plhdr() -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$ConstExp")]
+                          )
+                        ]
+
+  is-metaborgc-ConstExp =
+    ?ConstExp-Plhdr()
+
+  prettyprint-metaborgc-LabeledStm :
+    LabeledStm-Plhdr() -> [ H(
+                              [SOpt(HS(), "0")]
+                            , [S("$LabeledStm")]
+                            )
+                          ]
+
+  is-metaborgc-LabeledStm =
+    ?LabeledStm-Plhdr()
+
+  prettyprint-metaborgc-CompoundStm :
+    CompoundStm-Plhdr() -> [ H(
+                               [SOpt(HS(), "0")]
+                             , [S("$CompoundStm")]
+                             )
+                           ]
+
+  is-metaborgc-CompoundStm =
+    ?CompoundStm-Plhdr()
+
+  prettyprint-metaborgc-Compound :
+    Compound-Plhdr() -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$Compound")]
+                          )
+                        ]
+
+  is-metaborgc-Compound =
+    ?Compound-Plhdr()
+
+  prettyprint-metaborgc-BlockItem :
+    BlockItem-Plhdr() -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$BlockItem")]
+                           )
+                         ]
+
+  is-metaborgc-BlockItem =
+    ?BlockItem-Plhdr()
+
+  prettyprint-metaborgc-ExpStm :
+    ExpStm-Plhdr() -> [ H(
+                          [SOpt(HS(), "0")]
+                        , [S("$ExpStm")]
+                        )
+                      ]
+
+  is-metaborgc-ExpStm =
+    ?ExpStm-Plhdr()
+
+  prettyprint-metaborgc-SelectionStm :
+    SelectionStm-Plhdr() -> [ H(
+                                [SOpt(HS(), "0")]
+                              , [S("$SelectionStm")]
+                              )
+                            ]
+
+  is-metaborgc-SelectionStm =
+    ?SelectionStm-Plhdr()
+
+  prettyprint-metaborgc-IterStm :
+    IterStm-Plhdr() -> [ H(
+                           [SOpt(HS(), "0")]
+                         , [S("$IterStm")]
+                         )
+                       ]
+
+  is-metaborgc-IterStm =
+    ?IterStm-Plhdr()
+
+  prettyprint-metaborgc-Decl :
+    Decl-Plhdr() -> [ H(
+                        [SOpt(HS(), "0")]
+                      , [S("$Decl")]
+                      )
+                    ]
+
+  is-metaborgc-Decl =
+    ?Decl-Plhdr()
+
+  prettyprint-metaborgc-Stm :
+    Stm-Plhdr() -> [ H(
+                       [SOpt(HS(), "0")]
+                     , [S("$Stm")]
+                     )
+                   ]
+
+  is-metaborgc-Stm =
+    ?Stm-Plhdr()
+
+  prettyprint-metaborgc-ID :
+    ID-Plhdr() -> [ H(
+                      [SOpt(HS(), "0")]
+                    , [S("$ID")]
+                    )
+                  ]
+
+  is-metaborgc-ID =
+    ?ID-Plhdr()
+
+  prettyprint-metaborgc-JmpStm :
+    JmpStm-Plhdr() -> [ H(
+                          [SOpt(HS(), "0")]
+                        , [S("$JmpStm")]
+                        )
+                      ]
+
+  is-metaborgc-JmpStm =
+    ?JmpStm-Plhdr()
+
+  prettyprint-metaborgc-Exp :
+    Exp-Plhdr() -> [ H(
+                       [SOpt(HS(), "0")]
+                     , [S("$Exp")]
+                     )
+                   ]
+
+  is-metaborgc-Exp =
+    ?Exp-Plhdr()
+
+  prettyprint-metaborgc-MemberStm :
+    MemberStm-Plhdr(_) -> [ H(
+                              [SOpt(HS(), "0")]
+                            , [S("$MemberStm")]
+                            )
+                          ]
+
+  is-metaborgc-MemberStm =
+    ?MemberStm-Plhdr(_)
+
+  prettyprint-metaborgc-AccessSpecifier :
+    AccessSpecifier-Plhdr(_) -> [ H(
+                                    [SOpt(HS(), "0")]
+                                  , [S("$AccessSpecifier")]
+                                  )
+                                ]
+
+  is-metaborgc-AccessSpecifier =
+    ?AccessSpecifier-Plhdr(_)
+
+  prettyprint-metaborgc-ConstExp :
+    ConstExp-Plhdr(_) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$ConstExp")]
+                           )
+                         ]
+
+  is-metaborgc-ConstExp =
+    ?ConstExp-Plhdr(_)
+
+  prettyprint-metaborgc-LabeledStm :
+    LabeledStm-Plhdr(_) -> [ H(
+                               [SOpt(HS(), "0")]
+                             , [S("$LabeledStm")]
+                             )
+                           ]
+
+  is-metaborgc-LabeledStm =
+    ?LabeledStm-Plhdr(_)
+
+  prettyprint-metaborgc-CompoundStm :
+    CompoundStm-Plhdr(_) -> [ H(
+                                [SOpt(HS(), "0")]
+                              , [S("$CompoundStm")]
+                              )
+                            ]
+
+  is-metaborgc-CompoundStm =
+    ?CompoundStm-Plhdr(_)
+
+  prettyprint-metaborgc-Compound :
+    Compound-Plhdr(_) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$Compound")]
+                           )
+                         ]
+
+  is-metaborgc-Compound =
+    ?Compound-Plhdr(_)
+
+  prettyprint-metaborgc-BlockItem :
+    BlockItem-Plhdr(_) -> [ H(
+                              [SOpt(HS(), "0")]
+                            , [S("$BlockItem")]
+                            )
+                          ]
+
+  is-metaborgc-BlockItem =
+    ?BlockItem-Plhdr(_)
+
+  prettyprint-metaborgc-ExpStm :
+    ExpStm-Plhdr(_) -> [ H(
+                           [SOpt(HS(), "0")]
+                         , [S("$ExpStm")]
+                         )
+                       ]
+
+  is-metaborgc-ExpStm =
+    ?ExpStm-Plhdr(_)
+
+  prettyprint-metaborgc-SelectionStm :
+    SelectionStm-Plhdr(_) -> [ H(
+                                 [SOpt(HS(), "0")]
+                               , [S("$SelectionStm")]
+                               )
+                             ]
+
+  is-metaborgc-SelectionStm =
+    ?SelectionStm-Plhdr(_)
+
+  prettyprint-metaborgc-IterStm :
+    IterStm-Plhdr(_) -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$IterStm")]
+                          )
+                        ]
+
+  is-metaborgc-IterStm =
+    ?IterStm-Plhdr(_)
+
+  prettyprint-metaborgc-Decl :
+    Decl-Plhdr(_) -> [ H(
+                         [SOpt(HS(), "0")]
+                       , [S("$Decl")]
+                       )
+                     ]
+
+  is-metaborgc-Decl =
+    ?Decl-Plhdr(_)
+
+  prettyprint-metaborgc-Stm :
+    Stm-Plhdr(_) -> [ H(
+                        [SOpt(HS(), "0")]
+                      , [S("$Stm")]
+                      )
+                    ]
+
+  is-metaborgc-Stm =
+    ?Stm-Plhdr(_)
+
+  prettyprint-metaborgc-ID :
+    ID-Plhdr(_) -> [ H(
+                       [SOpt(HS(), "0")]
+                     , [S("$ID")]
+                     )
+                   ]
+
+  is-metaborgc-ID =
+    ?ID-Plhdr(_)
+
+  prettyprint-metaborgc-JmpStm :
+    JmpStm-Plhdr(_) -> [ H(
+                           [SOpt(HS(), "0")]
+                         , [S("$JmpStm")]
+                         )
+                       ]
+
+  is-metaborgc-JmpStm =
+    ?JmpStm-Plhdr(_)
+
+  prettyprint-metaborgc-Exp :
+    Exp-Plhdr(_) -> [ H(
+                        [SOpt(HS(), "0")]
+                      , [S("$Exp")]
+                      )
+                    ]
+
+  is-metaborgc-Exp =
+    ?Exp-Plhdr(_)
+
+  prettyprint-metaborgc-BlockItem :
+    BlockItem-Opt-Plhdr() -> [ H(
+                                 []
+                               , [S("")]
+                               )
+                             ]
+
+  is-metaborgc-BlockItem =
+    ?BlockItem-Opt-Plhdr()
+
+  prettyprint-metaborgc-Exp :
+    Exp-Opt-Plhdr() -> [ H(
+                           []
+                         , [S("")]
+                         )
+                       ]
+
+  is-metaborgc-Exp =
+    ?Exp-Opt-Plhdr()

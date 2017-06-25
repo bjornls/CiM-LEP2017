@@ -1,0 +1,36 @@
+module signatures/metaborgc/Preprocessor-sig
+
+imports
+  signatures/metaborgc/Common-sig
+  signatures/metaborgc/Expressions-sig
+
+
+signature
+  constructors
+                       : String -> PPToken
+                       : String -> PPTokenSeq
+                       : String -> PPWS
+                       : String -> PPNL
+                       : String -> PPHChar
+                       : String -> PPQChar
+                       : String -> PPHeaderName
+    PP                 : ControlLine -> ExternalDecl
+    PP                 : ControlLine -> StructDecl
+    PP                 : ControlLine -> Stm
+    IfH                : ConstExp -> ControlLine
+    IfNDef             : PPTokenSeq -> ControlLine
+    Define             : PPTokenSeq -> ControlLine
+    Include            : PPTokenSeq -> ControlLine
+    EndIf              : ControlLine
+    ExternalDecl-Plhdr : ExternalDecl
+    StructDecl-Plhdr   : StructDecl
+    Stm-Plhdr          : Stm
+    ConstExp-Plhdr     : ConstExp
+    PPTokenSeq-Plhdr   : PPTokenSeq
+    ControlLine-Plhdr  : ControlLine
+    ExternalDecl-Plhdr : COMPLETION-INSERTION -> ExternalDecl
+    StructDecl-Plhdr   : COMPLETION-INSERTION -> StructDecl
+    Stm-Plhdr          : COMPLETION-INSERTION -> Stm
+    ConstExp-Plhdr     : COMPLETION-INSERTION -> ConstExp
+    PPTokenSeq-Plhdr   : COMPLETION-INSERTION -> PPTokenSeq
+    ControlLine-Plhdr  : COMPLETION-INSERTION -> ControlLine

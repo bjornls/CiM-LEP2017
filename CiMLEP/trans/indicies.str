@@ -1,0 +1,39 @@
+module indicies
+
+imports
+	statement-trans
+	src-gen/signatures/-
+	lib
+
+rules 
+
+	store-indicies:
+   		Program(fblocks*, main, comps*) -> [] 
+   		where
+   			<map-with-index(store-index)>fblocks*;
+   			<store-indicies>main;
+   			<map-with-index(store-index)> comps*;
+   			<map(store-indicies)>comps*
+   			
+   	store-indicies:
+	 	Main(insigs*, outsigs*, argdecls*, statement) -> ""
+	 	with 		
+	 		vardecls* := <statement-get-vardecls> statement;
+	 		sigdecls* := <statement-get-sigdecls> statement;
+	 		inoutsigs* := [insigs*, outsigs*];
+			totalsigs* := [inoutsigs*, sigdecls*];
+	 		allvars* := [argdecls*, vardecls*];
+	 		<map-with-index(store-index)> totalsigs*;
+	 		<map-with-index(store-index)> allvars*  
+	 		
+	 		
+	 store-indicies:
+	 	Component(_, insigs*, outsigs*, argdecls*, statement) -> ""
+	 	with
+	 		vardecls* := <statement-get-vardecls> statement;
+	 		sigdecls* := <statement-get-sigdecls> statement;
+	 		inoutsigs* := [insigs*, outsigs*];
+			totalsigs* := [inoutsigs*, sigdecls*];
+	 		allvars* := [argdecls*, vardecls*];
+	 		<map-with-index(store-index)> totalsigs*;
+	 		<map-with-index(store-index)> allvars*

@@ -1,0 +1,31 @@
+module testFuncBlock
+
+language CiMLEP
+
+start symbol FuncBlock
+
+test FuncBlock [[FuncBlock(add,  (40,32), 180, 125, ((0,0), 90, 1)((0,32), 270, 0), ((40,0), 90, 0));]]
+ parse succeeds 
+ 
+ test case-sensitive [[funcblock(add,  (40,32), 180, 125, ((0,0), 90, 1)((0,32), 270, 0), ((40,0), 90, 0));]]
+ parse fails
+ 
+ test parameters [[FuncBlock(add,  32, 180, 125, ((0,0), 90, 1)((0,32), 270, 0), ((40,0), 90, 0));]]
+ parse fails
+ 
+ test parameters [[FuncBlock(add,  (40,32), (180,0), 125, ((0,0), 90, 1)((0,32), 270, 0), ((40,0), 90, 0));]]
+ parse fails
+ 
+ test parameters [[FuncBlock(add,  (40,32), 180, 125, ((0,0), 90, 1)((0, 270, 0), ((40,0), 90, 0));]]
+ parse fails
+ 
+  test parameters [[FuncBlock(add,  (40,32), 180, 125, (0, 90, 1)((0,32), 270, 0), ((40,0), 90, 0));]]
+ parse fails
+ 
+  test parameters [[FuncBlock(add,  (40,32), 180, 125, ((0,0), 90, 1)((0,32), 270, 0), ((40,0), (90, 0)));]]
+ parse fails
+ 
+  test missing ; [[FuncBlock(add,  (40,32), 180, 125, ((0,0), 90, 1)((0,32), 270, 0), ((40,0), 90, 0))]]
+ parse fails
+ 
+  

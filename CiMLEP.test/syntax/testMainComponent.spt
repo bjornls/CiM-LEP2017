@@ -1,0 +1,88 @@
+module testMainComponent
+
+language CiMLEP
+
+start symbol MainComponent
+
+
+/*
+	BNF : <mainComponent> ::= “component” “main” “<” <sigParam> {“ ,” <sigParam>} “|” 
+										<sigParam> {“ ,” <sigParam>} “>(” [<param> {“,” <param>}]“)”<statement>
+*/
+
+
+/*
+	Syntactically correct main components
+*/
+
+test minimalistic main component [[component main<a|b>(int a){}]] parse succeeds   
+
+test identifiers in signature can have non-empty square brackets[[
+component main<in[0] | out[0]>(){a=>b[2];}
+]] parse succeeds
+
+test main component with a statement[[
+component main<in | out>(){
+	a => b[2];
+}
+]] parse succeeds
+
+test main component with arguments[[
+component main<in | out>(int a){a=>b[2];}
+]] parse succeeds
+
+
+/*
+	Test terminals
+*/
+
+test main must be called main [[
+component main2<in | out>(){a=>b[2];}
+]] parse fails
+
+test component must be called component [[
+componentt main<in | out>(){a=>b[2];}
+]] parse fails
+
+test < cannot be missing [[
+component main in | out>(){a=>b[2];}
+]] parse fails
+
+test > cannot be missing [[
+component main<in | out (){a=>b[2];}
+]] parse fails
+
+test > cannot be missing [[
+component main<in | out (){a=>b[2];}
+]] parse fails
+
+test ( cannot be missing [[
+component main<in | out> ){a=>b[2];}
+]] parse fails
+
+test ) cannot be missing [[
+component main<in | out> ({a=>b[2];}
+]] parse fails
+
+test { cannot be missing [[
+component main<in | out> ()a=>b[2];}
+]] parse fails
+
+test } cannot be missing [[
+component main<in | out> (){a=>b[2];
+]] parse fails
+
+test first identifier in signature cannot be missing [[
+component main< | out> (){a=>b[2];}
+]] parse fails
+
+test second identifier in signature cannot be missing [[
+component main<in | > (){a=>b[2];}
+]] parse fails 
+
+
+
+
+
+
+

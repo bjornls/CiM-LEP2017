@@ -1,0 +1,836 @@
+module pp/metaborgc/Lexical-pp
+
+imports
+  libstratego-gpp
+  libspoofax/sdf/pp
+  libspoofax/term/origin
+  libstratego-sglr
+  signatures/metaborgc/Lexical-sig
+
+
+imports
+  signatures/metaborgc/Expressions-sig
+  signatures/Common-sig
+
+
+imports
+  pp/metaborgc/Expressions-pp
+  pp/Common-pp
+
+
+strategies
+  prettyprint-example =
+    prettyprint-metaborgc
+
+  prettyprint-metaborgc =
+    fail
+
+  prettyprint-metaborgc(|sort) =
+    fail
+
+
+strategies
+  prettyprint-SDF-start-symbols =
+    prettyprint-metaborgc-start-symbols
+
+  prettyprint-metaborgc-start-symbols =
+    fail
+
+
+strategies
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-Constant
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-Constant>
+    where <?"Constant"> sort
+
+  prettyprint-metaborgc-Constant :
+    CharConst(t1__) -> [ H(
+                           [SOpt(HS(), "0")]
+                         , [t1__']
+                         )
+                       ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-CharConst) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-Constant =
+    ?CharConst(_)
+
+  metaborgc-get-indent :
+    (t@CharConst(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"Constant"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@CharConst(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"Constant"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@CharConst(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"Constant"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-Constant :
+    IntConst(t1__) -> [ H(
+                          [SOpt(HS(), "0")]
+                        , [t1__']
+                        )
+                      ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-IntConst) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-Constant =
+    ?IntConst(_)
+
+  metaborgc-get-indent :
+    (t@IntConst(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"Constant"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@IntConst(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"Constant"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@IntConst(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"Constant"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-Constant :
+    OctConst(t1__) -> [ H(
+                          [SOpt(HS(), "0")]
+                        , [t1__']
+                        )
+                      ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-OctConst) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-Constant =
+    ?OctConst(_)
+
+  metaborgc-get-indent :
+    (t@OctConst(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"Constant"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@OctConst(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"Constant"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@OctConst(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"Constant"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-Constant :
+    HexConst(t1__) -> [ H(
+                          [SOpt(HS(), "0")]
+                        , [t1__']
+                        )
+                      ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-HexConst) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-Constant =
+    ?HexConst(_)
+
+  metaborgc-get-indent :
+    (t@HexConst(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"Constant"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@HexConst(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"Constant"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@HexConst(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"Constant"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-Constant :
+    FloatConst(t1__) -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [t1__']
+                          )
+                        ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-FloatConst) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-Constant =
+    ?FloatConst(_)
+
+  metaborgc-get-indent :
+    (t@FloatConst(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"Constant"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@FloatConst(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"Constant"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@FloatConst(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"Constant"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-Constant :
+    StringConst(t1__) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [t1__']
+                           )
+                         ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-StringConst) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-Constant =
+    ?StringConst(_)
+
+  metaborgc-get-indent :
+    (t@StringConst(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"Constant"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@StringConst(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"Constant"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@StringConst(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"Constant"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  is-metaborgc-Constant =
+    fail
+
+  prettyprint-metaborgc-Constant :
+    amb([h|hs]) -> <prettyprint-metaborgc-Constant> h
+
+  prettyprint-metaborgc-CharConst :
+    CharConst-Plhdr() -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$CharConst")]
+                           )
+                         ]
+
+  is-metaborgc-CharConst =
+    ?CharConst-Plhdr()
+
+  prettyprint-metaborgc-IntConst :
+    IntConst-Plhdr() -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$IntConst")]
+                          )
+                        ]
+
+  is-metaborgc-IntConst =
+    ?IntConst-Plhdr()
+
+  prettyprint-metaborgc-OctConst :
+    OctConst-Plhdr() -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$OctConst")]
+                          )
+                        ]
+
+  is-metaborgc-OctConst =
+    ?OctConst-Plhdr()
+
+  prettyprint-metaborgc-HexConst :
+    HexConst-Plhdr() -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$HexConst")]
+                          )
+                        ]
+
+  is-metaborgc-HexConst =
+    ?HexConst-Plhdr()
+
+  prettyprint-metaborgc-FloatConst :
+    FloatConst-Plhdr() -> [ H(
+                              [SOpt(HS(), "0")]
+                            , [S("$FloatConst")]
+                            )
+                          ]
+
+  is-metaborgc-FloatConst =
+    ?FloatConst-Plhdr()
+
+  prettyprint-metaborgc-Constant :
+    Constant-Plhdr() -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$Constant")]
+                          )
+                        ]
+
+  is-metaborgc-Constant =
+    ?Constant-Plhdr()
+
+  prettyprint-metaborgc-StringConst :
+    StringConst-Plhdr() -> [ H(
+                               [SOpt(HS(), "0")]
+                             , [S("$StringConst")]
+                             )
+                           ]
+
+  is-metaborgc-StringConst =
+    ?StringConst-Plhdr()
+
+  prettyprint-metaborgc-CharConst :
+    CharConst-Plhdr(_) -> [ H(
+                              [SOpt(HS(), "0")]
+                            , [S("$CharConst")]
+                            )
+                          ]
+
+  is-metaborgc-CharConst =
+    ?CharConst-Plhdr(_)
+
+  prettyprint-metaborgc-IntConst :
+    IntConst-Plhdr(_) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$IntConst")]
+                           )
+                         ]
+
+  is-metaborgc-IntConst =
+    ?IntConst-Plhdr(_)
+
+  prettyprint-metaborgc-OctConst :
+    OctConst-Plhdr(_) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$OctConst")]
+                           )
+                         ]
+
+  is-metaborgc-OctConst =
+    ?OctConst-Plhdr(_)
+
+  prettyprint-metaborgc-HexConst :
+    HexConst-Plhdr(_) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$HexConst")]
+                           )
+                         ]
+
+  is-metaborgc-HexConst =
+    ?HexConst-Plhdr(_)
+
+  prettyprint-metaborgc-FloatConst :
+    FloatConst-Plhdr(_) -> [ H(
+                               [SOpt(HS(), "0")]
+                             , [S("$FloatConst")]
+                             )
+                           ]
+
+  is-metaborgc-FloatConst =
+    ?FloatConst-Plhdr(_)
+
+  prettyprint-metaborgc-Constant :
+    Constant-Plhdr(_) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$Constant")]
+                           )
+                         ]
+
+  is-metaborgc-Constant =
+    ?Constant-Plhdr(_)
+
+  prettyprint-metaborgc-StringConst :
+    StringConst-Plhdr(_) -> [ H(
+                                [SOpt(HS(), "0")]
+                              , [S("$StringConst")]
+                              )
+                            ]
+
+  is-metaborgc-StringConst =
+    ?StringConst-Plhdr(_)
+
+
+strategies
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-IntConst
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-IntSuffix
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-UnsignedSuffix
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-LongSuffix
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-LongLongSuffix
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-Digit
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-NonzeroDigit
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-IntConst>
+    where <?"IntConst"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-IntSuffix>
+    where <?"IntSuffix"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-UnsignedSuffix>
+    where <?"UnsignedSuffix"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-LongSuffix>
+    where <?"LongSuffix"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-LongLongSuffix>
+    where <?"LongLongSuffix"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-Digit>
+    where <?"Digit"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-NonzeroDigit>
+    where <?"NonzeroDigit"> sort
+
+  prettyprint-metaborgc-IntConst =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-IntSuffix =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-UnsignedSuffix =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-LongSuffix =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-LongLongSuffix =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-Digit =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-NonzeroDigit =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-IntConst :
+    amb([h|hs]) -> <prettyprint-metaborgc-IntConst> h
+
+  prettyprint-metaborgc-IntSuffix :
+    amb([h|hs]) -> <prettyprint-metaborgc-IntSuffix> h
+
+  prettyprint-metaborgc-UnsignedSuffix :
+    amb([h|hs]) -> <prettyprint-metaborgc-UnsignedSuffix> h
+
+  prettyprint-metaborgc-LongSuffix :
+    amb([h|hs]) -> <prettyprint-metaborgc-LongSuffix> h
+
+  prettyprint-metaborgc-LongLongSuffix :
+    amb([h|hs]) -> <prettyprint-metaborgc-LongLongSuffix> h
+
+  prettyprint-metaborgc-Digit :
+    amb([h|hs]) -> <prettyprint-metaborgc-Digit> h
+
+  prettyprint-metaborgc-NonzeroDigit :
+    amb([h|hs]) -> <prettyprint-metaborgc-NonzeroDigit> h
+
+
+strategies
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-OctConst
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-OctDigit
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-OctConst>
+    where <?"OctConst"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-OctDigit>
+    where <?"OctDigit"> sort
+
+  prettyprint-metaborgc-OctConst =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-OctDigit =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-OctConst :
+    amb([h|hs]) -> <prettyprint-metaborgc-OctConst> h
+
+  prettyprint-metaborgc-OctDigit :
+    amb([h|hs]) -> <prettyprint-metaborgc-OctDigit> h
+
+
+strategies
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-HexConst
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-HexPrefix
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-HexDigit
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-HexConst>
+    where <?"HexConst"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-HexPrefix>
+    where <?"HexPrefix"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-HexDigit>
+    where <?"HexDigit"> sort
+
+  prettyprint-metaborgc-HexConst =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-HexPrefix =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-HexDigit =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-HexConst :
+    amb([h|hs]) -> <prettyprint-metaborgc-HexConst> h
+
+  prettyprint-metaborgc-HexPrefix :
+    amb([h|hs]) -> <prettyprint-metaborgc-HexPrefix> h
+
+  prettyprint-metaborgc-HexDigit :
+    amb([h|hs]) -> <prettyprint-metaborgc-HexDigit> h
+
+
+strategies
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-FloatConst
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-DecFloatConst
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-FracConst
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-ExpPart
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-BinExpPart
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-HexFloatConst
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-HexFracConst
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-FloatSuffix
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-FloatConst>
+    where <?"FloatConst"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-DecFloatConst>
+    where <?"DecFloatConst"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-FracConst>
+    where <?"FracConst"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-ExpPart>
+    where <?"ExpPart"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-BinExpPart>
+    where <?"BinExpPart"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-HexFloatConst>
+    where <?"HexFloatConst"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-HexFracConst>
+    where <?"HexFracConst"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-FloatSuffix>
+    where <?"FloatSuffix"> sort
+
+  prettyprint-metaborgc-FloatConst =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-DecFloatConst =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-FracConst =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-ExpPart =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-BinExpPart =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-HexFloatConst =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-HexFracConst =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-FloatSuffix =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-FloatConst :
+    amb([h|hs]) -> <prettyprint-metaborgc-FloatConst> h
+
+  prettyprint-metaborgc-DecFloatConst :
+    amb([h|hs]) -> <prettyprint-metaborgc-DecFloatConst> h
+
+  prettyprint-metaborgc-FracConst :
+    amb([h|hs]) -> <prettyprint-metaborgc-FracConst> h
+
+  prettyprint-metaborgc-ExpPart :
+    amb([h|hs]) -> <prettyprint-metaborgc-ExpPart> h
+
+  prettyprint-metaborgc-BinExpPart :
+    amb([h|hs]) -> <prettyprint-metaborgc-BinExpPart> h
+
+  prettyprint-metaborgc-HexFloatConst :
+    amb([h|hs]) -> <prettyprint-metaborgc-HexFloatConst> h
+
+  prettyprint-metaborgc-HexFracConst :
+    amb([h|hs]) -> <prettyprint-metaborgc-HexFracConst> h
+
+  prettyprint-metaborgc-FloatSuffix :
+    amb([h|hs]) -> <prettyprint-metaborgc-FloatSuffix> h
+
+
+strategies
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-UniCharName
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-HexQuad
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-UniCharName>
+    where <?"UniCharName"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-HexQuad>
+    where <?"HexQuad"> sort
+
+  prettyprint-metaborgc-UniCharName =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-HexQuad =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-UniCharName :
+    amb([h|hs]) -> <prettyprint-metaborgc-UniCharName> h
+
+  prettyprint-metaborgc-HexQuad :
+    amb([h|hs]) -> <prettyprint-metaborgc-HexQuad> h
+
+
+strategies
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-EscSeq
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-EscSeq>
+    where <?"EscSeq"> sort
+
+  prettyprint-metaborgc-EscSeq =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-EscSeq :
+    amb([h|hs]) -> <prettyprint-metaborgc-EscSeq> h
+
+
+strategies
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-CharConst
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-Char
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-CharConst>
+    where <?"CharConst"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-Char>
+    where <?"Char"> sort
+
+  prettyprint-metaborgc-CharConst =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-Char =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-CharConst :
+    amb([h|hs]) -> <prettyprint-metaborgc-CharConst> h
+
+  prettyprint-metaborgc-Char :
+    amb([h|hs]) -> <prettyprint-metaborgc-Char> h
+
+
+strategies
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-StringConst
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-EncPrefix
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-SChar
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-StringConst>
+    where <?"StringConst"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-EncPrefix>
+    where <?"EncPrefix"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-SChar>
+    where <?"SChar"> sort
+
+  prettyprint-metaborgc-StringConst =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-EncPrefix =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-SChar =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-StringConst :
+    amb([h|hs]) -> <prettyprint-metaborgc-StringConst> h
+
+  prettyprint-metaborgc-EncPrefix :
+    amb([h|hs]) -> <prettyprint-metaborgc-EncPrefix> h
+
+  prettyprint-metaborgc-SChar :
+    amb([h|hs]) -> <prettyprint-metaborgc-SChar> h

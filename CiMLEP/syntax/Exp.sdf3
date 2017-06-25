@@ -1,0 +1,97 @@
+module Exp
+
+imports
+  Common
+  Statement
+  
+sorts
+  Exp
+  ModExp
+  Op
+  Attr
+  ConnectOp
+  
+context-free start-symbols
+  Exp
+  ConnectOp
+  
+template options
+  tokenize: "("
+  keyword -/- [a-zA-Z]
+
+context-free syntax
+  Exp = <(<Exp>)>  {bracket}
+  Exp.VarRef = <<ID>> {non-assoc}
+  Exp.Int = <<INT>> {non-assoc}
+  Exp.True = <true>  {non-assoc} 
+  Exp.False = <false> {non-assoc}
+  
+  Op.Plus = <+>
+  Op.Minus = <->
+  Op.Times = <*>
+  Op.DividedBy = </>
+  Op.ToThePower = <^>
+  Op.Modulo = <%>
+  Op.GreaterThan = <\>>
+  Op.LessThan = <\<>
+  Op.EqualTo = <==>
+  Op.And = <&&>
+  Op.Or = <||>
+  Op.ConOp = <<ConnectOp>>
+  Op.AppendTo = <++>
+  Op.MaxOf = <^_^>
+
+  
+  /*Int to Int*/
+  Exp.Add = <<Exp> + <Exp>> {left}
+  Exp.Sub = <<Exp> - <Exp>> {left}
+  Exp.Mul = <<Exp> * <Exp>> {left}
+  Exp.Div = <<Exp> / <Exp>> {left}
+  Exp.Mod = <<Exp> % <Exp>> {left}
+//  Exp.Log2 = <log2(<Exp>)> {left}
+  Exp.Power = <<Exp>^<Exp>> {left}
+//  Exp.Max = <max(<Exp>, <Exp>)> {left}
+	Exp.FuncBlockNum  = <#<INT>>
+	
+  
+  /*Int to Bool*/
+  Exp.GT = <<Exp> \> <Exp>> {left}
+  Exp.LT = <<Exp> \< <Exp>> {left}
+  Exp.EQ = <<Exp> == <Exp>> {left}
+  
+  /*Bool to Bool*/
+  Exp.AND = <<Exp> && <Exp>> {left}
+  Exp.OR = <<Exp> || <Exp>> {left}
+  Exp.NOT = <!<Exp>> {right}
+  
+  /*Int to Array*/
+  Exp.ManualDefinition = <{<{Exp ", "}+>}>
+  Exp.Range = <<Exp> : <Exp>> {left}
+  Exp.Interval = <<Exp> : <Exp> : <Exp>> {left, prefer}
+   
+  /*Array to Array*/
+ // Exp.Append = <<Exp> ++ <Exp>> {left}
+  Exp.Subscr = <<ID>[<Exp>]>{left}
+  
+  //Exp.App = <<ID>(<{Exp ","}*>)>
+  Exp.FunApp = <<FID><FunOp?>(<{Exp ","}*>)>{left}
+ // Exp.CompApp = <<ID>(<{Exp ","}*>)>{left}
+  FunOp.OpApp = <\<<Op>\>>
+  FunOp.Func = <\<<Exp> = <Exp>\>>
+  FunOp.SubScr = <[<Exp>]>
+  
+  Exp.Nop = <NOP>
+  Exp.CompRef= <<ID>(<{Exp ", "}*>)>
+  
+    /*Skeleton expressions*/  
+  ConnectOp.ConnOp = <<CO>>
+  ConnectOp.HTree = <*_H_*>
+  ConnectOp.Crowd = <*_C_*>
+  
+  Exp.Connect = <<Exp> <ConnectOp> <Exp>> {right}
+ // Subscr.Subscr = <[<Exp>]>
+  Exp.ConcurSigLoop = <loop\<++\>(<Exp> = <Exp>; <Exp>)>
+  Exp.ConcurSig = <<Exp> ++ <Exp>> {left}
+ 
+ 
+ 

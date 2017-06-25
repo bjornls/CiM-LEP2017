@@ -1,0 +1,47 @@
+module cimlep
+
+imports
+  
+  completion/completion
+  pp
+  outline
+  analysis
+  gen-dfg 
+  gen-mapping
+  pp/metaborgc/-
+  tmp/temp
+  gen-systemc
+
+rules // Debugging
+  
+  debug-show-aterm:
+    (node, _, _, path, project-path) -> (filename, result)
+    with
+      filename := <guarantee-extension(|"aterm")> path
+    ; result   := node
+    
+
+  debug-show-dfg:
+    (selected, position, ast, path, project-path) -> (filename, result)
+    with   	
+      ext      := <get-extension> path;
+      filename := <guarantee-extension(|"spr")> path;
+      dfg := <desugar-all; gen-dfg> ast
+      ; result := <pp-start-symbols; !V([], <id>); box2text-string(|120)> dfg
+      
+  debug-show-mapping: 
+    (selected, position, ast, path, project-path) -> (filename, result)
+    with
+      ext      := <get-extension> path;
+      filename := <guarantee-extension(|"map")> path;
+      result   := <desugar-all; gen-mapping> ast    
+      
+       
+  generate-systemc:
+   	(selected, position, ast, path, project-path) -> (filename, result)
+    with
+      ext      := <get-extension> path;
+      filename := "generated_system.h";
+      result   := <gen-systemc; bar; pp-start-symbols; !V([], <id>); box2text-string(|120)>ast;
+      <run-time; debug(!"after pp ")>"" 
+      

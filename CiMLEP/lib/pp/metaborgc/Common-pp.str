@@ -1,0 +1,200 @@
+module pp/metaborgc/Common-pp
+
+imports
+  libstratego-gpp
+  libspoofax/sdf/pp
+  libspoofax/term/origin
+  libstratego-sglr
+  signatures/metaborgc/Common-sig
+
+
+strategies
+  prettyprint-example =
+    prettyprint-metaborgc
+
+  prettyprint-metaborgc =
+    fail
+
+  prettyprint-metaborgc(|sort) =
+    fail
+
+
+strategies
+  prettyprint-SDF-start-symbols =
+    prettyprint-metaborgc-start-symbols
+
+  prettyprint-metaborgc-start-symbols =
+    fail
+
+
+strategies
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-ID
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-INT
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-STRING
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-StringChar
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-BackSlashChar
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-CommentChar
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-InsideComment
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-Comment
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-NewLineEOF
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-EOF
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-Comma
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-Sign
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-ID>
+    where <?"ID"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-INT>
+    where <?"INT"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-STRING>
+    where <?"STRING"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-StringChar>
+    where <?"StringChar"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-BackSlashChar>
+    where <?"BackSlashChar"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-CommentChar>
+    where <?"CommentChar"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-InsideComment>
+    where <?"InsideComment"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-Comment>
+    where <?"Comment"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-NewLineEOF>
+    where <?"NewLineEOF"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-EOF>
+    where <?"EOF"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-Comma>
+    where <?"Comma"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-Sign>
+    where <?"Sign"> sort
+
+  prettyprint-metaborgc-ID =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-INT =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-STRING =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-StringChar =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-BackSlashChar =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-CommentChar =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-InsideComment =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-Comment =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-NewLineEOF =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-EOF =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-Comma =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-Sign =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-ID :
+    amb([h|hs]) -> <prettyprint-metaborgc-ID> h
+
+  prettyprint-metaborgc-INT :
+    amb([h|hs]) -> <prettyprint-metaborgc-INT> h
+
+  prettyprint-metaborgc-STRING :
+    amb([h|hs]) -> <prettyprint-metaborgc-STRING> h
+
+  prettyprint-metaborgc-StringChar :
+    amb([h|hs]) -> <prettyprint-metaborgc-StringChar> h
+
+  prettyprint-metaborgc-BackSlashChar :
+    amb([h|hs]) -> <prettyprint-metaborgc-BackSlashChar> h
+
+  prettyprint-metaborgc-CommentChar :
+    amb([h|hs]) -> <prettyprint-metaborgc-CommentChar> h
+
+  prettyprint-metaborgc-InsideComment :
+    amb([h|hs]) -> <prettyprint-metaborgc-InsideComment> h
+
+  prettyprint-metaborgc-Comment :
+    amb([h|hs]) -> <prettyprint-metaborgc-Comment> h
+
+  prettyprint-metaborgc-NewLineEOF :
+    amb([h|hs]) -> <prettyprint-metaborgc-NewLineEOF> h
+
+  prettyprint-metaborgc-EOF :
+    amb([h|hs]) -> <prettyprint-metaborgc-EOF> h
+
+  prettyprint-metaborgc-Comma :
+    amb([h|hs]) -> <prettyprint-metaborgc-Comma> h
+
+  prettyprint-metaborgc-Sign :
+    amb([h|hs]) -> <prettyprint-metaborgc-Sign> h
+
+
+strategies
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-Keyword
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-Keyword>
+    where <?"Keyword"> sort
+
+  prettyprint-metaborgc-Keyword =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-Keyword :
+    amb([h|hs]) -> <prettyprint-metaborgc-Keyword> h

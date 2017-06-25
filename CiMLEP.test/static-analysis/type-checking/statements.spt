@@ -1,0 +1,102 @@
+module statements
+
+language CiMLEP
+
+fixture [[
+	FuncBlock(add,  (40,32), 180, 125, ((0,0), 90, 1)((0,32), 270, 0), ((40,0), 90, 0));
+	FuncBlock(mul, (120,160), 803, 4407, ((0,0), 0, 0)((32,160), 180, 0), ((120,64), 90, 0));
+	
+	component main<in[8] | out[4]>(){
+		[[...]]
+	}
+	
+	component foo<A[n^2], B[n^2] | out[n^2]>(int n){}
+]]
+
+/*
+	declaration/initilization statement tests.
+*/
+
+test assigning int to int [[
+  int i = 0;
+]] 0 errors
+
+test assigning comp to int [[
+  comp c;
+  int i = c;
+]] >= 1 errors
+
+test assigning signal to int [[
+  signal s; 
+  int i = s;
+]] >= 1 errors
+
+test assigning int to signal [[
+  int i; 
+  signal s = i;
+]] >= 1 errors
+
+/*
+	Funcblock ID type tests
+*/
+
+test assigning funcblock id to comp [[
+  comp c = add;
+]] 0 errors
+
+test assigning funcblock id to signal [[
+  signal s = add;
+]] >= 1 errors
+
+test assigning funcblock id to int [[
+  int i = add;
+]] >= 1 errors
+
+
+/*
+	SignalAssign tests
+*/
+
+test signal assign with second signal with subscript [[
+  in => out[0];
+]] 0 errors
+
+test signal assign with second signal without subscript [[
+  in => out;
+]] >= 1 errors
+
+test signal assign with connskel [[
+  in => add => out[0];
+]] 0 errors
+
+test signal assign with invalid connskel [[
+  in => 0 => out;
+]] >= 1 errors
+
+
+test signal assign with concurrent signal [[
+  int i;
+  int n;
+  signal s;
+  loop<++>(i=0:n; s) => out[1];
+]] 0 errors
+
+test signal assign with concurrent signal [[
+  int i;
+  int n;
+  signal s;
+  loop<++>(i=0:n; s) => out[1];
+]] 0 errors
+
+test concurrent signal must have signal after ; [[
+  int i;
+  int n;
+  signal s;
+  loop<++>(i=0:n; i) => out[1];
+]] >= 1 errors
+
+
+
+
+
+

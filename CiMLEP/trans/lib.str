@@ -1,0 +1,107 @@
+module lib
+
+imports
+
+	nabl2/api
+	gen-dfg
+	src-gen/signatures/-
+	desugar
+	nabl2/runtime/analysis/-
+	
+rules  
+
+	store-index:
+		(i, SignalDecl(sid, _)) -> ""
+		where
+			<store-index(add-sig-index)>(i,sid, "Var")
+			
+	store-index:
+		(i, SigParam(sid, _)) -> ""
+		where
+			<store-index(add-sig-index)>(i,sid, "Var")
+			
+	store-index:
+		(i, VarDeclInit(_, vid, _)) -> ""
+		where
+			<store-index(add-var-index)>(i,vid, "Var")
+			
+	store-index:
+		(i, VarDecl(_, vid)) -> ""
+		where
+			<store-index(add-var-index)>(i,vid, "Var")
+			
+	store-index:
+		(i, ParamDecl(_, vid)) -> ""
+		where
+			<store-index(add-var-index)>(i,vid, "Var")
+	
+	store-index:
+		(i, FuncBlock(fid, _ , _, _, _, _)) -> ""
+		where
+			<store-index(add-lib-index)>(i,fid,"Var")
+			
+	store-index:
+		(i, Component(cid,_,_,_,_)) -> ""
+		where
+			<store-index(add-comp-index)>(i,cid,"Component")
+			
+	store-index(s):
+		(i, sid, ns) -> key
+		where
+			a := <nabl2-get-ast-analysis> sid 
+			;ref-occ := <nabl2-mk-occurrence(|ns)> sid;
+			key := <get-term-index>ref-occ;
+			<s>(i, key)
+			
+	get-term-index:
+		Occurrence(ns, ti, ti2) -> (ti,ti2) 
+		
+	add-comp-index: (index, name) -> <id>
+        with rules(CompIndexMap : name -> index)
+	
+	add-sig-index: (index, name) -> <id>
+        with rules(SigIndexMap : name -> index)
+        
+    add-var-index: (index, name) -> <id>
+        with rules(VarIndexMap : name -> index)
+        
+    add-lib-index: (index, name) -> <id>
+        with rules(LibIndexMap : name -> index)
+	
+	get-sig-index:
+		n -> res
+		where 
+			res := <get-map-key(|"Var");SigIndexMap>n
+	
+	get-var-index:
+		n -> res
+		where
+			res := <get-map-key(|"Var");VarIndexMap>n
+			
+	get-lib-index:
+		n -> res
+		where
+			res := <get-map-key(|"Var");LibIndexMap>n
+			
+	get-comp-index:
+		n -> res
+		where
+			res := <get-map-key(|"Component");CompIndexMap>n
+		
+	/*
+		Creates a unique key which can be constructed anywhere using
+		the declaration occurrence.
+	*/
+	get-map-key(|ns):
+		n -> res
+		where
+		a        := <nabl2-get-ast-analysis> n	 
+		;ref-occ := <nabl2-mk-occurrence(|ns)> n
+		; dec-occ := <nabl2-get-resolved-name(|a); Fst> ref-occ
+		; res := <get-term-index>dec-occ
+		
+	get-map-key(|ns):
+		n -> res
+		where	 
+			res:= <nabl2-mk-occurrence(|ns);get-term-index> n
+	

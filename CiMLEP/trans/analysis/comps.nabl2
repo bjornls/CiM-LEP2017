@@ -1,0 +1,40 @@
+module analysis/comps
+
+imports
+	signatures/-
+	analysis/stmts
+
+rules
+[[Main(sigParamsIn,sigParamsOut,params,stmt) ^ (globalscope)]] := 
+	new mainscope,
+	mainscope ---> globalscope,
+	distinct/name D(mainscope) | error @NAMES,
+	Map1[[sigParamsIn ^ (mainscope)]],
+	Map1[[sigParamsOut ^ (mainscope)]],
+	Map1[[params ^ (mainscope)]],
+	[[stmt ^ (mainscope)]].
+	
+[[Component(id,sigParamsIn,sigParamsOut,params,stmt) ^ (globalscope)]] := 
+	Component{id} <- globalscope,
+	Component{id} : Comp(),  
+	new compscope,
+	compscope ---> globalscope,
+	distinct/name D(compscope) | error @NAMES,
+	Map1[[sigParamsIn ^ (compscope)]],
+	Map1[[sigParamsOut ^ (compscope)]],
+	Map1[[params ^ (compscope)]],
+	[[stmt ^ (compscope)]].	
+
+[[SigParam(id, value) ^ (scope)]] := 
+	Var{id} <- scope,
+	Var{id} : TSignal(),
+	Var{id}.origin := Sig(),
+	[[value ^ (scope) : vty]],
+	vty == TInteger() | error.
+	
+	
+[[ParamDecl(type, id) ^ (scope)]] := 
+	Var{id} <- scope,
+	[[type ^ (scope) : ty]],
+	Var{id} : ty,
+	Var{id}.origin := Param().

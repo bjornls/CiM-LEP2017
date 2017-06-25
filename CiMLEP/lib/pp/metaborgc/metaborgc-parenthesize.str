@@ -1,0 +1,13 @@
+module pp/metaborgc/metaborgc-parenthesize
+
+imports
+  libstratego-lib
+
+
+strategies
+  io-metaborgc-parenthesize =
+    io-wrap(id)
+
+  parenthesize-metaborgc =
+    id
+

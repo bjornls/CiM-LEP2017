@@ -1,0 +1,9 @@
+---
+id: org.metaborg:CiMLEP.test:0.1.0-SNAPSHOT
+name: CiMLEP
+dependencies:
+  compile:
+  - org.metaborg:CiMLEP:0.1.0-SNAPSHOT
+  - org.metaborg:org.metaborg.meta.lang.spt:${metaborgVersion}
+build:
+  useBuildSystemSpec: true

@@ -1,0 +1,170 @@
+module signatures/metaborgc/Expressions-sig
+
+imports
+  signatures/metaborgc/Common-sig
+  signatures/metaborgc/Lexical-sig
+  signatures/metaborgc/Declarations-sig
+
+
+signature
+  constructors
+    DeclRef             : ID -> PrimExp
+                        : Constant -> PrimExp
+                        : GenSelect -> PrimExp
+    GenSelect           : AssignExp * List(GenAssoc) -> GenSelect
+    GenTypeAssoc        : TypeName * AssignExp -> GenAssoc
+    GenDefaultAssoc     : AssignExp -> GenAssoc
+                        : PrimExp -> PostfixExp
+    ArrayAccess         : PostfixExp * Exp -> PostfixExp
+    Call                : PostfixExp * List(AssignExp) -> PostfixExp
+    Access              : PostfixExp * ID -> PostfixExp
+    DerefAccess         : PostfixExp * ID -> PostfixExp
+    PostInc             : PostfixExp -> PostfixExp
+    PostDec             : PostfixExp -> PostfixExp
+                        : PostfixExp -> UnaryExp
+    PreInc              : UnaryExp -> UnaryExp
+    PreDec              : UnaryExp -> UnaryExp
+    UnaryOp             : UnaryOp * CastExp -> UnaryExp
+    ExpSizeof           : UnaryExp -> UnaryExp
+    TypeSizeof          : TypeName -> UnaryExp
+    Alignof             : TypeName -> UnaryExp
+    NewArray            : ID * Option(Cast) * ID -> UnaryExp
+    NewObj              : ID * Option(Cast) * ID -> UnaryExp
+    Ref                 : UnaryOp
+    Deref               : UnaryOp
+    Pos                 : UnaryOp
+    Neg                 : UnaryOp
+    BNot                : UnaryOp
+    LNot                : UnaryOp
+                        : UnaryExp -> CastExp
+    Cast                : TypeName * CastExp -> CastExp
+                        : CastExp -> MulExp
+    BinOp               : MulExp * MulOp * CastExp -> MulExp
+    Mul                 : MulOp
+    Div                 : MulOp
+    Mod                 : MulOp
+                        : MulExp -> AddExp
+    BinOp               : AddExp * AddOp * MulExp -> AddExp
+    Add                 : AddOp
+    Sub                 : AddOp
+                        : AddExp -> ShiftExp
+    BinOp               : ShiftExp * ShiftOp * AddExp -> ShiftExp
+    LShift              : ShiftOp
+    RShift              : ShiftOp
+                        : ShiftExp -> RelExp
+    BinOp               : RelExp * RelOp * ShiftExp -> RelExp
+    Lt                  : RelOp
+    Gt                  : RelOp
+    Lte                 : RelOp
+    Gte                 : RelOp
+                        : RelExp -> EqExp
+    BinOp               : EqExp * EqOp * RelExp -> EqExp
+    Eq                  : EqOp
+    Neq                 : EqOp
+                        : EqExp -> BAndExp
+    BinOp               : BAndExp * BAndOp * EqExp -> BAndExp
+    BAnd                : BAndOp
+                        : BAndExp -> BXorExp
+    BinOp               : BXorExp * BXorOp * BAndExp -> BXorExp
+    BXor                : BXorOp
+                        : BXorExp -> BOrExp
+    BinOp               : BOrExp * BOrOp * BXorExp -> BOrExp
+    BOr                 : BOrOp
+                        : BOrExp -> LAndExp
+    BinOp               : LAndExp * LAndOp * BOrExp -> LAndExp
+    LAnd                : LAndOp
+                        : LAndExp -> LOrExp
+    BinOp               : LOrExp * LOrOp * LAndExp -> LOrExp
+    LOr                 : LOrOp
+                        : LOrExp -> CondExp
+    IfExp               : LOrExp * Exp * CondExp -> CondExp
+                        : CondExp -> AssignExp
+    AssignExp           : UnaryExp * AssignOp * AssignExp -> AssignExp
+    Eq                  : AssignOp
+    Mul                 : AssignOp
+    Div                 : AssignOp
+    Mod                 : AssignOp
+    Add                 : AssignOp
+    Sub                 : AssignOp
+    LShift              : AssignOp
+    RShift              : AssignOp
+    BAnd                : AssignOp
+    BXor                : AssignOp
+    BOr                 : AssignOp
+                        : AssignExp -> Exp
+    Comma               : Exp * AssignExp -> Exp
+                        : CondExp -> ConstExp
+    Constant-Plhdr      : Constant
+    GenSelect-Plhdr     : GenSelect
+    GenAssoc-Plhdr      : GenAssoc
+    PrimExp-Plhdr       : PrimExp
+    PostfixExp-Plhdr    : PostfixExp
+    Cast-Plhdr          : Cast
+    ID-Plhdr            : ID
+    UnaryOp-Plhdr       : UnaryOp
+    TypeName-Plhdr      : TypeName
+    CastExp-Plhdr       : CastExp
+    MulOp-Plhdr         : MulOp
+    MulExp-Plhdr        : MulExp
+    AddOp-Plhdr         : AddOp
+    AddExp-Plhdr        : AddExp
+    ShiftOp-Plhdr       : ShiftOp
+    ShiftExp-Plhdr      : ShiftExp
+    RelOp-Plhdr         : RelOp
+    RelExp-Plhdr        : RelExp
+    EqOp-Plhdr          : EqOp
+    EqExp-Plhdr         : EqExp
+    BAndOp-Plhdr        : BAndOp
+    BAndExp-Plhdr       : BAndExp
+    BXorOp-Plhdr        : BXorOp
+    BXorExp-Plhdr       : BXorExp
+    BOrOp-Plhdr         : BOrOp
+    BOrExp-Plhdr        : BOrExp
+    LAndOp-Plhdr        : LAndOp
+    LAndExp-Plhdr       : LAndExp
+    LOrOp-Plhdr         : LOrOp
+    LOrExp-Plhdr        : LOrExp
+    UnaryExp-Plhdr      : UnaryExp
+    AssignOp-Plhdr      : AssignOp
+    Exp-Plhdr           : Exp
+    AssignExp-Plhdr     : AssignExp
+    ConstExp-Plhdr      : ConstExp
+    CondExp-Plhdr       : CondExp
+    Constant-Plhdr      : COMPLETION-INSERTION -> Constant
+    GenSelect-Plhdr     : COMPLETION-INSERTION -> GenSelect
+    GenAssoc-Plhdr      : COMPLETION-INSERTION -> GenAssoc
+    PrimExp-Plhdr       : COMPLETION-INSERTION -> PrimExp
+    PostfixExp-Plhdr    : COMPLETION-INSERTION -> PostfixExp
+    Cast-Plhdr          : COMPLETION-INSERTION -> Cast
+    ID-Plhdr            : COMPLETION-INSERTION -> ID
+    UnaryOp-Plhdr       : COMPLETION-INSERTION -> UnaryOp
+    TypeName-Plhdr      : COMPLETION-INSERTION -> TypeName
+    CastExp-Plhdr       : COMPLETION-INSERTION -> CastExp
+    MulOp-Plhdr         : COMPLETION-INSERTION -> MulOp
+    MulExp-Plhdr        : COMPLETION-INSERTION -> MulExp
+    AddOp-Plhdr         : COMPLETION-INSERTION -> AddOp
+    AddExp-Plhdr        : COMPLETION-INSERTION -> AddExp
+    ShiftOp-Plhdr       : COMPLETION-INSERTION -> ShiftOp
+    ShiftExp-Plhdr      : COMPLETION-INSERTION -> ShiftExp
+    RelOp-Plhdr         : COMPLETION-INSERTION -> RelOp
+    RelExp-Plhdr        : COMPLETION-INSERTION -> RelExp
+    EqOp-Plhdr          : COMPLETION-INSERTION -> EqOp
+    EqExp-Plhdr         : COMPLETION-INSERTION -> EqExp
+    BAndOp-Plhdr        : COMPLETION-INSERTION -> BAndOp
+    BAndExp-Plhdr       : COMPLETION-INSERTION -> BAndExp
+    BXorOp-Plhdr        : COMPLETION-INSERTION -> BXorOp
+    BXorExp-Plhdr       : COMPLETION-INSERTION -> BXorExp
+    BOrOp-Plhdr         : COMPLETION-INSERTION -> BOrOp
+    BOrExp-Plhdr        : COMPLETION-INSERTION -> BOrExp
+    LAndOp-Plhdr        : COMPLETION-INSERTION -> LAndOp
+    LAndExp-Plhdr       : COMPLETION-INSERTION -> LAndExp
+    LOrOp-Plhdr         : COMPLETION-INSERTION -> LOrOp
+    LOrExp-Plhdr        : COMPLETION-INSERTION -> LOrExp
+    UnaryExp-Plhdr      : COMPLETION-INSERTION -> UnaryExp
+    AssignOp-Plhdr      : COMPLETION-INSERTION -> AssignOp
+    Exp-Plhdr           : COMPLETION-INSERTION -> Exp
+    AssignExp-Plhdr     : COMPLETION-INSERTION -> AssignExp
+    ConstExp-Plhdr      : COMPLETION-INSERTION -> ConstExp
+    CondExp-Plhdr       : COMPLETION-INSERTION -> CondExp
+    AssignExp-Opt-Plhdr : AssignExp
+    Cast-Opt-Plhdr      : Cast

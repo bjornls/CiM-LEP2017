@@ -1,0 +1,133 @@
+module analysis/exp
+
+imports signatures/-
+
+rules
+
+[[FunApp(Fold(_),Some(OpApp(op)),param) ^ (s) : TComp()]] := 
+	Singleton[[param ^ (s) : pty]]. 
+	
+[[FunApp(Shift(_),None(),[p|ps]) ^ (s) : pty]] := 
+	[[p ^ (s) : pty]],
+	pty == Array(_) | error "First argument must be an array" @NAMES,
+	Map1T[[ps ^ (s) : sty]],
+	sty == [TInteger()] | error "Second argument must be an integer". 
+	
+[[FunApp(Rev(),None(),param) ^ (s) : pty]] := 
+	Singleton[[param ^ (s) : pty]],	
+	pty == Array(_) | error @NAMES. 
+
+[[FunApp(Copy(),_,_) ^ (s) : TComp()]] := 
+	//correct form is desugared to Repeat
+	false | error "This function is not being applied correctly.". 
+
+[[Repeat(amount, exp) ^ (s) : TComp()]] :=
+	[[amount ^ (s) : aty]],
+	[[exp ^ (s) : ety]],
+	aty == TInteger() | error "Should be integer",
+	ety == TComp() | error "Should be a component".
+	
+[[FunApp(Map(),Some(Func(vid, rhs)),param) ^ (s) : Array(TComp())]] := 
+	Singleton[[param ^ (s) : pty]],
+	[[rhs ^ (s) : rty]],
+	VarRef[[vid ^ (s) : vty]].
+
+VarRef[[VarRef(vid) ^ (s) : vty]] := 
+	Var{vid} -> s,
+	Var{vid} |-> d,
+	d : vty.
+
+VarRef[[_ ^ (s) : vty]]	:= false | error.
+
+	
+[[FunApp(Max(),None(),param) ^ (s) : TInteger()]] := 
+	Map1T[[param ^ (s) : ptys]],
+	ptys == [TInteger(), TInteger()] | error "The function only takes two integers as arguments".
+	
+[[FunApp(Log2(),None(),param) ^ (s) : TInteger()]] := 
+	Singleton[[param ^ (s) : pty]],
+	pty == TInteger() | error @NAMES.
+	
+[[FunApp(Zip(),None(),param) ^ (s) : TSignal()]] := 
+	Map1T[[param ^ (s) : [zty1, zty2]]],
+	TSignal() == zty1 | error,
+	TSignal() == zty2 | error @NAMES.
+	
+[[FunApp(_, _, _) ^ (s) : TInteger()]] := 
+	false | error "Incorrect application of function." @NAMES.
+
+[[Int(_) ^ (s) : TInteger()]] := true.
+
+Singleton[[ [x|[]] ^ (s) : ty ]] := [[x^(s) : ty]].
+Singleton[[ [x|xs] ^ (s) : t ]] := false | error "Expecting one argument".
+Singleton[[ [] ^ (s) : t ]] := false | error "Expecting one argument".
+
+[[Interval(b,i,e) ^ (s) : TIntArray()]] := 
+	[[b ^ (s) : t1]],
+	[[i ^ (s) : t2]],
+	[[e ^ (s) : t3]],
+	t1 == TInteger() | error @NAMES,
+	t2 == TInteger() | error @NAMES,
+	t3 == TInteger() | error @NAMES.
+	
+	
+[[VarRef(id) ^ (s) : ty]] := 
+	Var{id} -> s,
+	Var{id} |-> d,
+	d : ty. 	
+
+[[SigRef(id, None()) ^ (s) : ty]] := 
+	Var{id} -> s,
+	Var{id} |-> d,
+	d : ty,
+	ty == TSignal() | error @NAMES.
+
+[[SigRef(id, index) ^ (s) : ty]] := 
+ 	[[index ^ (s) : ity]],
+	ity <super? IsIndex() | error,
+	Var{id} -> s,
+	Var{id} |-> d,
+	d : ty. 
+	
+ConSkel[[None() ^ (s) : ty]] := true.
+
+ConSkel[[Some(ConSkel(comp)) ^ (s) : ty]] := 
+	[[comp ^ (s) : cty]],
+	cty == TComp().
+	
+[[CompRef(cid, params) ^ (s) : TComp()]] :=
+	Component{cid} -> s,
+	Component{cid} |-> d,
+	Map1T[[params ^ (s) : ttys]].
+	
+[[BinExp(_, exp1, exp2) ^ (s) : TInteger()]] :=	
+	[[exp1 ^ (s) : ty1]],
+	[[exp2 ^ (s) : ty2]], 
+	[ty1, ty2] == [TInteger(), TInteger()] | error.
+	
+	
+//[[BinExp(ToThePower(), exp1, exp2) ^ (s) : TInteger()]] :=	
+//	[[exp1 ^ (s) : ty1]],
+//	[[exp2 ^ (s) : ty2]],
+//	[ty1, ty2] == [TInteger(), TInteger()] | error.	
+	
+[[Connect(comp1,skel,comp2) ^ (s) : TComp()]] := 
+	[[comp1 ^ (s) : ty]],
+	ty == TComp() | error,
+	[[comp2 ^ (s) : ty2]],
+	ty2 == TComp() | error.
+	
+[[ConcurSigLoop(varref,exp,signal) ^ (s) : TSignal()]] :=
+		[[ varref ^ (s) : vty ]],
+		vty == TInteger() | error,
+		[[ exp ^ (s) : ety ]],
+		ety <super? IsIndex() | error,
+		[[signal ^ (s) : sty]],
+		sty == TSignal() | error.
+
+[[ConcurSig(var,var2) ^ (s) : TSignal()]] :=
+		[[ var ^ (s) : vty ]],
+		[[ var2 ^ (s) : vty2 ]],
+		[vty, vty2] == [TSignal(), TSignal()] | error.
+	
+	

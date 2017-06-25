@@ -1,0 +1,19 @@
+module FuncBlock
+
+imports
+  
+  Common
+
+context-free start-symbols
+  
+  FuncBlock
+
+context-free syntax
+
+//                             name,  size,  latency, energy,   inputs,      outputs
+  FuncBlock.FuncBlock = <FuncBlock(<ID>, <IntPair>, <INT>, <INT>, <Location*>, <Location*>);>
+  
+  IntPair.IntPair = <(<INT>, <INT>)> 
+  
+  //              position,  angle,  mirror
+  Location.Location = <(<IntPair>, <INT>, <INT>)> 

@@ -1,0 +1,4 @@
+*.aterm
+*.map
+*.spr
+.metadata/

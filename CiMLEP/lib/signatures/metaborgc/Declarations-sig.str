@@ -1,0 +1,200 @@
+module signatures/metaborgc/Declarations-sig
+
+imports
+  signatures/metaborgc/Common-sig
+  signatures/metaborgc/Expressions-sig
+  signatures/metaborgc/Statements-sig
+  signatures/metaborgc/Lexical-sig
+
+
+signature
+  constructors
+    Decl                               : DeclSpecs * List(InitDeclarator) -> Decl
+                                       : StoreClassSpec -> DeclSpec
+                                       : TypeSpec -> DeclSpec
+                                       : TypeQualifier -> DeclSpec
+                                       : FuncSpec -> DeclSpec
+                                       : AlignSpec -> DeclSpec
+                                       : TemplateSpec -> DeclSpec
+                                       : List(DeclSpec) -> DeclSpecs
+                                       : Declarator -> InitDeclarator
+    Init                               : Declarator * Initializer -> InitDeclarator
+    Typedef                            : StoreClassSpec
+    Extern                             : StoreClassSpec
+    Static                             : StoreClassSpec
+    ThreadLocal                        : StoreClassSpec
+    Auto                               : StoreClassSpec
+    Register                           : StoreClassSpec
+    Void                               : TypeSpec
+    Char                               : TypeSpec
+    Short                              : TypeSpec
+    Int                                : TypeSpec
+    Long                               : TypeSpec
+    Float                              : TypeSpec
+    Double                             : TypeSpec
+    Signed                             : TypeSpec
+    Unsigned                           : TypeSpec
+    Bool                               : TypeSpec
+    Complex                            : TypeSpec
+    DeclRef                            : ID * Option(Cast) -> TypeSpec
+                                       : AtomicTypeSpec -> TypeSpec
+                                       : StructOrUnionSpec -> TypeSpec
+                                       : EnumSpec -> TypeSpec
+    Cast                               : CastArg -> Cast
+    Type                               : TypeSpec -> CastArg
+    Const                              : Constant -> CastArg
+    StructSpec                         : Option(ID) * List(StructDecl) -> StructOrUnionSpec
+    StructSpec                         : ID -> StructOrUnionSpec
+    UnionSpec                          : Option(ID) * List(StructDecl) -> StructOrUnionSpec
+    UnionSpec                          : ID -> StructOrUnionSpec
+    FieldDecl                          : List(SpecifierQualifier) * List(StructDeclarator) -> StructDecl
+    FieldDecl                          : List(SpecifierQualifier) * List(StructBitfieldDeclarator) -> StructDecl
+                                       : TypeSpec -> SpecifierQualifier
+                                       : TypeQualifier -> SpecifierQualifier
+                                       : Declarator -> StructDeclarator
+    Bitfield                           : Declarator * ConstExp -> StructDeclarator
+    Bitfield                           : ConstExp -> StructBitfieldDeclarator
+                                       : Declarator -> StructBitfieldDeclarator
+    EnumSpec                           : Option(ID) * List(Enumerator) * Option(Comma) -> EnumSpec
+    EnumSpec                           : ID -> EnumSpec
+    EnumConst                          : ID -> Enumerator
+    EnumConst                          : ID * ConstExp -> Enumerator
+    Atomic                             : TypeName -> AtomicTypeSpec
+    Const                              : TypeQualifier
+    Restrict                           : TypeQualifier
+    Volatile                           : TypeQualifier
+    Atomic                             : TypeQualifier
+    Inline                             : FuncSpec
+    NoReturn                           : FuncSpec
+    Alignas                            : TypeName -> AlignSpec
+    Alignas                            : ConstExp -> AlignSpec
+    Template                           : List(ParamDecl) * ID * ID * CompoundStm -> TemplateSpec
+    Declarator                         : Option(Ptr) * DirectDeclarator -> Declarator
+                                       : ID -> DirectDeclarator
+    ArrayDeclarator                    : DirectDeclarator * List(TypeQualifier) * Option(AssignExp) -> DirectDeclarator
+    ArrayDeclarator                    : DirectDeclarator * List(TypeQualifier) * AssignExp -> DirectDeclarator
+    ArrayDeclarator                    : DirectDeclarator * List(TypeQualifier) * AssignExp -> DirectDeclarator
+    ArrayDeclarator                    : DirectDeclarator * List(TypeQualifier) -> DirectDeclarator
+                                       : DirectFuncDeclarator -> DirectDeclarator
+    Declarator                         : Option(Ptr) * DirectFuncDeclarator -> FuncDeclarator
+    FuncDeclarator                     : DirectDeclarator * ParamList -> DirectFuncDeclarator
+    FuncDeclarator                     : DirectDeclarator * ParamTypeList -> DirectFuncDeclarator
+    Ptr                                : List(TypeQualifier) -> Ptr
+    Ptr                                : List(TypeQualifier) * Ptr -> Ptr
+    ParamTypeList                      : List(ParamDecl) -> ParamTypeList
+    ParamTypeVararg                    : List(ParamDecl) -> ParamTypeList
+    ParamList                          : List(ID) -> ParamList
+    ParamDecl                          : DeclSpecs * Option(AbstractDeclarator) -> ParamDecl
+    ParamDecl                          : DeclSpecs * Declarator -> ParamDecl
+    ParamDecl                          : DeclSpecs * Declarator * Exp -> ParamDecl
+    TypeName                           : List(SpecifierQualifier) * Option(AbstractDeclarator) -> TypeName
+    ADeclarator                        : Ptr -> AbstractDeclarator
+    ADeclarator                        : Option(Ptr) * DirectAbstractDeclarator -> AbstractDeclarator
+    ArrayADeclarator                   : Option(DirectAbstractDeclarator) * List(TypeQualifier) * Option(AssignExp) -> DirectAbstractDeclarator
+    ArrayADeclarator                   : Option(DirectAbstractDeclarator) * List(TypeQualifier) * AssignExp -> DirectAbstractDeclarator
+    ArrayADeclarator                   : Option(DirectAbstractDeclarator) * List(TypeQualifier) * AssignExp -> DirectAbstractDeclarator
+    ArrayADeclarator                   : Option(DirectAbstractDeclarator) -> DirectAbstractDeclarator
+    FuncADeclarator                    : Option(DirectAbstractDeclarator) * ParamTypeList -> DirectAbstractDeclarator
+                                       : AssignExp -> Initializer
+    Initializer                        : List(DesignationInit) * Option(Comma) -> Initializer
+                                       : Initializer -> DesignationInit
+    DesignationInit                    : Designation * Initializer -> DesignationInit
+    Designation                        : List(Designator) -> Designation
+    Designator                         : ConstExp -> Designator
+    Designator                         : ID -> Designator
+    Decl-Plhdr                         : Decl
+    DeclSpec-Plhdr                     : DeclSpec
+    InitDeclarator-Plhdr               : InitDeclarator
+    StoreClassSpec-Plhdr               : StoreClassSpec
+    Cast-Plhdr                         : Cast
+    CastArg-Plhdr                      : CastArg
+    Constant-Plhdr                     : Constant
+    StructOrUnionSpec-Plhdr            : StructOrUnionSpec
+    StructDecl-Plhdr                   : StructDecl
+    TypeSpec-Plhdr                     : TypeSpec
+    StructDeclarator-Plhdr             : StructDeclarator
+    StructBitfieldDeclarator-Plhdr     : StructBitfieldDeclarator
+    EnumSpec-Plhdr                     : EnumSpec
+    Enumerator-Plhdr                   : Enumerator
+    AtomicTypeSpec-Plhdr               : AtomicTypeSpec
+    FuncSpec-Plhdr                     : FuncSpec
+    AlignSpec-Plhdr                    : AlignSpec
+    TemplateSpec-Plhdr                 : TemplateSpec
+    CompoundStm-Plhdr                  : CompoundStm
+    FuncDeclarator-Plhdr               : FuncDeclarator
+    DirectFuncDeclarator-Plhdr         : DirectFuncDeclarator
+    DirectDeclarator-Plhdr             : DirectDeclarator
+    ParamList-Plhdr                    : ParamList
+    ParamDecl-Plhdr                    : ParamDecl
+    DeclSpecs-Plhdr                    : DeclSpecs
+    Declarator-Plhdr                   : Declarator
+    Exp-Plhdr                          : Exp
+    TypeName-Plhdr                     : TypeName
+    SpecifierQualifier-Plhdr           : SpecifierQualifier
+    Ptr-Plhdr                          : Ptr
+    AbstractDeclarator-Plhdr           : AbstractDeclarator
+    TypeQualifier-Plhdr                : TypeQualifier
+    DirectAbstractDeclarator-Plhdr     : DirectAbstractDeclarator
+    ParamTypeList-Plhdr                : ParamTypeList
+    AssignExp-Plhdr                    : AssignExp
+    Comma-Plhdr                        : Comma
+    DesignationInit-Plhdr              : DesignationInit
+    Initializer-Plhdr                  : Initializer
+    Designation-Plhdr                  : Designation
+    ConstExp-Plhdr                     : ConstExp
+    Designator-Plhdr                   : Designator
+    ID-Plhdr                           : ID
+    Decl-Plhdr                         : COMPLETION-INSERTION -> Decl
+    DeclSpec-Plhdr                     : COMPLETION-INSERTION -> DeclSpec
+    InitDeclarator-Plhdr               : COMPLETION-INSERTION -> InitDeclarator
+    StoreClassSpec-Plhdr               : COMPLETION-INSERTION -> StoreClassSpec
+    Cast-Plhdr                         : COMPLETION-INSERTION -> Cast
+    CastArg-Plhdr                      : COMPLETION-INSERTION -> CastArg
+    Constant-Plhdr                     : COMPLETION-INSERTION -> Constant
+    StructOrUnionSpec-Plhdr            : COMPLETION-INSERTION -> StructOrUnionSpec
+    StructDecl-Plhdr                   : COMPLETION-INSERTION -> StructDecl
+    TypeSpec-Plhdr                     : COMPLETION-INSERTION -> TypeSpec
+    StructDeclarator-Plhdr             : COMPLETION-INSERTION -> StructDeclarator
+    StructBitfieldDeclarator-Plhdr     : COMPLETION-INSERTION -> StructBitfieldDeclarator
+    EnumSpec-Plhdr                     : COMPLETION-INSERTION -> EnumSpec
+    Enumerator-Plhdr                   : COMPLETION-INSERTION -> Enumerator
+    AtomicTypeSpec-Plhdr               : COMPLETION-INSERTION -> AtomicTypeSpec
+    FuncSpec-Plhdr                     : COMPLETION-INSERTION -> FuncSpec
+    AlignSpec-Plhdr                    : COMPLETION-INSERTION -> AlignSpec
+    TemplateSpec-Plhdr                 : COMPLETION-INSERTION -> TemplateSpec
+    CompoundStm-Plhdr                  : COMPLETION-INSERTION -> CompoundStm
+    FuncDeclarator-Plhdr               : COMPLETION-INSERTION -> FuncDeclarator
+    DirectFuncDeclarator-Plhdr         : COMPLETION-INSERTION -> DirectFuncDeclarator
+    DirectDeclarator-Plhdr             : COMPLETION-INSERTION -> DirectDeclarator
+    ParamList-Plhdr                    : COMPLETION-INSERTION -> ParamList
+    ParamDecl-Plhdr                    : COMPLETION-INSERTION -> ParamDecl
+    DeclSpecs-Plhdr                    : COMPLETION-INSERTION -> DeclSpecs
+    Declarator-Plhdr                   : COMPLETION-INSERTION -> Declarator
+    Exp-Plhdr                          : COMPLETION-INSERTION -> Exp
+    TypeName-Plhdr                     : COMPLETION-INSERTION -> TypeName
+    SpecifierQualifier-Plhdr           : COMPLETION-INSERTION -> SpecifierQualifier
+    Ptr-Plhdr                          : COMPLETION-INSERTION -> Ptr
+    AbstractDeclarator-Plhdr           : COMPLETION-INSERTION -> AbstractDeclarator
+    TypeQualifier-Plhdr                : COMPLETION-INSERTION -> TypeQualifier
+    DirectAbstractDeclarator-Plhdr     : COMPLETION-INSERTION -> DirectAbstractDeclarator
+    ParamTypeList-Plhdr                : COMPLETION-INSERTION -> ParamTypeList
+    AssignExp-Plhdr                    : COMPLETION-INSERTION -> AssignExp
+    Comma-Plhdr                        : COMPLETION-INSERTION -> Comma
+    DesignationInit-Plhdr              : COMPLETION-INSERTION -> DesignationInit
+    Initializer-Plhdr                  : COMPLETION-INSERTION -> Initializer
+    Designation-Plhdr                  : COMPLETION-INSERTION -> Designation
+    ConstExp-Plhdr                     : COMPLETION-INSERTION -> ConstExp
+    Designator-Plhdr                   : COMPLETION-INSERTION -> Designator
+    ID-Plhdr                           : COMPLETION-INSERTION -> ID
+    InitDeclarator-Opt-Plhdr           : InitDeclarator
+    DeclSpec-Opt-Plhdr                 : DeclSpec
+    Cast-Opt-Plhdr                     : Cast
+    StructBitfieldDeclarator-Opt-Plhdr : StructBitfieldDeclarator
+    ID-Opt-Plhdr                       : ID
+    ParamDecl-Opt-Plhdr                : ParamDecl
+    AbstractDeclarator-Opt-Plhdr       : AbstractDeclarator
+    Ptr-Opt-Plhdr                      : Ptr
+    AssignExp-Opt-Plhdr                : AssignExp
+    TypeQualifier-Opt-Plhdr            : TypeQualifier
+    DirectAbstractDeclarator-Opt-Plhdr : DirectAbstractDeclarator
+    Comma-Opt-Plhdr                    : Comma

@@ -1,0 +1,263 @@
+module temp
+
+imports
+	lib/signatures/metaborgc/-
+	src-gen/signatures/SystemC/-
+
+signature constructors
+	InitVariables : InitVars
+	InitInputSigs : InitVars
+
+rules
+
+//	bar:
+//	x -> y with
+//		y := c-ex |[
+//			1+1
+//		]|
+//		
+//		
+	bar:
+		HeaderFile(inarg, outarg, sysc-modules-decls, sysc-module-conns) -> y 
+	with
+		arg_in:= IntConst(inarg);
+		arg_out:= IntConst(outarg);
+		x_moduledecls* := <map(systemc-module-to-ast); concat>sysc-modules-decls;
+		x_moduleconns* := <map(systemc-module-to-ast); concat>sysc-module-conns;
+		x_initvars* := <systemc-init-var-to-ast>"";
+		x_initsigs* := <systemc-init-sig-to-ast>""; 
+		y := 
+systemc-program |[  
+#ifndef _CIM_SYSTEM_H
+#define _CIM_SYSTEM_H
+
+#include "reg.h"
+#include "adder_signed.h"
+#include "multiplier_signed.h"
+#include "mux2.h"
+#include "gt.h"
+#include "nop.h"
+#include "mir.h"
+#include "subtractor_signed.h"
+#include "divider_signed.h"
+
+#include <stdio.h>
+
+template <int input_size = arg_in, int output_size = arg_out>
+class generated_system: sc_module
+{
+public:
+//	sc_in<sc_int<32>> *input_sigs;
+//    sc_out<sc_int<32> > *output_sigs;
+//    sc_in<bool> clk;
+//    sc_in<bool> reset;
+//    sc_out<bool> *done;
+//    sc_in<bool> valid;
+//    
+	x_initvars*
+	
+    x_moduledecls*
+    
+    SC_CTOR(generated_system)
+    {
+    x_initsigs*
+    
+    x_moduleconns*
+//		input_sigs = new sc_in<sc_int<32> >[input_size];
+//		output_sigs = new sc_out<sc_int<32> >[output_size];
+//		done = new sc_out<bool>[output_size];
+//	//	<{SystemCModuleConnects "\n"}*>
+	}
+
+};
+
+#endif
+
+		]|
+		
+		
+systemc-module-to-ast:
+	SystemCModuleDecls(modId,num1,num2,num3) -> [
+	Decl([DeclRef(modId, None())],[Declarator(Some(Ptr([])), <concat-strings>(["mod", num1]))]), 
+	Decl([ DeclRef("sc_signal", Some(Cast(Type(DeclRef("sc_int", Some(Cast(Const(IntConst("32")))))))))], [Declarator(None(), <concat-strings>["mod", num2, "_out"])]), 
+	Decl([DeclRef("sc_signal", Some(Cast(Type(Bool()))))], [Declarator(None(), <concat-strings>["mod", num3, "_out"])])	
+	] 
+	
+	
+systemc-module-to-ast:
+	SystemCModuleConnects(comconns, inputmodconns) -> result
+		where 
+			 sysc-mods := <map(systemc-module-to-ast)>inputmodconns;
+			 sysc-comcons := <systemc-module-to-ast>comconns;
+			 result := <concat>[sysc-comcons, <concat>sysc-mods]		
+
+systemc-module-to-ast:
+	SystemCOutModuleConnects(outputconn, modconns, modid1, outputsigsindex, modid2, doneindex) -> result
+		where 
+			 sysc-modconns := <map(systemc-module-to-ast)>modconns;
+			 sysc-outputconn := <systemc-module-to-ast>outputconn;
+			 result := <concat>[sysc-outputconn, <concat>sysc-modconns]		
+
+	
+
+systemc-module-to-ast:
+	InputModConnects(modid, inpid, inpsigs, modid2, validid) ->
+	[
+		ExpStm(
+                Call(
+                   DerefAccess(DeclRef(<concat-strings>["mod", modid]), <concat-strings>(["input", inpid]))
+                  , [ArrayAccess(DeclRef("input_sigs"), IntConst(inpsigs))]
+                    )
+             ),
+        ExpStm(
+                 Call(DerefAccess(
+                 	DeclRef(<concat-strings>(["mod", modid2])), <concat-strings>(["valid", validid])), 
+                 	[DeclRef("valid")])
+                   )
+	]
+	
+systemc-module-to-ast:
+	ModConnects(modid, inpid, modid1, modid2, validid, modid3) ->
+	[
+		ExpStm(
+              Call(DerefAccess(DeclRef(<concat-strings>["mod", modid]), <concat-strings>["input", inpid]), [DeclRef(<concat-strings>["mod", modid1, "_out"])])
+                  )
+       , ExpStm(
+               Call(DerefAccess(DeclRef(<concat-strings>["mod", modid2]), <concat-strings>["valid", validid]), [DeclRef(<concat-strings>["mod", modid3, "_done"])])
+             )
+                   
+	]
+	
+systemc-module-to-ast:
+ 	CommonConnects(modid1, compid, modid2, modclk, modrst, modoutput, modoutput2, moddone, moddone2)->[
+ 		Decl(
+              []
+              , [Init(Declarator(None(), <concat-strings>(["mod", modid1])), 
+              	NewObj(compid, None(), <concat-strings>(["mod", modid2])))
+              ]
+               )
+      , ExpStm(
+                Call(DerefAccess(DeclRef(<concat-strings>(["mod", modclk])), "clk"), 
+                [DeclRef("clk")])
+              )
+      , ExpStm(
+               Call(DerefAccess(DeclRef(<concat-strings>(["mod", modrst])), "reset"), 
+               [DeclRef("reset")])
+              )
+      , ExpStm(
+                Call(DerefAccess(DeclRef(<concat-strings>(["mod", modoutput])), "output"), 
+                [DeclRef(<concat-strings>["mod",modoutput2,"_out"])])
+              )
+       , ExpStm(
+                Call(DerefAccess(DeclRef(<concat-strings>(["mod", moddone])), "done"), 
+                [DeclRef(<concat-strings>["mod",moddone2,"_done"])])
+               )
+ 	
+ 	]
+ 	
+ systemc-module-to-ast:
+ 	OutputConnects(modid1, compid, modid2, modclk, modrst)->[
+ 		Decl(
+              []
+              , [Init(Declarator(None(), <concat-strings>(["mod", modid1])), 
+              	NewObj(compid, None(), <concat-strings>(["mod", modid2])))
+              ]
+               )
+      , ExpStm(
+                Call(DerefAccess(DeclRef(<concat-strings>(["mod", modclk])), "clk"), 
+                [DeclRef("clk")])
+              )
+      , ExpStm(
+               Call(DerefAccess(DeclRef(<concat-strings>(["mod", modrst])), "reset"), 
+               [DeclRef("reset")])
+              )
+ 	]
+ 	
+ systemc-init-var-to-ast:
+ 	_ -> [
+ 		Decl(
+                      [ DeclRef(
+                          "sc_in"
+                        , Some(
+                            Cast(
+                              Type(DeclRef("sc_int", Some(Cast(Const(IntConst("32"))))))
+                            )
+                          )
+                        )
+                      ]
+                    , [Declarator(Some(Ptr([])), "input_sigs")]
+                    )
+                  , Decl(
+                      [ DeclRef(
+                          "sc_out"
+                        , Some(
+                            Cast(
+                              Type(DeclRef("sc_int", Some(Cast(Const(IntConst("32"))))))
+                            )
+                          )
+                        )
+                      ]
+                    , [Declarator(Some(Ptr([])), "output_sigs")]
+                    )
+                  , Decl(
+                      [DeclRef("sc_in", Some(Cast(Type(Bool()))))]
+                    , [Declarator(None(), "clk")]
+                    )
+                  , Decl(
+                      [DeclRef("sc_in", Some(Cast(Type(Bool()))))]
+                    , [Declarator(None(), "reset")]
+                    )
+                  , Decl(
+                      [DeclRef("sc_out", Some(Cast(Type(Bool()))))]
+                    , [Declarator(Some(Ptr([])), "done")]
+                    )
+                  , Decl(
+                      [DeclRef("sc_in", Some(Cast(Type(Bool()))))]
+                    , [Declarator(None(), "valid")]
+                    )
+ 	]
+ 	
+ systemc-init-sig-to-ast:
+ 	_ -> [
+ 		Decl(
+                            []
+                          , [ Init(
+                                Declarator(None(), "input_sigs")
+                              , NewArray(
+                                  "sc_in"
+                                , Some(
+                                    Cast(
+                                      Type(DeclRef("sc_int", Some(Cast(Const(IntConst("32"))))))
+                                    )
+                                  )
+                                , "input_size"
+                                )
+                              )
+                            ]
+                          )
+                        , Decl(
+                            []
+                          , [ Init(
+                                Declarator(None(), "output_sigs")
+                              , NewArray(
+                                  "sc_out"
+                                , Some(
+                                    Cast(
+                                      Type(DeclRef("sc_int", Some(Cast(Const(IntConst("32"))))))
+                                    )
+                                  )
+                                , "output_size"
+                                )
+                              )
+                            ]
+                          )
+                        , Decl(
+                            []
+                          , [ Init(
+                                Declarator(None(), "done")
+                              , NewArray("sc_out", Some(Cast(Type(Bool()))), "output_size")
+                              )
+                            ]
+                          )
+ 	]
+ 	

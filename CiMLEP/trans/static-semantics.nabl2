@@ -1,0 +1,15 @@
+module static-semantics
+imports
+
+  signatures/-
+  analysis/-
+
+signature
+
+//	types
+//		ClassType(occurrence) Int() IntArray() Bool() MethodType(type, type) VarType(type)
+
+    name resolution
+        namespaces Class Method Var
+	
+	

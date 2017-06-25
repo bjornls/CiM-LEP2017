@@ -1,0 +1,76 @@
+module statement-trans
+
+imports
+
+	src-gen/signatures/Statement-sig
+	desugar
+	program-trans
+
+rules
+	
+	statement-get-vardecls:
+		Accolades(statements*) -> <map(keep-if(statement-is-var-decl)); concat> statements*
+		
+	statement-get-vardecls: 
+		statement -> <keep-if(statement-is-var-decl)> statement
+		
+	statement-get-sigdecls:
+		Accolades(statements*) -> <map(keep-if(statement-is-sig-decl)); concat> statements*
+		
+	statement-get-sigdecls: 
+		statement -> <keep-if(statement-is-sig-decl)> statement
+		
+	statement-get-component-assigns:
+		Accolades(statements*) -> <map(keep-if(statement-is-component-assign)); concat> statements*
+		
+	statement-get-component-assigns: 
+		statement -> <keep-if(statement-is-component-assign)> statement
+	
+	statement-get-skel-assigns:
+		Accolades(statements*) -> <map(keep-if(statement-is-skel-assign)); concat> statements*
+		
+	statement-get-skel-assigns: 
+		statement -> <keep-if(statement-is-skel-assign)> statement
+	
+	statement-is-var-decl:
+		VarDecl(_, _) -> 1
+		
+	statement-is-var-decl:
+		VarDeclInit(_, _, _) -> 1
+		
+	statement-is-var-decl:
+		otherStatement -> <fail>
+		
+	statement-is-sig-decl:
+		SignalDecl(_, _) -> 1
+	
+	statement-is-sig-decl:
+		otherStatement -> <fail>
+	
+	statement-is-component-assign:
+		VarAssign(_, _) -> 1
+		
+	statement-is-component-assign:
+		ArrayAssign(_, _, _) -> 1	
+		
+	statement-is-component-assign:
+		SignalAssign(_, _, _) -> 1
+			
+	statement-is-component-assign:
+		otherStatement -> <fail>
+		
+	statement-is-skel-assign:
+		VarAssign(_, _) -> 1
+		
+	statement-is-skel-assign:
+		ArrayAssign(_, _, _) -> 1
+		
+//		
+//	statement-is-skel-assign:
+//		CompAttrAssign(_, _, _, _) -> 1
+//		
+//	statement-is-skel-assign:
+//		SingleCompAttrAssign(_, _, _) -> 1
+		
+	statement-is-skel-assign:
+		otherStatement -> <fail>

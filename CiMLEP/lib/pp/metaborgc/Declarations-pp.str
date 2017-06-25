@@ -1,0 +1,5269 @@
+module pp/metaborgc/Declarations-pp
+
+imports
+  libstratego-gpp
+  libspoofax/sdf/pp
+  libspoofax/term/origin
+  libstratego-sglr
+  signatures/metaborgc/Declarations-sig
+
+
+imports
+  signatures/Common-sig
+  signatures/metaborgc/Expressions-sig
+  signatures/metaborgc/Statements-sig
+  signatures/metaborgc/Lexical-sig
+
+
+imports
+  pp/Common-pp
+  pp/metaborgc/Expressions-pp
+  pp/metaborgc/Statements-pp
+  pp/metaborgc/Lexical-pp
+
+
+strategies
+  prettyprint-example =
+    prettyprint-metaborgc
+
+  prettyprint-metaborgc =
+    fail
+
+  prettyprint-metaborgc(|sort) =
+    fail
+
+
+strategies
+  prettyprint-SDF-start-symbols =
+    prettyprint-metaborgc-start-symbols
+
+  prettyprint-metaborgc-start-symbols =
+    fail
+
+
+strategies
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-Decl
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-DeclSpec
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-DeclSpecs
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-InitDeclarator
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-StoreClassSpec
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-TypeSpec
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-Cast
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-CastArg
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-StructOrUnionSpec
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-StructDecl
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-SpecifierQualifier
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-StructDeclarator
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-StructBitfieldDeclarator
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-EnumSpec
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-Enumerator
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-AtomicTypeSpec
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-TypeQualifier
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-FuncSpec
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-AlignSpec
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-TemplateSpec
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-Declarator
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-DirectDeclarator
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-FuncDeclarator
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-DirectFuncDeclarator
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-Ptr
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-ParamTypeList
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-ParamList
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-ParamDecl
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-TypeName
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-AbstractDeclarator
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-DirectAbstractDeclarator
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-Initializer
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-DesignationInit
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-Designation
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-Designator
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-Decl>
+    where <?"Decl"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-DeclSpec>
+    where <?"DeclSpec"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-DeclSpecs>
+    where <?"DeclSpecs"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-InitDeclarator>
+    where <?"InitDeclarator"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-StoreClassSpec>
+    where <?"StoreClassSpec"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-TypeSpec>
+    where <?"TypeSpec"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-Cast>
+    where <?"Cast"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-CastArg>
+    where <?"CastArg"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-StructOrUnionSpec>
+    where <?"StructOrUnionSpec"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-StructDecl>
+    where <?"StructDecl"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-SpecifierQualifier>
+    where <?"SpecifierQualifier"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-StructDeclarator>
+    where <?"StructDeclarator"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-StructBitfieldDeclarator>
+    where <?"StructBitfieldDeclarator"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-EnumSpec>
+    where <?"EnumSpec"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-Enumerator>
+    where <?"Enumerator"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-AtomicTypeSpec>
+    where <?"AtomicTypeSpec"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-TypeQualifier>
+    where <?"TypeQualifier"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-FuncSpec>
+    where <?"FuncSpec"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-AlignSpec>
+    where <?"AlignSpec"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-TemplateSpec>
+    where <?"TemplateSpec"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-Declarator>
+    where <?"Declarator"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-DirectDeclarator>
+    where <?"DirectDeclarator"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-FuncDeclarator>
+    where <?"FuncDeclarator"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-DirectFuncDeclarator>
+    where <?"DirectFuncDeclarator"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-Ptr>
+    where <?"Ptr"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-ParamTypeList>
+    where <?"ParamTypeList"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-ParamList>
+    where <?"ParamList"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-ParamDecl>
+    where <?"ParamDecl"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-TypeName>
+    where <?"TypeName"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-AbstractDeclarator>
+    where <?"AbstractDeclarator"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-DirectAbstractDeclarator>
+    where <?"DirectAbstractDeclarator"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-Initializer>
+    where <?"Initializer"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-DesignationInit>
+    where <?"DesignationInit"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-Designation>
+    where <?"Designation"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-Designator>
+    where <?"Designator"> sort
+
+  prettyprint-metaborgc-Decl :
+    Decl(t1__, t2__) -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [ t1__'
+                            , S(" ")
+                            , t2__'
+                            , S(";")
+                            ]
+                          )
+                        ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-DeclSpecs) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-H-list(prettyprint-metaborgc-InitDeclarator|", ")
+                   <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-Decl =
+    ?Decl(_, _)
+
+  metaborgc-get-indent :
+    (t@Decl(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"Decl"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Decl(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"Decl"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ", "
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Decl(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"Decl"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-DeclSpec :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-DeclSpec)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-StoreClassSpec) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-DeclSpec :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-DeclSpec)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-TypeSpec) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-DeclSpec :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-DeclSpec)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-TypeQualifier) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-DeclSpec :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-DeclSpec)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-FuncSpec) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-DeclSpec :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-DeclSpec)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-AlignSpec) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-DeclSpec :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-DeclSpec)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-TemplateSpec) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-DeclSpecs :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-DeclSpecs)
+    where t1__' := <pp-H-list(prettyprint-metaborgc-DeclSpec|", ")
+                    <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-InitDeclarator :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-InitDeclarator)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-Declarator) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-InitDeclarator :
+    Init(t1__, t2__) -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [t1__', S(" = "), t2__']
+                          )
+                        ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-Declarator) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-Initializer) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-InitDeclarator =
+    ?Init(_, _)
+
+  metaborgc-get-indent :
+    (t@Init(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"InitDeclarator"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Init(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"InitDeclarator"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Init(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"InitDeclarator"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-StoreClassSpec :
+    Typedef() -> [ H(
+                     [SOpt(HS(), "0")]
+                   , [S("typedef")]
+                   )
+                 ]
+
+  is-metaborgc-StoreClassSpec =
+    ?Typedef()
+
+  metaborgc-get-indent :
+    (t@Typedef(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"StoreClassSpec"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Typedef(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"StoreClassSpec"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Typedef(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"StoreClassSpec"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-StoreClassSpec :
+    Extern() -> [ H(
+                    [SOpt(HS(), "0")]
+                  , [S("extern")]
+                  )
+                ]
+
+  is-metaborgc-StoreClassSpec =
+    ?Extern()
+
+  metaborgc-get-indent :
+    (t@Extern(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"StoreClassSpec"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Extern(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"StoreClassSpec"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Extern(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"StoreClassSpec"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-StoreClassSpec :
+    Static() -> [ H(
+                    [SOpt(HS(), "0")]
+                  , [S("static")]
+                  )
+                ]
+
+  is-metaborgc-StoreClassSpec =
+    ?Static()
+
+  metaborgc-get-indent :
+    (t@Static(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"StoreClassSpec"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Static(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"StoreClassSpec"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Static(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"StoreClassSpec"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-StoreClassSpec :
+    ThreadLocal() -> [ H(
+                         [SOpt(HS(), "0")]
+                       , [S("_Thead_local")]
+                       )
+                     ]
+
+  is-metaborgc-StoreClassSpec =
+    ?ThreadLocal()
+
+  metaborgc-get-indent :
+    (t@ThreadLocal(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"StoreClassSpec"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@ThreadLocal(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"StoreClassSpec"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@ThreadLocal(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"StoreClassSpec"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-StoreClassSpec :
+    Auto() -> [ H(
+                  [SOpt(HS(), "0")]
+                , [S("auto")]
+                )
+              ]
+
+  is-metaborgc-StoreClassSpec =
+    ?Auto()
+
+  metaborgc-get-indent :
+    (t@Auto(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"StoreClassSpec"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Auto(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"StoreClassSpec"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Auto(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"StoreClassSpec"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-StoreClassSpec :
+    Register() -> [ H(
+                      [SOpt(HS(), "0")]
+                    , [S("register")]
+                    )
+                  ]
+
+  is-metaborgc-StoreClassSpec =
+    ?Register()
+
+  metaborgc-get-indent :
+    (t@Register(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"StoreClassSpec"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Register(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"StoreClassSpec"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Register(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"StoreClassSpec"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-TypeSpec :
+    Void() -> [ H(
+                  [SOpt(HS(), "0")]
+                , [S("void")]
+                )
+              ]
+
+  is-metaborgc-TypeSpec =
+    ?Void()
+
+  metaborgc-get-indent :
+    (t@Void(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Void(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Void(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-TypeSpec :
+    Char() -> [ H(
+                  [SOpt(HS(), "0")]
+                , [S("char")]
+                )
+              ]
+
+  is-metaborgc-TypeSpec =
+    ?Char()
+
+  metaborgc-get-indent :
+    (t@Char(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Char(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Char(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-TypeSpec :
+    Short() -> [ H(
+                   [SOpt(HS(), "0")]
+                 , [S("short")]
+                 )
+               ]
+
+  is-metaborgc-TypeSpec =
+    ?Short()
+
+  metaborgc-get-indent :
+    (t@Short(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Short(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Short(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-TypeSpec :
+    Int() -> [ H(
+                 [SOpt(HS(), "0")]
+               , [S("int")]
+               )
+             ]
+
+  is-metaborgc-TypeSpec =
+    ?Int()
+
+  metaborgc-get-indent :
+    (t@Int(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Int(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Int(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-TypeSpec :
+    Long() -> [ H(
+                  [SOpt(HS(), "0")]
+                , [S("long")]
+                )
+              ]
+
+  is-metaborgc-TypeSpec =
+    ?Long()
+
+  metaborgc-get-indent :
+    (t@Long(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Long(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Long(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-TypeSpec :
+    Float() -> [ H(
+                   [SOpt(HS(), "0")]
+                 , [S("float")]
+                 )
+               ]
+
+  is-metaborgc-TypeSpec =
+    ?Float()
+
+  metaborgc-get-indent :
+    (t@Float(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Float(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Float(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-TypeSpec :
+    Double() -> [ H(
+                    [SOpt(HS(), "0")]
+                  , [S("double")]
+                  )
+                ]
+
+  is-metaborgc-TypeSpec =
+    ?Double()
+
+  metaborgc-get-indent :
+    (t@Double(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Double(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Double(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-TypeSpec :
+    Signed() -> [ H(
+                    [SOpt(HS(), "0")]
+                  , [S("signed")]
+                  )
+                ]
+
+  is-metaborgc-TypeSpec =
+    ?Signed()
+
+  metaborgc-get-indent :
+    (t@Signed(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Signed(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Signed(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-TypeSpec :
+    Unsigned() -> [ H(
+                      [SOpt(HS(), "0")]
+                    , [S("unsigned")]
+                    )
+                  ]
+
+  is-metaborgc-TypeSpec =
+    ?Unsigned()
+
+  metaborgc-get-indent :
+    (t@Unsigned(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Unsigned(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Unsigned(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-TypeSpec :
+    Bool() -> [ H(
+                  [SOpt(HS(), "0")]
+                , [S("bool")]
+                )
+              ]
+
+  is-metaborgc-TypeSpec =
+    ?Bool()
+
+  metaborgc-get-indent :
+    (t@Bool(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Bool(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Bool(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-TypeSpec :
+    Complex() -> [ H(
+                     [SOpt(HS(), "0")]
+                   , [S("_Complex")]
+                   )
+                 ]
+
+  is-metaborgc-TypeSpec =
+    ?Complex()
+
+  metaborgc-get-indent :
+    (t@Complex(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Complex(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Complex(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-TypeSpec :
+    DeclRef(t1__, t2__) -> [ H(
+                               [SOpt(HS(), "0")]
+                             , [t1__', t2__']
+                             )
+                           ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-ID) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-option(
+                     pp-one-Z(prettyprint-metaborgc-Cast) <+ pp-one-Z(prettyprint-completion-aux)
+                   )> t2__
+
+  is-metaborgc-TypeSpec =
+    ?DeclRef(_, _)
+
+  metaborgc-get-indent :
+    (t@DeclRef(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@DeclRef(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@DeclRef(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"TypeSpec"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-TypeSpec :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-TypeSpec)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-AtomicTypeSpec) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-TypeSpec :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-TypeSpec)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-StructOrUnionSpec) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-TypeSpec :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-TypeSpec)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-EnumSpec) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-Cast :
+    Cast(t1__) -> [ H(
+                      [SOpt(HS(), "0")]
+                    , [ S("<")
+                      , t1__'
+                      , S(">")
+                      ]
+                    )
+                  ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-CastArg) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-Cast =
+    ?Cast(_)
+
+  metaborgc-get-indent :
+    (t@Cast(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"Cast"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Cast(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"Cast"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Cast(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"Cast"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-CastArg :
+    Type(t1__) -> [ H(
+                      [SOpt(HS(), "0")]
+                    , [t1__']
+                    )
+                  ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-TypeSpec) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-CastArg =
+    ?Type(_)
+
+  metaborgc-get-indent :
+    (t@Type(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"CastArg"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Type(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"CastArg"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Type(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"CastArg"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-CastArg :
+    Const(t1__) -> [ H(
+                       [SOpt(HS(), "0")]
+                     , [t1__']
+                     )
+                   ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-Constant) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-CastArg =
+    ?Const(_)
+
+  metaborgc-get-indent :
+    (t@Const(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"CastArg"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Const(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"CastArg"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Const(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"CastArg"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-StructOrUnionSpec :
+    StructSpec(t1__, t2__) -> [ H(
+                                  [SOpt(HS(), "0")]
+                                , [ S("struct ")
+                                  , t1__'
+                                  , S(" {")
+                                  ]
+                                )
+                              , t2__'
+                              , H(
+                                  [SOpt(HS(), "0")]
+                                , [S("}")]
+                                )
+                              ]
+    with t1__' := <pp-option(
+                     pp-one-Z(prettyprint-metaborgc-ID) <+ pp-one-Z(prettyprint-completion-aux)
+                   )> t1__
+    with t2__' := <pp-indent(|"2")> [ <pp-V-list(prettyprint-metaborgc-StructDecl) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+                                    ]
+
+  is-metaborgc-StructOrUnionSpec =
+    ?StructSpec(_, _)
+
+  metaborgc-get-indent :
+    (t@StructSpec(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"StructOrUnionSpec"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := "  "
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@StructSpec(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"StructOrUnionSpec"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := "\n"
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@StructSpec(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"StructOrUnionSpec"> sort
+    with switch !index
+           case ?1 :
+             ws := " "
+           case ?2 :
+             ws := "\n  "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-StructOrUnionSpec :
+    StructSpec(t1__) -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("struct "), t1__']
+                          )
+                        ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-ID) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-StructOrUnionSpec =
+    ?StructSpec(_)
+
+  metaborgc-get-indent :
+    (t@StructSpec(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"StructOrUnionSpec"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@StructSpec(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"StructOrUnionSpec"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@StructSpec(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"StructOrUnionSpec"> sort
+    with switch !index
+           case ?1 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-StructOrUnionSpec :
+    UnionSpec(t1__, t2__) -> [ H(
+                                 [SOpt(HS(), "0")]
+                               , [ S("union ")
+                                 , t1__'
+                                 , S(" {")
+                                 ]
+                               )
+                             , t2__'
+                             , H(
+                                 [SOpt(HS(), "0")]
+                               , [S("}")]
+                               )
+                             ]
+    with t1__' := <pp-option(
+                     pp-one-Z(prettyprint-metaborgc-ID) <+ pp-one-Z(prettyprint-completion-aux)
+                   )> t1__
+    with t2__' := <pp-indent(|"2")> [ <pp-V-list(prettyprint-metaborgc-StructDecl) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+                                    ]
+
+  is-metaborgc-StructOrUnionSpec =
+    ?UnionSpec(_, _)
+
+  metaborgc-get-indent :
+    (t@UnionSpec(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"StructOrUnionSpec"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := "  "
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@UnionSpec(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"StructOrUnionSpec"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := "\n"
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@UnionSpec(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"StructOrUnionSpec"> sort
+    with switch !index
+           case ?1 :
+             ws := " "
+           case ?2 :
+             ws := "\n  "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-StructOrUnionSpec :
+    UnionSpec(t1__) -> [ H(
+                           [SOpt(HS(), "0")]
+                         , [S("union "), t1__']
+                         )
+                       ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-ID) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-StructOrUnionSpec =
+    ?UnionSpec(_)
+
+  metaborgc-get-indent :
+    (t@UnionSpec(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"StructOrUnionSpec"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@UnionSpec(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"StructOrUnionSpec"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@UnionSpec(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"StructOrUnionSpec"> sort
+    with switch !index
+           case ?1 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-StructDecl :
+    FieldDecl(t1__, t2__) -> [ H(
+                                 [SOpt(HS(), "0")]
+                               , [ t1__'
+                                 , S(" ")
+                                 , t2__'
+                                 , S(";")
+                                 ]
+                               )
+                             ]
+    with t1__' := <pp-H-list(prettyprint-metaborgc-SpecifierQualifier|" ")
+                   <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-H-list(prettyprint-metaborgc-StructDeclarator|", ")
+                   <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-StructDecl =
+    ?FieldDecl(_, _)
+
+  metaborgc-get-indent :
+    (t@FieldDecl(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"StructDecl"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@FieldDecl(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"StructDecl"> sort
+    with switch !index
+           case ?1 :
+             separator := " "
+           case ?2 :
+             separator := ", "
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@FieldDecl(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"StructDecl"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-StructDecl :
+    FieldDecl(t1__, t2__) -> [ H(
+                                 [SOpt(HS(), "0")]
+                               , [ t1__'
+                                 , S(" ")
+                                 , t2__'
+                                 , S(";")
+                                 ]
+                               )
+                             ]
+    with t1__' := <pp-H-list(prettyprint-metaborgc-SpecifierQualifier|" ")
+                   <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-H-list(prettyprint-metaborgc-StructBitfieldDeclarator|", ")
+                   <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-StructDecl =
+    ?FieldDecl(_, _)
+
+  metaborgc-get-indent :
+    (t@FieldDecl(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"StructDecl"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@FieldDecl(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"StructDecl"> sort
+    with switch !index
+           case ?1 :
+             separator := " "
+           case ?2 :
+             separator := ", "
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@FieldDecl(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"StructDecl"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-SpecifierQualifier :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-SpecifierQualifier)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-TypeSpec) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-SpecifierQualifier :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-SpecifierQualifier)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-TypeQualifier) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-StructDeclarator :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-StructDeclarator)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-Declarator) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-StructDeclarator :
+    Bitfield(t1__, t2__) -> [ H(
+                                [SOpt(HS(), "0")]
+                              , [t1__', S(" : "), t2__']
+                              )
+                            ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-Declarator) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-ConstExp) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-StructDeclarator =
+    ?Bitfield(_, _)
+
+  metaborgc-get-indent :
+    (t@Bitfield(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"StructDeclarator"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Bitfield(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"StructDeclarator"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Bitfield(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"StructDeclarator"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-StructBitfieldDeclarator :
+    Bitfield(t1__) -> [ H(
+                          [SOpt(HS(), "0")]
+                        , [S(" : "), t1__']
+                        )
+                      ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-ConstExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-StructBitfieldDeclarator =
+    ?Bitfield(_)
+
+  metaborgc-get-indent :
+    (t@Bitfield(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"StructBitfieldDeclarator"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Bitfield(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"StructBitfieldDeclarator"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Bitfield(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"StructBitfieldDeclarator"> sort
+    with switch !index
+           case ?1 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-StructBitfieldDeclarator :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-StructBitfieldDeclarator)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-Declarator) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-EnumSpec :
+    EnumSpec(t1__, t2__, t3__) -> [ H(
+                                      [SOpt(HS(), "0")]
+                                    , [ S("enum ")
+                                      , t1__'
+                                      , S(" {")
+                                      ]
+                                    )
+                                  , t2__'
+                                  , H(
+                                      [SOpt(HS(), "0")]
+                                    , [S("}")]
+                                    )
+                                  ]
+    with t1__' := <pp-option(
+                     pp-one-Z(prettyprint-metaborgc-ID) <+ pp-one-Z(prettyprint-completion-aux)
+                   )> t1__
+    with t2__' := <pp-indent(|"2")> [ <pp-V-list(prettyprint-metaborgc-Enumerator|"0", ",")
+                                       <+ pp-one-Z(prettyprint-completion-aux)> t2__
+                                    , <pp-option(
+                                         pp-one-Z(prettyprint-metaborgc-Comma) <+ pp-one-Z(prettyprint-completion-aux)
+                                       )> t3__
+                                    ]
+
+  is-metaborgc-EnumSpec =
+    ?EnumSpec(_, _, _)
+
+  metaborgc-get-indent :
+    ( t@EnumSpec(t1__, t2__, t3__)
+    , index
+    ) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"EnumSpec"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := "  "
+           case ?3 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    ( t@EnumSpec(t1__, t2__, t3__)
+    , index
+    ) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"EnumSpec"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ",\n"
+           case ?3 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    ( t@EnumSpec(t1__, t2__, t3__)
+    , index
+    ) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"EnumSpec"> sort
+    with switch !index
+           case ?1 :
+             ws := " "
+           case ?2 :
+             ws := "\n  "
+           case ?3 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-EnumSpec :
+    EnumSpec(t1__) -> [ H(
+                          [SOpt(HS(), "0")]
+                        , [S("enum "), t1__']
+                        )
+                      ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-ID) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-EnumSpec =
+    ?EnumSpec(_)
+
+  metaborgc-get-indent :
+    (t@EnumSpec(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"EnumSpec"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@EnumSpec(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"EnumSpec"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@EnumSpec(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"EnumSpec"> sort
+    with switch !index
+           case ?1 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-Enumerator :
+    EnumConst(t1__) -> [ H(
+                           [SOpt(HS(), "0")]
+                         , [t1__']
+                         )
+                       ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-ID) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-Enumerator =
+    ?EnumConst(_)
+
+  metaborgc-get-indent :
+    (t@EnumConst(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"Enumerator"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@EnumConst(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"Enumerator"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@EnumConst(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"Enumerator"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-Enumerator :
+    EnumConst(t1__, t2__) -> [ H(
+                                 [SOpt(HS(), "0")]
+                               , [t1__', S(" = "), t2__']
+                               )
+                             ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-ID) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-ConstExp) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-Enumerator =
+    ?EnumConst(_, _)
+
+  metaborgc-get-indent :
+    (t@EnumConst(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"Enumerator"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@EnumConst(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"Enumerator"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@EnumConst(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"Enumerator"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-AtomicTypeSpec :
+    Atomic(t1__) -> [ H(
+                        [SOpt(HS(), "0")]
+                      , [ S("_Atomic(")
+                        , t1__'
+                        , S(")")
+                        ]
+                      )
+                    ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-TypeName) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-AtomicTypeSpec =
+    ?Atomic(_)
+
+  metaborgc-get-indent :
+    (t@Atomic(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"AtomicTypeSpec"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Atomic(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"AtomicTypeSpec"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Atomic(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"AtomicTypeSpec"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-TypeQualifier :
+    Const() -> [ H(
+                   [SOpt(HS(), "0")]
+                 , [S("const")]
+                 )
+               ]
+
+  is-metaborgc-TypeQualifier =
+    ?Const()
+
+  metaborgc-get-indent :
+    (t@Const(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"TypeQualifier"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Const(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"TypeQualifier"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Const(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"TypeQualifier"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-TypeQualifier :
+    Restrict() -> [ H(
+                      [SOpt(HS(), "0")]
+                    , [S("restrict")]
+                    )
+                  ]
+
+  is-metaborgc-TypeQualifier =
+    ?Restrict()
+
+  metaborgc-get-indent :
+    (t@Restrict(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"TypeQualifier"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Restrict(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"TypeQualifier"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Restrict(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"TypeQualifier"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-TypeQualifier :
+    Volatile() -> [ H(
+                      [SOpt(HS(), "0")]
+                    , [S("volatile")]
+                    )
+                  ]
+
+  is-metaborgc-TypeQualifier =
+    ?Volatile()
+
+  metaborgc-get-indent :
+    (t@Volatile(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"TypeQualifier"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Volatile(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"TypeQualifier"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Volatile(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"TypeQualifier"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-TypeQualifier :
+    Atomic() -> [ H(
+                    [SOpt(HS(), "0")]
+                  , [S("_Atomic")]
+                  )
+                ]
+
+  is-metaborgc-TypeQualifier =
+    ?Atomic()
+
+  metaborgc-get-indent :
+    (t@Atomic(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"TypeQualifier"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Atomic(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"TypeQualifier"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Atomic(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"TypeQualifier"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-FuncSpec :
+    Inline() -> [ H(
+                    [SOpt(HS(), "0")]
+                  , [S("inline")]
+                  )
+                ]
+
+  is-metaborgc-FuncSpec =
+    ?Inline()
+
+  metaborgc-get-indent :
+    (t@Inline(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"FuncSpec"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Inline(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"FuncSpec"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Inline(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"FuncSpec"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-FuncSpec :
+    NoReturn() -> [ H(
+                      [SOpt(HS(), "0")]
+                    , [S("_Noreturn")]
+                    )
+                  ]
+
+  is-metaborgc-FuncSpec =
+    ?NoReturn()
+
+  metaborgc-get-indent :
+    (t@NoReturn(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"FuncSpec"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@NoReturn(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"FuncSpec"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@NoReturn(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"FuncSpec"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-AlignSpec :
+    Alignas(t1__) -> [ H(
+                         [SOpt(HS(), "0")]
+                       , [ S("_Alignas(")
+                         , t1__'
+                         , S(")")
+                         ]
+                       )
+                     ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-TypeName) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-AlignSpec =
+    ?Alignas(_)
+
+  metaborgc-get-indent :
+    (t@Alignas(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"AlignSpec"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Alignas(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"AlignSpec"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Alignas(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"AlignSpec"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-AlignSpec :
+    Alignas(t1__) -> [ H(
+                         [SOpt(HS(), "0")]
+                       , [ S("_Alignas(")
+                         , t1__'
+                         , S(")")
+                         ]
+                       )
+                     ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-ConstExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-AlignSpec =
+    ?Alignas(_)
+
+  metaborgc-get-indent :
+    (t@Alignas(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"AlignSpec"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Alignas(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"AlignSpec"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Alignas(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"AlignSpec"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-TemplateSpec :
+    Template(t1__, t2__, t3__, t4__) -> [ H(
+                                            [SOpt(HS(), "0")]
+                                          , [ S("template < ")
+                                            , t1__'
+                                            , S("> class ")
+                                            , t2__'
+                                            , S(":")
+                                            , t3__'
+                                            , S(" ")
+                                            , t4__'
+                                            ]
+                                          )
+                                        ]
+    with t1__' := <pp-H-list(prettyprint-metaborgc-ParamDecl|", ")
+                   <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-ID) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+    with t3__' := <pp-one-Z(prettyprint-metaborgc-ID) <+ pp-one-Z(prettyprint-completion-aux)> t3__
+    with t4__' := <pp-one-Z(prettyprint-metaborgc-CompoundStm) <+ pp-one-Z(prettyprint-completion-aux)> t4__
+
+  is-metaborgc-TemplateSpec =
+    ?Template(_, _, _, _)
+
+  metaborgc-get-indent :
+    ( t@Template(t1__, t2__, t3__, t4__)
+    , index
+    ) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"TemplateSpec"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           case ?3 :
+             indent := ""
+           case ?4 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    ( t@Template(t1__, t2__, t3__, t4__)
+    , index
+    ) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"TemplateSpec"> sort
+    with switch !index
+           case ?1 :
+             separator := ", "
+           case ?2 :
+             separator := ""
+           case ?3 :
+             separator := ""
+           case ?4 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    ( t@Template(t1__, t2__, t3__, t4__)
+    , index
+    ) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"TemplateSpec"> sort
+    with switch !index
+           case ?1 :
+             ws := " "
+           case ?2 :
+             ws := " "
+           case ?3 :
+             ws := ""
+           case ?4 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-Declarator :
+    Declarator(t1__, t2__) -> [ H(
+                                  [SOpt(HS(), "0")]
+                                , [t1__', S(" "), t2__']
+                                )
+                              ]
+    with t1__' := <pp-option(
+                     pp-one-Z(prettyprint-metaborgc-Ptr) <+ pp-one-Z(prettyprint-completion-aux)
+                   )> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-DirectDeclarator) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-Declarator =
+    ?Declarator(_, _)
+
+  metaborgc-get-indent :
+    (t@Declarator(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"Declarator"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Declarator(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"Declarator"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Declarator(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"Declarator"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-DirectDeclarator :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__', S(" ")]
+              )
+            ]
+    where not(is-metaborgc-DirectDeclarator)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-ID) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-DirectDeclarator :
+    Parenthetical(t1__) -> [ H(
+                               [SOpt(HS(), "0")]
+                             , [ S("(")
+                               , t1__'
+                               , S(")")
+                               ]
+                             )
+                           ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-Declarator) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-DirectDeclarator :
+    ArrayDeclarator(t1__, t2__, t3__) -> [ H(
+                                             [SOpt(HS(), "0")]
+                                           , [ t1__'
+                                             , S("[")
+                                             , t2__'
+                                             , S(" ")
+                                             , t3__'
+                                             , S("]")
+                                             ]
+                                           )
+                                         ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-DirectDeclarator) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-H-list(prettyprint-metaborgc-TypeQualifier|" ")
+                   <+ pp-one-Z(prettyprint-completion-aux)> t2__
+    with t3__' := <pp-option(
+                     pp-one-Z(prettyprint-metaborgc-AssignExp) <+ pp-one-Z(prettyprint-completion-aux)
+                   )> t3__
+
+  is-metaborgc-DirectDeclarator =
+    ?ArrayDeclarator(_, _, _)
+
+  metaborgc-get-indent :
+    ( t@ArrayDeclarator(t1__, t2__, t3__)
+    , index
+    ) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"DirectDeclarator"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           case ?3 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    ( t@ArrayDeclarator(t1__, t2__, t3__)
+    , index
+    ) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"DirectDeclarator"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := " "
+           case ?3 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    ( t@ArrayDeclarator(t1__, t2__, t3__)
+    , index
+    ) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"DirectDeclarator"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := ""
+           case ?3 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-DirectDeclarator :
+    ArrayDeclarator(t1__, t2__, t3__) -> [ H(
+                                             [SOpt(HS(), "0")]
+                                           , [ t1__'
+                                             , S("[static ")
+                                             , t2__'
+                                             , S(" ")
+                                             , t3__'
+                                             , S("]")
+                                             ]
+                                           )
+                                         ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-DirectDeclarator) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-H-list(prettyprint-metaborgc-TypeQualifier|" ")
+                   <+ pp-one-Z(prettyprint-completion-aux)> t2__
+    with t3__' := <pp-one-Z(prettyprint-metaborgc-AssignExp) <+ pp-one-Z(prettyprint-completion-aux)> t3__
+
+  is-metaborgc-DirectDeclarator =
+    ?ArrayDeclarator(_, _, _)
+
+  metaborgc-get-indent :
+    ( t@ArrayDeclarator(t1__, t2__, t3__)
+    , index
+    ) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"DirectDeclarator"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           case ?3 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    ( t@ArrayDeclarator(t1__, t2__, t3__)
+    , index
+    ) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"DirectDeclarator"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := " "
+           case ?3 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    ( t@ArrayDeclarator(t1__, t2__, t3__)
+    , index
+    ) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"DirectDeclarator"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           case ?3 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-DirectDeclarator :
+    ArrayDeclarator(t1__, t2__, t3__) -> [ H(
+                                             [SOpt(HS(), "0")]
+                                           , [ t1__'
+                                             , S("[")
+                                             , t2__'
+                                             , S(" static ")
+                                             , t3__'
+                                             , S("]")
+                                             ]
+                                           )
+                                         ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-DirectDeclarator) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-H-list(prettyprint-metaborgc-TypeQualifier|" ")
+                   <+ pp-one-Z(prettyprint-completion-aux)> t2__
+    with t3__' := <pp-one-Z(prettyprint-metaborgc-AssignExp) <+ pp-one-Z(prettyprint-completion-aux)> t3__
+
+  is-metaborgc-DirectDeclarator =
+    ?ArrayDeclarator(_, _, _)
+
+  metaborgc-get-indent :
+    ( t@ArrayDeclarator(t1__, t2__, t3__)
+    , index
+    ) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"DirectDeclarator"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           case ?3 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    ( t@ArrayDeclarator(t1__, t2__, t3__)
+    , index
+    ) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"DirectDeclarator"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := " "
+           case ?3 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    ( t@ArrayDeclarator(t1__, t2__, t3__)
+    , index
+    ) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"DirectDeclarator"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := ""
+           case ?3 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-DirectDeclarator :
+    ArrayDeclarator(t1__, t2__) -> [ H(
+                                       [SOpt(HS(), "0")]
+                                     , [ t1__'
+                                       , S("[")
+                                       , t2__'
+                                       , S(" *]")
+                                       ]
+                                     )
+                                   ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-DirectDeclarator) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-H-list(prettyprint-metaborgc-TypeQualifier|" ")
+                   <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-DirectDeclarator =
+    ?ArrayDeclarator(_, _)
+
+  metaborgc-get-indent :
+    (t@ArrayDeclarator(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"DirectDeclarator"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@ArrayDeclarator(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"DirectDeclarator"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := " "
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@ArrayDeclarator(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"DirectDeclarator"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-DirectDeclarator :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-DirectDeclarator)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-DirectFuncDeclarator) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-FuncDeclarator :
+    Declarator(t1__, t2__) -> [ H(
+                                  [SOpt(HS(), "0")]
+                                , [t1__', S(" "), t2__']
+                                )
+                              ]
+    with t1__' := <pp-option(
+                     pp-one-Z(prettyprint-metaborgc-Ptr) <+ pp-one-Z(prettyprint-completion-aux)
+                   )> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-DirectFuncDeclarator) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-FuncDeclarator =
+    ?Declarator(_, _)
+
+  metaborgc-get-indent :
+    (t@Declarator(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"FuncDeclarator"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Declarator(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"FuncDeclarator"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Declarator(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"FuncDeclarator"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-DirectFuncDeclarator :
+    FuncDeclarator(t1__, t2__) -> [ H(
+                                      [SOpt(HS(), "0")]
+                                    , [ t1__'
+                                      , S("(")
+                                      , t2__'
+                                      , S(")")
+                                      ]
+                                    )
+                                  ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-DirectDeclarator) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-ParamList) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-DirectFuncDeclarator =
+    ?FuncDeclarator(_, _)
+
+  metaborgc-get-indent :
+    (t@FuncDeclarator(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"DirectFuncDeclarator"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@FuncDeclarator(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"DirectFuncDeclarator"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@FuncDeclarator(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"DirectFuncDeclarator"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-DirectFuncDeclarator :
+    FuncDeclarator(t1__, t2__) -> [ H(
+                                      [SOpt(HS(), "0")]
+                                    , [ t1__'
+                                      , S("(")
+                                      , t2__'
+                                      , S(")")
+                                      ]
+                                    )
+                                  ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-DirectDeclarator) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-ParamTypeList) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-DirectFuncDeclarator =
+    ?FuncDeclarator(_, _)
+
+  metaborgc-get-indent :
+    (t@FuncDeclarator(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"DirectFuncDeclarator"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@FuncDeclarator(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"DirectFuncDeclarator"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@FuncDeclarator(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"DirectFuncDeclarator"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-Ptr :
+    Ptr(t1__) -> [ H(
+                     [SOpt(HS(), "0")]
+                   , [S("*"), t1__']
+                   )
+                 ]
+    with t1__' := <pp-H-list(prettyprint-metaborgc-TypeQualifier|" ")
+                   <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-Ptr =
+    ?Ptr(_)
+
+  metaborgc-get-indent :
+    (t@Ptr(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"Ptr"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Ptr(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"Ptr"> sort
+    with switch !index
+           case ?1 :
+             separator := " "
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Ptr(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"Ptr"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-Ptr :
+    Ptr(t1__, t2__) -> [ H(
+                           [SOpt(HS(), "0")]
+                         , [S("*"), t1__', t2__']
+                         )
+                       ]
+    with t1__' := <pp-H-list(prettyprint-metaborgc-TypeQualifier|" ")
+                   <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-Ptr) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-Ptr =
+    ?Ptr(_, _)
+
+  metaborgc-get-indent :
+    (t@Ptr(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"Ptr"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Ptr(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"Ptr"> sort
+    with switch !index
+           case ?1 :
+             separator := " "
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Ptr(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"Ptr"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-ParamTypeList :
+    ParamTypeList(t1__) -> [ H(
+                               [SOpt(HS(), "0")]
+                             , [t1__']
+                             )
+                           ]
+    with t1__' := <pp-H-list(prettyprint-metaborgc-ParamDecl|", ")
+                   <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-ParamTypeList =
+    ?ParamTypeList(_)
+
+  metaborgc-get-indent :
+    (t@ParamTypeList(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"ParamTypeList"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@ParamTypeList(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"ParamTypeList"> sort
+    with switch !index
+           case ?1 :
+             separator := ", "
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@ParamTypeList(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"ParamTypeList"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-ParamTypeList :
+    ParamTypeVararg(t1__) -> [ H(
+                                 [SOpt(HS(), "0")]
+                               , [t1__', S(", ...")]
+                               )
+                             ]
+    with t1__' := <pp-H-list(prettyprint-metaborgc-ParamDecl|", ")
+                   <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-ParamTypeList =
+    ?ParamTypeVararg(_)
+
+  metaborgc-get-indent :
+    (t@ParamTypeVararg(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"ParamTypeList"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@ParamTypeVararg(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"ParamTypeList"> sort
+    with switch !index
+           case ?1 :
+             separator := ", "
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@ParamTypeVararg(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"ParamTypeList"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-ParamList :
+    ParamList(t1__) -> [ H(
+                           [SOpt(HS(), "0")]
+                         , [t1__']
+                         )
+                       ]
+    with t1__' := <pp-H-list(prettyprint-metaborgc-ID|", ")
+                   <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-ParamList =
+    ?ParamList(_)
+
+  metaborgc-get-indent :
+    (t@ParamList(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"ParamList"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@ParamList(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"ParamList"> sort
+    with switch !index
+           case ?1 :
+             separator := ", "
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@ParamList(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"ParamList"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-ParamDecl :
+    ParamDecl(t1__, t2__) -> [ H(
+                                 [SOpt(HS(), "0")]
+                               , [t1__', S(" "), t2__']
+                               )
+                             ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-DeclSpecs) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-option(
+                     pp-one-Z(prettyprint-metaborgc-AbstractDeclarator) <+ pp-one-Z(prettyprint-completion-aux)
+                   )> t2__
+
+  is-metaborgc-ParamDecl =
+    ?ParamDecl(_, _)
+
+  metaborgc-get-indent :
+    (t@ParamDecl(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"ParamDecl"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@ParamDecl(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"ParamDecl"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@ParamDecl(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"ParamDecl"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-ParamDecl :
+    ParamDecl(t1__, t2__) -> [ H(
+                                 [SOpt(HS(), "0")]
+                               , [t1__', S(" "), t2__']
+                               )
+                             ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-DeclSpecs) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-Declarator) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-ParamDecl =
+    ?ParamDecl(_, _)
+
+  metaborgc-get-indent :
+    (t@ParamDecl(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"ParamDecl"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@ParamDecl(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"ParamDecl"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@ParamDecl(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"ParamDecl"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-ParamDecl :
+    ParamDecl(t1__, t2__, t3__) -> [ H(
+                                       [SOpt(HS(), "0")]
+                                     , [ t1__'
+                                       , S(" ")
+                                       , t2__'
+                                       , S(" = ")
+                                       , t3__'
+                                       ]
+                                     )
+                                   ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-DeclSpecs) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-Declarator) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+    with t3__' := <pp-one-Z(prettyprint-metaborgc-Exp) <+ pp-one-Z(prettyprint-completion-aux)> t3__
+
+  is-metaborgc-ParamDecl =
+    ?ParamDecl(_, _, _)
+
+  metaborgc-get-indent :
+    ( t@ParamDecl(t1__, t2__, t3__)
+    , index
+    ) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"ParamDecl"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           case ?3 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    ( t@ParamDecl(t1__, t2__, t3__)
+    , index
+    ) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"ParamDecl"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           case ?3 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    ( t@ParamDecl(t1__, t2__, t3__)
+    , index
+    ) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"ParamDecl"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           case ?3 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-TypeName :
+    TypeName(t1__, t2__) -> [ H(
+                                [SOpt(HS(), "0")]
+                              , [t1__', S(" "), t2__']
+                              )
+                            ]
+    with t1__' := <pp-H-list(prettyprint-metaborgc-SpecifierQualifier|" ")
+                   <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-option(
+                     pp-one-Z(prettyprint-metaborgc-AbstractDeclarator) <+ pp-one-Z(prettyprint-completion-aux)
+                   )> t2__
+
+  is-metaborgc-TypeName =
+    ?TypeName(_, _)
+
+  metaborgc-get-indent :
+    (t@TypeName(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"TypeName"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@TypeName(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"TypeName"> sort
+    with switch !index
+           case ?1 :
+             separator := " "
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@TypeName(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"TypeName"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-AbstractDeclarator :
+    ADeclarator(t1__) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [t1__']
+                           )
+                         ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-Ptr) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-AbstractDeclarator =
+    ?ADeclarator(_)
+
+  metaborgc-get-indent :
+    (t@ADeclarator(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"AbstractDeclarator"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@ADeclarator(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"AbstractDeclarator"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@ADeclarator(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"AbstractDeclarator"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-AbstractDeclarator :
+    ADeclarator(t1__, t2__) -> [ H(
+                                   [SOpt(HS(), "0")]
+                                 , [t1__', S(" "), t2__']
+                                 )
+                               ]
+    with t1__' := <pp-option(
+                     pp-one-Z(prettyprint-metaborgc-Ptr) <+ pp-one-Z(prettyprint-completion-aux)
+                   )> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-DirectAbstractDeclarator) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-AbstractDeclarator =
+    ?ADeclarator(_, _)
+
+  metaborgc-get-indent :
+    (t@ADeclarator(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"AbstractDeclarator"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@ADeclarator(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"AbstractDeclarator"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@ADeclarator(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"AbstractDeclarator"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-DirectAbstractDeclarator :
+    Parenthetical(t1__) -> [ H(
+                               [SOpt(HS(), "0")]
+                             , [ S("(")
+                               , t1__'
+                               , S(")")
+                               ]
+                             )
+                           ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-AbstractDeclarator) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-DirectAbstractDeclarator :
+    ArrayADeclarator(t1__, t2__, t3__) -> [ H(
+                                              [SOpt(HS(), "0")]
+                                            , [ t1__'
+                                              , S("[")
+                                              , t2__'
+                                              , S(" ")
+                                              , t3__'
+                                              , S("]")
+                                              ]
+                                            )
+                                          ]
+    with t1__' := <pp-option(
+                     pp-one-Z(prettyprint-metaborgc-DirectAbstractDeclarator) <+ pp-one-Z(prettyprint-completion-aux)
+                   )> t1__
+    with t2__' := <pp-H-list(prettyprint-metaborgc-TypeQualifier|" ")
+                   <+ pp-one-Z(prettyprint-completion-aux)> t2__
+    with t3__' := <pp-option(
+                     pp-one-Z(prettyprint-metaborgc-AssignExp) <+ pp-one-Z(prettyprint-completion-aux)
+                   )> t3__
+
+  is-metaborgc-DirectAbstractDeclarator =
+    ?ArrayADeclarator(_, _, _)
+
+  metaborgc-get-indent :
+    ( t@ArrayADeclarator(t1__, t2__, t3__)
+    , index
+    ) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"DirectAbstractDeclarator"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           case ?3 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    ( t@ArrayADeclarator(t1__, t2__, t3__)
+    , index
+    ) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"DirectAbstractDeclarator"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := " "
+           case ?3 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    ( t@ArrayADeclarator(t1__, t2__, t3__)
+    , index
+    ) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"DirectAbstractDeclarator"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := ""
+           case ?3 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-DirectAbstractDeclarator :
+    ArrayADeclarator(t1__, t2__, t3__) -> [ H(
+                                              [SOpt(HS(), "0")]
+                                            , [ t1__'
+                                              , S("[static ")
+                                              , t2__'
+                                              , S(" ")
+                                              , t3__'
+                                              , S("]")
+                                              ]
+                                            )
+                                          ]
+    with t1__' := <pp-option(
+                     pp-one-Z(prettyprint-metaborgc-DirectAbstractDeclarator) <+ pp-one-Z(prettyprint-completion-aux)
+                   )> t1__
+    with t2__' := <pp-H-list(prettyprint-metaborgc-TypeQualifier|" ")
+                   <+ pp-one-Z(prettyprint-completion-aux)> t2__
+    with t3__' := <pp-one-Z(prettyprint-metaborgc-AssignExp) <+ pp-one-Z(prettyprint-completion-aux)> t3__
+
+  is-metaborgc-DirectAbstractDeclarator =
+    ?ArrayADeclarator(_, _, _)
+
+  metaborgc-get-indent :
+    ( t@ArrayADeclarator(t1__, t2__, t3__)
+    , index
+    ) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"DirectAbstractDeclarator"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           case ?3 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    ( t@ArrayADeclarator(t1__, t2__, t3__)
+    , index
+    ) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"DirectAbstractDeclarator"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := " "
+           case ?3 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    ( t@ArrayADeclarator(t1__, t2__, t3__)
+    , index
+    ) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"DirectAbstractDeclarator"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           case ?3 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-DirectAbstractDeclarator :
+    ArrayADeclarator(t1__, t2__, t3__) -> [ H(
+                                              [SOpt(HS(), "0")]
+                                            , [ t1__'
+                                              , S("[")
+                                              , t2__'
+                                              , S(" static ")
+                                              , t3__'
+                                              , S("]")
+                                              ]
+                                            )
+                                          ]
+    with t1__' := <pp-option(
+                     pp-one-Z(prettyprint-metaborgc-DirectAbstractDeclarator) <+ pp-one-Z(prettyprint-completion-aux)
+                   )> t1__
+    with t2__' := <pp-H-list(prettyprint-metaborgc-TypeQualifier|" ")
+                   <+ pp-one-Z(prettyprint-completion-aux)> t2__
+    with t3__' := <pp-one-Z(prettyprint-metaborgc-AssignExp) <+ pp-one-Z(prettyprint-completion-aux)> t3__
+
+  is-metaborgc-DirectAbstractDeclarator =
+    ?ArrayADeclarator(_, _, _)
+
+  metaborgc-get-indent :
+    ( t@ArrayADeclarator(t1__, t2__, t3__)
+    , index
+    ) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"DirectAbstractDeclarator"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           case ?3 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    ( t@ArrayADeclarator(t1__, t2__, t3__)
+    , index
+    ) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"DirectAbstractDeclarator"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := " "
+           case ?3 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    ( t@ArrayADeclarator(t1__, t2__, t3__)
+    , index
+    ) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"DirectAbstractDeclarator"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := ""
+           case ?3 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-DirectAbstractDeclarator :
+    ArrayADeclarator(t1__) -> [ H(
+                                  [SOpt(HS(), "0")]
+                                , [t1__', S("[*]")]
+                                )
+                              ]
+    with t1__' := <pp-option(
+                     pp-one-Z(prettyprint-metaborgc-DirectAbstractDeclarator) <+ pp-one-Z(prettyprint-completion-aux)
+                   )> t1__
+
+  is-metaborgc-DirectAbstractDeclarator =
+    ?ArrayADeclarator(_)
+
+  metaborgc-get-indent :
+    (t@ArrayADeclarator(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"DirectAbstractDeclarator"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@ArrayADeclarator(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"DirectAbstractDeclarator"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@ArrayADeclarator(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"DirectAbstractDeclarator"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-DirectAbstractDeclarator :
+    FuncADeclarator(t1__, t2__) -> [ H(
+                                       [SOpt(HS(), "0")]
+                                     , [ t1__'
+                                       , S("(")
+                                       , t2__'
+                                       , S(")")
+                                       ]
+                                     )
+                                   ]
+    with t1__' := <pp-option(
+                     pp-one-Z(prettyprint-metaborgc-DirectAbstractDeclarator) <+ pp-one-Z(prettyprint-completion-aux)
+                   )> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-ParamTypeList) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-DirectAbstractDeclarator =
+    ?FuncADeclarator(_, _)
+
+  metaborgc-get-indent :
+    (t@FuncADeclarator(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"DirectAbstractDeclarator"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@FuncADeclarator(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"DirectAbstractDeclarator"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@FuncADeclarator(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"DirectAbstractDeclarator"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-Initializer :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-Initializer)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-AssignExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-Initializer :
+    Initializer(t1__, t2__) -> [ H(
+                                   [SOpt(HS(), "0")]
+                                 , [ S("{")
+                                   , t1__'
+                                   , t2__'
+                                   , S("}")
+                                   ]
+                                 )
+                               ]
+    with t1__' := <pp-H-list(prettyprint-metaborgc-DesignationInit|", ")
+                   <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-option(
+                     pp-one-Z(prettyprint-metaborgc-Comma) <+ pp-one-Z(prettyprint-completion-aux)
+                   )> t2__
+
+  is-metaborgc-Initializer =
+    ?Initializer(_, _)
+
+  metaborgc-get-indent :
+    (t@Initializer(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"Initializer"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Initializer(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"Initializer"> sort
+    with switch !index
+           case ?1 :
+             separator := ", "
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Initializer(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"Initializer"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-DesignationInit :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-DesignationInit)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-Initializer) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-DesignationInit :
+    DesignationInit(t1__, t2__) -> [ H(
+                                       [SOpt(HS(), "0")]
+                                     , [t1__', S(" "), t2__']
+                                     )
+                                   ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-Designation) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-Initializer) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-DesignationInit =
+    ?DesignationInit(_, _)
+
+  metaborgc-get-indent :
+    (t@DesignationInit(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"DesignationInit"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@DesignationInit(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"DesignationInit"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@DesignationInit(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"DesignationInit"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-Designation :
+    Designation(t1__) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [t1__', S(" = ")]
+                           )
+                         ]
+    with t1__' := <pp-H-list(prettyprint-metaborgc-Designator|" ")
+                   <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-Designation =
+    ?Designation(_)
+
+  metaborgc-get-indent :
+    (t@Designation(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"Designation"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Designation(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"Designation"> sort
+    with switch !index
+           case ?1 :
+             separator := " "
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Designation(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"Designation"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-Designator :
+    Designator(t1__) -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [ S("[")
+                            , t1__'
+                            , S("]")
+                            ]
+                          )
+                        ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-ConstExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-Designator =
+    ?Designator(_)
+
+  metaborgc-get-indent :
+    (t@Designator(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"Designator"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Designator(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"Designator"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Designator(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"Designator"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-Designator :
+    Designator(t1__) -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("."), t1__']
+                          )
+                        ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-ID) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-Designator =
+    ?Designator(_)
+
+  metaborgc-get-indent :
+    (t@Designator(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"Designator"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Designator(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"Designator"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Designator(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"Designator"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  is-metaborgc-Decl =
+    fail
+
+  is-metaborgc-DeclSpec =
+    fail
+
+  is-metaborgc-DeclSpecs =
+    fail
+
+  is-metaborgc-InitDeclarator =
+    fail
+
+  is-metaborgc-StoreClassSpec =
+    fail
+
+  is-metaborgc-TypeSpec =
+    fail
+
+  is-metaborgc-Cast =
+    fail
+
+  is-metaborgc-CastArg =
+    fail
+
+  is-metaborgc-StructOrUnionSpec =
+    fail
+
+  is-metaborgc-StructDecl =
+    fail
+
+  is-metaborgc-SpecifierQualifier =
+    fail
+
+  is-metaborgc-StructDeclarator =
+    fail
+
+  is-metaborgc-StructBitfieldDeclarator =
+    fail
+
+  is-metaborgc-EnumSpec =
+    fail
+
+  is-metaborgc-Enumerator =
+    fail
+
+  is-metaborgc-AtomicTypeSpec =
+    fail
+
+  is-metaborgc-TypeQualifier =
+    fail
+
+  is-metaborgc-FuncSpec =
+    fail
+
+  is-metaborgc-AlignSpec =
+    fail
+
+  is-metaborgc-TemplateSpec =
+    fail
+
+  is-metaborgc-Declarator =
+    fail
+
+  is-metaborgc-DirectDeclarator =
+    fail
+
+  is-metaborgc-FuncDeclarator =
+    fail
+
+  is-metaborgc-DirectFuncDeclarator =
+    fail
+
+  is-metaborgc-Ptr =
+    fail
+
+  is-metaborgc-ParamTypeList =
+    fail
+
+  is-metaborgc-ParamList =
+    fail
+
+  is-metaborgc-ParamDecl =
+    fail
+
+  is-metaborgc-TypeName =
+    fail
+
+  is-metaborgc-AbstractDeclarator =
+    fail
+
+  is-metaborgc-DirectAbstractDeclarator =
+    fail
+
+  is-metaborgc-Initializer =
+    fail
+
+  is-metaborgc-DesignationInit =
+    fail
+
+  is-metaborgc-Designation =
+    fail
+
+  is-metaborgc-Designator =
+    fail
+
+  prettyprint-metaborgc-Decl :
+    amb([h|hs]) -> <prettyprint-metaborgc-Decl> h
+
+  prettyprint-metaborgc-DeclSpec :
+    amb([h|hs]) -> <prettyprint-metaborgc-DeclSpec> h
+
+  prettyprint-metaborgc-DeclSpecs :
+    amb([h|hs]) -> <prettyprint-metaborgc-DeclSpecs> h
+
+  prettyprint-metaborgc-InitDeclarator :
+    amb([h|hs]) -> <prettyprint-metaborgc-InitDeclarator> h
+
+  prettyprint-metaborgc-StoreClassSpec :
+    amb([h|hs]) -> <prettyprint-metaborgc-StoreClassSpec> h
+
+  prettyprint-metaborgc-TypeSpec :
+    amb([h|hs]) -> <prettyprint-metaborgc-TypeSpec> h
+
+  prettyprint-metaborgc-Cast :
+    amb([h|hs]) -> <prettyprint-metaborgc-Cast> h
+
+  prettyprint-metaborgc-CastArg :
+    amb([h|hs]) -> <prettyprint-metaborgc-CastArg> h
+
+  prettyprint-metaborgc-StructOrUnionSpec :
+    amb([h|hs]) -> <prettyprint-metaborgc-StructOrUnionSpec> h
+
+  prettyprint-metaborgc-StructDecl :
+    amb([h|hs]) -> <prettyprint-metaborgc-StructDecl> h
+
+  prettyprint-metaborgc-SpecifierQualifier :
+    amb([h|hs]) -> <prettyprint-metaborgc-SpecifierQualifier> h
+
+  prettyprint-metaborgc-StructDeclarator :
+    amb([h|hs]) -> <prettyprint-metaborgc-StructDeclarator> h
+
+  prettyprint-metaborgc-StructBitfieldDeclarator :
+    amb([h|hs]) -> <prettyprint-metaborgc-StructBitfieldDeclarator> h
+
+  prettyprint-metaborgc-EnumSpec :
+    amb([h|hs]) -> <prettyprint-metaborgc-EnumSpec> h
+
+  prettyprint-metaborgc-Enumerator :
+    amb([h|hs]) -> <prettyprint-metaborgc-Enumerator> h
+
+  prettyprint-metaborgc-AtomicTypeSpec :
+    amb([h|hs]) -> <prettyprint-metaborgc-AtomicTypeSpec> h
+
+  prettyprint-metaborgc-TypeQualifier :
+    amb([h|hs]) -> <prettyprint-metaborgc-TypeQualifier> h
+
+  prettyprint-metaborgc-FuncSpec :
+    amb([h|hs]) -> <prettyprint-metaborgc-FuncSpec> h
+
+  prettyprint-metaborgc-AlignSpec :
+    amb([h|hs]) -> <prettyprint-metaborgc-AlignSpec> h
+
+  prettyprint-metaborgc-TemplateSpec :
+    amb([h|hs]) -> <prettyprint-metaborgc-TemplateSpec> h
+
+  prettyprint-metaborgc-Declarator :
+    amb([h|hs]) -> <prettyprint-metaborgc-Declarator> h
+
+  prettyprint-metaborgc-DirectDeclarator :
+    amb([h|hs]) -> <prettyprint-metaborgc-DirectDeclarator> h
+
+  prettyprint-metaborgc-FuncDeclarator :
+    amb([h|hs]) -> <prettyprint-metaborgc-FuncDeclarator> h
+
+  prettyprint-metaborgc-DirectFuncDeclarator :
+    amb([h|hs]) -> <prettyprint-metaborgc-DirectFuncDeclarator> h
+
+  prettyprint-metaborgc-Ptr :
+    amb([h|hs]) -> <prettyprint-metaborgc-Ptr> h
+
+  prettyprint-metaborgc-ParamTypeList :
+    amb([h|hs]) -> <prettyprint-metaborgc-ParamTypeList> h
+
+  prettyprint-metaborgc-ParamList :
+    amb([h|hs]) -> <prettyprint-metaborgc-ParamList> h
+
+  prettyprint-metaborgc-ParamDecl :
+    amb([h|hs]) -> <prettyprint-metaborgc-ParamDecl> h
+
+  prettyprint-metaborgc-TypeName :
+    amb([h|hs]) -> <prettyprint-metaborgc-TypeName> h
+
+  prettyprint-metaborgc-AbstractDeclarator :
+    amb([h|hs]) -> <prettyprint-metaborgc-AbstractDeclarator> h
+
+  prettyprint-metaborgc-DirectAbstractDeclarator :
+    amb([h|hs]) -> <prettyprint-metaborgc-DirectAbstractDeclarator> h
+
+  prettyprint-metaborgc-Initializer :
+    amb([h|hs]) -> <prettyprint-metaborgc-Initializer> h
+
+  prettyprint-metaborgc-DesignationInit :
+    amb([h|hs]) -> <prettyprint-metaborgc-DesignationInit> h
+
+  prettyprint-metaborgc-Designation :
+    amb([h|hs]) -> <prettyprint-metaborgc-Designation> h
+
+  prettyprint-metaborgc-Designator :
+    amb([h|hs]) -> <prettyprint-metaborgc-Designator> h
+
+  prettyprint-metaborgc-Decl :
+    Decl-Plhdr() -> [ H(
+                        [SOpt(HS(), "0")]
+                      , [S("$Decl")]
+                      )
+                    ]
+
+  is-metaborgc-Decl =
+    ?Decl-Plhdr()
+
+  prettyprint-metaborgc-DeclSpec :
+    DeclSpec-Plhdr() -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$DeclSpec")]
+                          )
+                        ]
+
+  is-metaborgc-DeclSpec =
+    ?DeclSpec-Plhdr()
+
+  prettyprint-metaborgc-InitDeclarator :
+    InitDeclarator-Plhdr() -> [ H(
+                                  [SOpt(HS(), "0")]
+                                , [S("$InitDeclarator")]
+                                )
+                              ]
+
+  is-metaborgc-InitDeclarator =
+    ?InitDeclarator-Plhdr()
+
+  prettyprint-metaborgc-StoreClassSpec :
+    StoreClassSpec-Plhdr() -> [ H(
+                                  [SOpt(HS(), "0")]
+                                , [S("$StoreClassSpec")]
+                                )
+                              ]
+
+  is-metaborgc-StoreClassSpec =
+    ?StoreClassSpec-Plhdr()
+
+  prettyprint-metaborgc-Cast :
+    Cast-Plhdr() -> [ H(
+                        [SOpt(HS(), "0")]
+                      , [S("$Cast")]
+                      )
+                    ]
+
+  is-metaborgc-Cast =
+    ?Cast-Plhdr()
+
+  prettyprint-metaborgc-CastArg :
+    CastArg-Plhdr() -> [ H(
+                           [SOpt(HS(), "0")]
+                         , [S("$CastArg")]
+                         )
+                       ]
+
+  is-metaborgc-CastArg =
+    ?CastArg-Plhdr()
+
+  prettyprint-metaborgc-Constant :
+    Constant-Plhdr() -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$Constant")]
+                          )
+                        ]
+
+  is-metaborgc-Constant =
+    ?Constant-Plhdr()
+
+  prettyprint-metaborgc-StructOrUnionSpec :
+    StructOrUnionSpec-Plhdr() -> [ H(
+                                     [SOpt(HS(), "0")]
+                                   , [S("$StructOrUnionSpec")]
+                                   )
+                                 ]
+
+  is-metaborgc-StructOrUnionSpec =
+    ?StructOrUnionSpec-Plhdr()
+
+  prettyprint-metaborgc-StructDecl :
+    StructDecl-Plhdr() -> [ H(
+                              [SOpt(HS(), "0")]
+                            , [S("$StructDecl")]
+                            )
+                          ]
+
+  is-metaborgc-StructDecl =
+    ?StructDecl-Plhdr()
+
+  prettyprint-metaborgc-TypeSpec :
+    TypeSpec-Plhdr() -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$TypeSpec")]
+                          )
+                        ]
+
+  is-metaborgc-TypeSpec =
+    ?TypeSpec-Plhdr()
+
+  prettyprint-metaborgc-StructDeclarator :
+    StructDeclarator-Plhdr() -> [ H(
+                                    [SOpt(HS(), "0")]
+                                  , [S("$StructDeclarator")]
+                                  )
+                                ]
+
+  is-metaborgc-StructDeclarator =
+    ?StructDeclarator-Plhdr()
+
+  prettyprint-metaborgc-StructBitfieldDeclarator :
+    StructBitfieldDeclarator-Plhdr() -> [ H(
+                                            [SOpt(HS(), "0")]
+                                          , [S("$StructBitfieldDeclarator")]
+                                          )
+                                        ]
+
+  is-metaborgc-StructBitfieldDeclarator =
+    ?StructBitfieldDeclarator-Plhdr()
+
+  prettyprint-metaborgc-EnumSpec :
+    EnumSpec-Plhdr() -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$EnumSpec")]
+                          )
+                        ]
+
+  is-metaborgc-EnumSpec =
+    ?EnumSpec-Plhdr()
+
+  prettyprint-metaborgc-Enumerator :
+    Enumerator-Plhdr() -> [ H(
+                              [SOpt(HS(), "0")]
+                            , [S("$Enumerator")]
+                            )
+                          ]
+
+  is-metaborgc-Enumerator =
+    ?Enumerator-Plhdr()
+
+  prettyprint-metaborgc-AtomicTypeSpec :
+    AtomicTypeSpec-Plhdr() -> [ H(
+                                  [SOpt(HS(), "0")]
+                                , [S("$AtomicTypeSpec")]
+                                )
+                              ]
+
+  is-metaborgc-AtomicTypeSpec =
+    ?AtomicTypeSpec-Plhdr()
+
+  prettyprint-metaborgc-FuncSpec :
+    FuncSpec-Plhdr() -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$FuncSpec")]
+                          )
+                        ]
+
+  is-metaborgc-FuncSpec =
+    ?FuncSpec-Plhdr()
+
+  prettyprint-metaborgc-AlignSpec :
+    AlignSpec-Plhdr() -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$AlignSpec")]
+                           )
+                         ]
+
+  is-metaborgc-AlignSpec =
+    ?AlignSpec-Plhdr()
+
+  prettyprint-metaborgc-TemplateSpec :
+    TemplateSpec-Plhdr() -> [ H(
+                                [SOpt(HS(), "0")]
+                              , [S("$TemplateSpec")]
+                              )
+                            ]
+
+  is-metaborgc-TemplateSpec =
+    ?TemplateSpec-Plhdr()
+
+  prettyprint-metaborgc-CompoundStm :
+    CompoundStm-Plhdr() -> [ H(
+                               [SOpt(HS(), "0")]
+                             , [S("$CompoundStm")]
+                             )
+                           ]
+
+  is-metaborgc-CompoundStm =
+    ?CompoundStm-Plhdr()
+
+  prettyprint-metaborgc-FuncDeclarator :
+    FuncDeclarator-Plhdr() -> [ H(
+                                  [SOpt(HS(), "0")]
+                                , [S("$FuncDeclarator")]
+                                )
+                              ]
+
+  is-metaborgc-FuncDeclarator =
+    ?FuncDeclarator-Plhdr()
+
+  prettyprint-metaborgc-DirectFuncDeclarator :
+    DirectFuncDeclarator-Plhdr() -> [ H(
+                                        [SOpt(HS(), "0")]
+                                      , [S("$DirectFuncDeclarator")]
+                                      )
+                                    ]
+
+  is-metaborgc-DirectFuncDeclarator =
+    ?DirectFuncDeclarator-Plhdr()
+
+  prettyprint-metaborgc-DirectDeclarator :
+    DirectDeclarator-Plhdr() -> [ H(
+                                    [SOpt(HS(), "0")]
+                                  , [S("$DirectDeclarator")]
+                                  )
+                                ]
+
+  is-metaborgc-DirectDeclarator =
+    ?DirectDeclarator-Plhdr()
+
+  prettyprint-metaborgc-ParamList :
+    ParamList-Plhdr() -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$ParamList")]
+                           )
+                         ]
+
+  is-metaborgc-ParamList =
+    ?ParamList-Plhdr()
+
+  prettyprint-metaborgc-ParamDecl :
+    ParamDecl-Plhdr() -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$ParamDecl")]
+                           )
+                         ]
+
+  is-metaborgc-ParamDecl =
+    ?ParamDecl-Plhdr()
+
+  prettyprint-metaborgc-DeclSpecs :
+    DeclSpecs-Plhdr() -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$DeclSpecs")]
+                           )
+                         ]
+
+  is-metaborgc-DeclSpecs =
+    ?DeclSpecs-Plhdr()
+
+  prettyprint-metaborgc-Declarator :
+    Declarator-Plhdr() -> [ H(
+                              [SOpt(HS(), "0")]
+                            , [S("$Declarator")]
+                            )
+                          ]
+
+  is-metaborgc-Declarator =
+    ?Declarator-Plhdr()
+
+  prettyprint-metaborgc-Exp :
+    Exp-Plhdr() -> [ H(
+                       [SOpt(HS(), "0")]
+                     , [S("$Exp")]
+                     )
+                   ]
+
+  is-metaborgc-Exp =
+    ?Exp-Plhdr()
+
+  prettyprint-metaborgc-TypeName :
+    TypeName-Plhdr() -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$TypeName")]
+                          )
+                        ]
+
+  is-metaborgc-TypeName =
+    ?TypeName-Plhdr()
+
+  prettyprint-metaborgc-SpecifierQualifier :
+    SpecifierQualifier-Plhdr() -> [ H(
+                                      [SOpt(HS(), "0")]
+                                    , [S("$SpecifierQualifier")]
+                                    )
+                                  ]
+
+  is-metaborgc-SpecifierQualifier =
+    ?SpecifierQualifier-Plhdr()
+
+  prettyprint-metaborgc-Ptr :
+    Ptr-Plhdr() -> [ H(
+                       [SOpt(HS(), "0")]
+                     , [S("$Ptr")]
+                     )
+                   ]
+
+  is-metaborgc-Ptr =
+    ?Ptr-Plhdr()
+
+  prettyprint-metaborgc-AbstractDeclarator :
+    AbstractDeclarator-Plhdr() -> [ H(
+                                      [SOpt(HS(), "0")]
+                                    , [S("$AbstractDeclarator")]
+                                    )
+                                  ]
+
+  is-metaborgc-AbstractDeclarator =
+    ?AbstractDeclarator-Plhdr()
+
+  prettyprint-metaborgc-TypeQualifier :
+    TypeQualifier-Plhdr() -> [ H(
+                                 [SOpt(HS(), "0")]
+                               , [S("$TypeQualifier")]
+                               )
+                             ]
+
+  is-metaborgc-TypeQualifier =
+    ?TypeQualifier-Plhdr()
+
+  prettyprint-metaborgc-DirectAbstractDeclarator :
+    DirectAbstractDeclarator-Plhdr() -> [ H(
+                                            [SOpt(HS(), "0")]
+                                          , [S("$DirectAbstractDeclarator")]
+                                          )
+                                        ]
+
+  is-metaborgc-DirectAbstractDeclarator =
+    ?DirectAbstractDeclarator-Plhdr()
+
+  prettyprint-metaborgc-ParamTypeList :
+    ParamTypeList-Plhdr() -> [ H(
+                                 [SOpt(HS(), "0")]
+                               , [S("$ParamTypeList")]
+                               )
+                             ]
+
+  is-metaborgc-ParamTypeList =
+    ?ParamTypeList-Plhdr()
+
+  prettyprint-metaborgc-AssignExp :
+    AssignExp-Plhdr() -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$AssignExp")]
+                           )
+                         ]
+
+  is-metaborgc-AssignExp =
+    ?AssignExp-Plhdr()
+
+  prettyprint-metaborgc-Comma :
+    Comma-Plhdr() -> [ H(
+                         [SOpt(HS(), "0")]
+                       , [S("$Comma")]
+                       )
+                     ]
+
+  is-metaborgc-Comma =
+    ?Comma-Plhdr()
+
+  prettyprint-metaborgc-DesignationInit :
+    DesignationInit-Plhdr() -> [ H(
+                                   [SOpt(HS(), "0")]
+                                 , [S("$DesignationInit")]
+                                 )
+                               ]
+
+  is-metaborgc-DesignationInit =
+    ?DesignationInit-Plhdr()
+
+  prettyprint-metaborgc-Initializer :
+    Initializer-Plhdr() -> [ H(
+                               [SOpt(HS(), "0")]
+                             , [S("$Initializer")]
+                             )
+                           ]
+
+  is-metaborgc-Initializer =
+    ?Initializer-Plhdr()
+
+  prettyprint-metaborgc-Designation :
+    Designation-Plhdr() -> [ H(
+                               [SOpt(HS(), "0")]
+                             , [S("$Designation")]
+                             )
+                           ]
+
+  is-metaborgc-Designation =
+    ?Designation-Plhdr()
+
+  prettyprint-metaborgc-ConstExp :
+    ConstExp-Plhdr() -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$ConstExp")]
+                          )
+                        ]
+
+  is-metaborgc-ConstExp =
+    ?ConstExp-Plhdr()
+
+  prettyprint-metaborgc-Designator :
+    Designator-Plhdr() -> [ H(
+                              [SOpt(HS(), "0")]
+                            , [S("$Designator")]
+                            )
+                          ]
+
+  is-metaborgc-Designator =
+    ?Designator-Plhdr()
+
+  prettyprint-metaborgc-ID :
+    ID-Plhdr() -> [ H(
+                      [SOpt(HS(), "0")]
+                    , [S("$ID")]
+                    )
+                  ]
+
+  is-metaborgc-ID =
+    ?ID-Plhdr()
+
+  prettyprint-metaborgc-Decl :
+    Decl-Plhdr(_) -> [ H(
+                         [SOpt(HS(), "0")]
+                       , [S("$Decl")]
+                       )
+                     ]
+
+  is-metaborgc-Decl =
+    ?Decl-Plhdr(_)
+
+  prettyprint-metaborgc-DeclSpec :
+    DeclSpec-Plhdr(_) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$DeclSpec")]
+                           )
+                         ]
+
+  is-metaborgc-DeclSpec =
+    ?DeclSpec-Plhdr(_)
+
+  prettyprint-metaborgc-InitDeclarator :
+    InitDeclarator-Plhdr(_) -> [ H(
+                                   [SOpt(HS(), "0")]
+                                 , [S("$InitDeclarator")]
+                                 )
+                               ]
+
+  is-metaborgc-InitDeclarator =
+    ?InitDeclarator-Plhdr(_)
+
+  prettyprint-metaborgc-StoreClassSpec :
+    StoreClassSpec-Plhdr(_) -> [ H(
+                                   [SOpt(HS(), "0")]
+                                 , [S("$StoreClassSpec")]
+                                 )
+                               ]
+
+  is-metaborgc-StoreClassSpec =
+    ?StoreClassSpec-Plhdr(_)
+
+  prettyprint-metaborgc-Cast :
+    Cast-Plhdr(_) -> [ H(
+                         [SOpt(HS(), "0")]
+                       , [S("$Cast")]
+                       )
+                     ]
+
+  is-metaborgc-Cast =
+    ?Cast-Plhdr(_)
+
+  prettyprint-metaborgc-CastArg :
+    CastArg-Plhdr(_) -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$CastArg")]
+                          )
+                        ]
+
+  is-metaborgc-CastArg =
+    ?CastArg-Plhdr(_)
+
+  prettyprint-metaborgc-Constant :
+    Constant-Plhdr(_) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$Constant")]
+                           )
+                         ]
+
+  is-metaborgc-Constant =
+    ?Constant-Plhdr(_)
+
+  prettyprint-metaborgc-StructOrUnionSpec :
+    StructOrUnionSpec-Plhdr(_) -> [ H(
+                                      [SOpt(HS(), "0")]
+                                    , [S("$StructOrUnionSpec")]
+                                    )
+                                  ]
+
+  is-metaborgc-StructOrUnionSpec =
+    ?StructOrUnionSpec-Plhdr(_)
+
+  prettyprint-metaborgc-StructDecl :
+    StructDecl-Plhdr(_) -> [ H(
+                               [SOpt(HS(), "0")]
+                             , [S("$StructDecl")]
+                             )
+                           ]
+
+  is-metaborgc-StructDecl =
+    ?StructDecl-Plhdr(_)
+
+  prettyprint-metaborgc-TypeSpec :
+    TypeSpec-Plhdr(_) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$TypeSpec")]
+                           )
+                         ]
+
+  is-metaborgc-TypeSpec =
+    ?TypeSpec-Plhdr(_)
+
+  prettyprint-metaborgc-StructDeclarator :
+    StructDeclarator-Plhdr(_) -> [ H(
+                                     [SOpt(HS(), "0")]
+                                   , [S("$StructDeclarator")]
+                                   )
+                                 ]
+
+  is-metaborgc-StructDeclarator =
+    ?StructDeclarator-Plhdr(_)
+
+  prettyprint-metaborgc-StructBitfieldDeclarator :
+    StructBitfieldDeclarator-Plhdr(_) -> [ H(
+                                             [SOpt(HS(), "0")]
+                                           , [S("$StructBitfieldDeclarator")]
+                                           )
+                                         ]
+
+  is-metaborgc-StructBitfieldDeclarator =
+    ?StructBitfieldDeclarator-Plhdr(_)
+
+  prettyprint-metaborgc-EnumSpec :
+    EnumSpec-Plhdr(_) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$EnumSpec")]
+                           )
+                         ]
+
+  is-metaborgc-EnumSpec =
+    ?EnumSpec-Plhdr(_)
+
+  prettyprint-metaborgc-Enumerator :
+    Enumerator-Plhdr(_) -> [ H(
+                               [SOpt(HS(), "0")]
+                             , [S("$Enumerator")]
+                             )
+                           ]
+
+  is-metaborgc-Enumerator =
+    ?Enumerator-Plhdr(_)
+
+  prettyprint-metaborgc-AtomicTypeSpec :
+    AtomicTypeSpec-Plhdr(_) -> [ H(
+                                   [SOpt(HS(), "0")]
+                                 , [S("$AtomicTypeSpec")]
+                                 )
+                               ]
+
+  is-metaborgc-AtomicTypeSpec =
+    ?AtomicTypeSpec-Plhdr(_)
+
+  prettyprint-metaborgc-FuncSpec :
+    FuncSpec-Plhdr(_) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$FuncSpec")]
+                           )
+                         ]
+
+  is-metaborgc-FuncSpec =
+    ?FuncSpec-Plhdr(_)
+
+  prettyprint-metaborgc-AlignSpec :
+    AlignSpec-Plhdr(_) -> [ H(
+                              [SOpt(HS(), "0")]
+                            , [S("$AlignSpec")]
+                            )
+                          ]
+
+  is-metaborgc-AlignSpec =
+    ?AlignSpec-Plhdr(_)
+
+  prettyprint-metaborgc-TemplateSpec :
+    TemplateSpec-Plhdr(_) -> [ H(
+                                 [SOpt(HS(), "0")]
+                               , [S("$TemplateSpec")]
+                               )
+                             ]
+
+  is-metaborgc-TemplateSpec =
+    ?TemplateSpec-Plhdr(_)
+
+  prettyprint-metaborgc-CompoundStm :
+    CompoundStm-Plhdr(_) -> [ H(
+                                [SOpt(HS(), "0")]
+                              , [S("$CompoundStm")]
+                              )
+                            ]
+
+  is-metaborgc-CompoundStm =
+    ?CompoundStm-Plhdr(_)
+
+  prettyprint-metaborgc-FuncDeclarator :
+    FuncDeclarator-Plhdr(_) -> [ H(
+                                   [SOpt(HS(), "0")]
+                                 , [S("$FuncDeclarator")]
+                                 )
+                               ]
+
+  is-metaborgc-FuncDeclarator =
+    ?FuncDeclarator-Plhdr(_)
+
+  prettyprint-metaborgc-DirectFuncDeclarator :
+    DirectFuncDeclarator-Plhdr(_) -> [ H(
+                                         [SOpt(HS(), "0")]
+                                       , [S("$DirectFuncDeclarator")]
+                                       )
+                                     ]
+
+  is-metaborgc-DirectFuncDeclarator =
+    ?DirectFuncDeclarator-Plhdr(_)
+
+  prettyprint-metaborgc-DirectDeclarator :
+    DirectDeclarator-Plhdr(_) -> [ H(
+                                     [SOpt(HS(), "0")]
+                                   , [S("$DirectDeclarator")]
+                                   )
+                                 ]
+
+  is-metaborgc-DirectDeclarator =
+    ?DirectDeclarator-Plhdr(_)
+
+  prettyprint-metaborgc-ParamList :
+    ParamList-Plhdr(_) -> [ H(
+                              [SOpt(HS(), "0")]
+                            , [S("$ParamList")]
+                            )
+                          ]
+
+  is-metaborgc-ParamList =
+    ?ParamList-Plhdr(_)
+
+  prettyprint-metaborgc-ParamDecl :
+    ParamDecl-Plhdr(_) -> [ H(
+                              [SOpt(HS(), "0")]
+                            , [S("$ParamDecl")]
+                            )
+                          ]
+
+  is-metaborgc-ParamDecl =
+    ?ParamDecl-Plhdr(_)
+
+  prettyprint-metaborgc-DeclSpecs :
+    DeclSpecs-Plhdr(_) -> [ H(
+                              [SOpt(HS(), "0")]
+                            , [S("$DeclSpecs")]
+                            )
+                          ]
+
+  is-metaborgc-DeclSpecs =
+    ?DeclSpecs-Plhdr(_)
+
+  prettyprint-metaborgc-Declarator :
+    Declarator-Plhdr(_) -> [ H(
+                               [SOpt(HS(), "0")]
+                             , [S("$Declarator")]
+                             )
+                           ]
+
+  is-metaborgc-Declarator =
+    ?Declarator-Plhdr(_)
+
+  prettyprint-metaborgc-Exp :
+    Exp-Plhdr(_) -> [ H(
+                        [SOpt(HS(), "0")]
+                      , [S("$Exp")]
+                      )
+                    ]
+
+  is-metaborgc-Exp =
+    ?Exp-Plhdr(_)
+
+  prettyprint-metaborgc-TypeName :
+    TypeName-Plhdr(_) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$TypeName")]
+                           )
+                         ]
+
+  is-metaborgc-TypeName =
+    ?TypeName-Plhdr(_)
+
+  prettyprint-metaborgc-SpecifierQualifier :
+    SpecifierQualifier-Plhdr(_) -> [ H(
+                                       [SOpt(HS(), "0")]
+                                     , [S("$SpecifierQualifier")]
+                                     )
+                                   ]
+
+  is-metaborgc-SpecifierQualifier =
+    ?SpecifierQualifier-Plhdr(_)
+
+  prettyprint-metaborgc-Ptr :
+    Ptr-Plhdr(_) -> [ H(
+                        [SOpt(HS(), "0")]
+                      , [S("$Ptr")]
+                      )
+                    ]
+
+  is-metaborgc-Ptr =
+    ?Ptr-Plhdr(_)
+
+  prettyprint-metaborgc-AbstractDeclarator :
+    AbstractDeclarator-Plhdr(_) -> [ H(
+                                       [SOpt(HS(), "0")]
+                                     , [S("$AbstractDeclarator")]
+                                     )
+                                   ]
+
+  is-metaborgc-AbstractDeclarator =
+    ?AbstractDeclarator-Plhdr(_)
+
+  prettyprint-metaborgc-TypeQualifier :
+    TypeQualifier-Plhdr(_) -> [ H(
+                                  [SOpt(HS(), "0")]
+                                , [S("$TypeQualifier")]
+                                )
+                              ]
+
+  is-metaborgc-TypeQualifier =
+    ?TypeQualifier-Plhdr(_)
+
+  prettyprint-metaborgc-DirectAbstractDeclarator :
+    DirectAbstractDeclarator-Plhdr(_) -> [ H(
+                                             [SOpt(HS(), "0")]
+                                           , [S("$DirectAbstractDeclarator")]
+                                           )
+                                         ]
+
+  is-metaborgc-DirectAbstractDeclarator =
+    ?DirectAbstractDeclarator-Plhdr(_)
+
+  prettyprint-metaborgc-ParamTypeList :
+    ParamTypeList-Plhdr(_) -> [ H(
+                                  [SOpt(HS(), "0")]
+                                , [S("$ParamTypeList")]
+                                )
+                              ]
+
+  is-metaborgc-ParamTypeList =
+    ?ParamTypeList-Plhdr(_)
+
+  prettyprint-metaborgc-AssignExp :
+    AssignExp-Plhdr(_) -> [ H(
+                              [SOpt(HS(), "0")]
+                            , [S("$AssignExp")]
+                            )
+                          ]
+
+  is-metaborgc-AssignExp =
+    ?AssignExp-Plhdr(_)
+
+  prettyprint-metaborgc-Comma :
+    Comma-Plhdr(_) -> [ H(
+                          [SOpt(HS(), "0")]
+                        , [S("$Comma")]
+                        )
+                      ]
+
+  is-metaborgc-Comma =
+    ?Comma-Plhdr(_)
+
+  prettyprint-metaborgc-DesignationInit :
+    DesignationInit-Plhdr(_) -> [ H(
+                                    [SOpt(HS(), "0")]
+                                  , [S("$DesignationInit")]
+                                  )
+                                ]
+
+  is-metaborgc-DesignationInit =
+    ?DesignationInit-Plhdr(_)
+
+  prettyprint-metaborgc-Initializer :
+    Initializer-Plhdr(_) -> [ H(
+                                [SOpt(HS(), "0")]
+                              , [S("$Initializer")]
+                              )
+                            ]
+
+  is-metaborgc-Initializer =
+    ?Initializer-Plhdr(_)
+
+  prettyprint-metaborgc-Designation :
+    Designation-Plhdr(_) -> [ H(
+                                [SOpt(HS(), "0")]
+                              , [S("$Designation")]
+                              )
+                            ]
+
+  is-metaborgc-Designation =
+    ?Designation-Plhdr(_)
+
+  prettyprint-metaborgc-ConstExp :
+    ConstExp-Plhdr(_) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$ConstExp")]
+                           )
+                         ]
+
+  is-metaborgc-ConstExp =
+    ?ConstExp-Plhdr(_)
+
+  prettyprint-metaborgc-Designator :
+    Designator-Plhdr(_) -> [ H(
+                               [SOpt(HS(), "0")]
+                             , [S("$Designator")]
+                             )
+                           ]
+
+  is-metaborgc-Designator =
+    ?Designator-Plhdr(_)
+
+  prettyprint-metaborgc-ID :
+    ID-Plhdr(_) -> [ H(
+                       [SOpt(HS(), "0")]
+                     , [S("$ID")]
+                     )
+                   ]
+
+  is-metaborgc-ID =
+    ?ID-Plhdr(_)
+
+  prettyprint-metaborgc-InitDeclarator :
+    InitDeclarator-Opt-Plhdr() -> [ H(
+                                      []
+                                    , [S("")]
+                                    )
+                                  ]
+
+  is-metaborgc-InitDeclarator =
+    ?InitDeclarator-Opt-Plhdr()
+
+  prettyprint-metaborgc-DeclSpec :
+    DeclSpec-Opt-Plhdr() -> [ H(
+                                []
+                              , [S("")]
+                              )
+                            ]
+
+  is-metaborgc-DeclSpec =
+    ?DeclSpec-Opt-Plhdr()
+
+  prettyprint-metaborgc-Cast :
+    Cast-Opt-Plhdr() -> [ H(
+                            []
+                          , [S("")]
+                          )
+                        ]
+
+  is-metaborgc-Cast =
+    ?Cast-Opt-Plhdr()
+
+  prettyprint-metaborgc-StructBitfieldDeclarator :
+    StructBitfieldDeclarator-Opt-Plhdr() -> [ H(
+                                                []
+                                              , [S("")]
+                                              )
+                                            ]
+
+  is-metaborgc-StructBitfieldDeclarator =
+    ?StructBitfieldDeclarator-Opt-Plhdr()
+
+  prettyprint-metaborgc-ID :
+    ID-Opt-Plhdr() -> [ H(
+                          []
+                        , [S("")]
+                        )
+                      ]
+
+  is-metaborgc-ID =
+    ?ID-Opt-Plhdr()
+
+  prettyprint-metaborgc-ParamDecl :
+    ParamDecl-Opt-Plhdr() -> [ H(
+                                 []
+                               , [S("")]
+                               )
+                             ]
+
+  is-metaborgc-ParamDecl =
+    ?ParamDecl-Opt-Plhdr()
+
+  prettyprint-metaborgc-AbstractDeclarator :
+    AbstractDeclarator-Opt-Plhdr() -> [ H(
+                                          []
+                                        , [S("")]
+                                        )
+                                      ]
+
+  is-metaborgc-AbstractDeclarator =
+    ?AbstractDeclarator-Opt-Plhdr()
+
+  prettyprint-metaborgc-Ptr :
+    Ptr-Opt-Plhdr() -> [ H(
+                           []
+                         , [S("")]
+                         )
+                       ]
+
+  is-metaborgc-Ptr =
+    ?Ptr-Opt-Plhdr()
+
+  prettyprint-metaborgc-AssignExp :
+    AssignExp-Opt-Plhdr() -> [ H(
+                                 []
+                               , [S("")]
+                               )
+                             ]
+
+  is-metaborgc-AssignExp =
+    ?AssignExp-Opt-Plhdr()
+
+  prettyprint-metaborgc-TypeQualifier :
+    TypeQualifier-Opt-Plhdr() -> [ H(
+                                     []
+                                   , [S("")]
+                                   )
+                                 ]
+
+  is-metaborgc-TypeQualifier =
+    ?TypeQualifier-Opt-Plhdr()
+
+  prettyprint-metaborgc-DirectAbstractDeclarator :
+    DirectAbstractDeclarator-Opt-Plhdr() -> [ H(
+                                                []
+                                              , [S("")]
+                                              )
+                                            ]
+
+  is-metaborgc-DirectAbstractDeclarator =
+    ?DirectAbstractDeclarator-Opt-Plhdr()
+
+  prettyprint-metaborgc-Comma :
+    Comma-Opt-Plhdr() -> [ H(
+                             []
+                           , [S("")]
+                           )
+                         ]
+
+  is-metaborgc-Comma =
+    ?Comma-Opt-Plhdr()

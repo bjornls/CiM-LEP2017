@@ -1,0 +1,188 @@
+module pp/metaborgc/metaborgc-pp
+
+imports
+  libstratego-gpp
+  libspoofax/sdf/pp
+  libspoofax/term/origin
+  libstratego-sglr
+  signatures/metaborgc/metaborgc-sig
+
+
+imports
+  signatures/metaborgc/Common-sig
+  signatures/metaborgc/ExternalDefinitions-sig
+
+
+imports
+  pp/metaborgc/Common-pp
+  pp/metaborgc/ExternalDefinitions-pp
+
+
+strategies
+  prettyprint-example =
+    prettyprint-metaborgc
+
+  prettyprint-metaborgc =
+    fail
+
+  prettyprint-metaborgc(|sort) =
+    fail
+
+
+strategies
+  prettyprint-SDF-start-symbols =
+    prettyprint-metaborgc-start-symbols
+
+  prettyprint-metaborgc-start-symbols =
+    fail
+
+
+strategies
+  prettyprint-metaborgc-start-symbols =
+    prettyprint-metaborgc-Start
+
+
+strategies
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-Start
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-Start>
+    where <?"Start"> sort
+
+  prettyprint-metaborgc-Start :
+    Empty() -> [ H(
+                   []
+                 , [S("")]
+                 )
+               ]
+
+  is-metaborgc-Start =
+    ?Empty()
+
+  metaborgc-get-indent :
+    (t@Empty(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"Start"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Empty(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"Start"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Empty(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"Start"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-Start :
+    CProgram(t1__) -> [ H(
+                          [SOpt(HS(), "0")]
+                        , [t1__']
+                        )
+                      ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-TranslationUnit) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-Start =
+    ?CProgram(_)
+
+  metaborgc-get-indent :
+    (t@CProgram(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"Start"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@CProgram(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"Start"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@CProgram(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"Start"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  is-metaborgc-Start =
+    fail
+
+  prettyprint-metaborgc-Start :
+    amb([h|hs]) -> <prettyprint-metaborgc-Start> h
+
+  prettyprint-metaborgc-Start :
+    Start-Plhdr() -> [ H(
+                         [SOpt(HS(), "0")]
+                       , [S("$Start")]
+                       )
+                     ]
+
+  is-metaborgc-Start =
+    ?Start-Plhdr()
+
+  prettyprint-metaborgc-TranslationUnit :
+    TranslationUnit-Plhdr() -> [ H(
+                                   [SOpt(HS(), "0")]
+                                 , [S("$TranslationUnit")]
+                                 )
+                               ]
+
+  is-metaborgc-TranslationUnit =
+    ?TranslationUnit-Plhdr()
+
+  prettyprint-metaborgc-Start :
+    Start-Plhdr(_) -> [ H(
+                          [SOpt(HS(), "0")]
+                        , [S("$Start")]
+                        )
+                      ]
+
+  is-metaborgc-Start =
+    ?Start-Plhdr(_)
+
+  prettyprint-metaborgc-TranslationUnit :
+    TranslationUnit-Plhdr(_) -> [ H(
+                                    [SOpt(HS(), "0")]
+                                  , [S("$TranslationUnit")]
+                                  )
+                                ]
+
+  is-metaborgc-TranslationUnit =
+    ?TranslationUnit-Plhdr(_)
+
+  prettyprint-metaborgc-Start :
+    Start-Opt-Plhdr() -> [ H(
+                             []
+                           , [S("")]
+                           )
+                         ]
+
+  is-metaborgc-Start =
+    ?Start-Opt-Plhdr()

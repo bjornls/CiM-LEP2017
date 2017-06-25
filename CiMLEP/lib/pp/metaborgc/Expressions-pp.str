@@ -1,0 +1,4526 @@
+module pp/metaborgc/Expressions-pp
+
+imports
+  libstratego-gpp
+  libspoofax/sdf/pp
+  libspoofax/term/origin
+  libstratego-sglr
+  signatures/metaborgc/Expressions-sig
+
+
+imports
+  signatures/metaborgc/Common-sig
+  signatures/metaborgc/Lexical-sig
+  signatures/metaborgc/Declarations-sig
+
+
+imports
+  pp/metaborgc/Common-pp
+  pp/metaborgc/Lexical-pp
+  pp/metaborgc/Declarations-pp
+
+
+strategies
+  prettyprint-example =
+    prettyprint-metaborgc
+
+  prettyprint-metaborgc =
+    fail
+
+  prettyprint-metaborgc(|sort) =
+    fail
+
+
+strategies
+  prettyprint-SDF-start-symbols =
+    prettyprint-metaborgc-start-symbols
+
+  prettyprint-metaborgc-start-symbols =
+    fail
+
+
+strategies
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-PrimExp
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-GenSelect
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-GenAssoc
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-PostfixExp
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-UnaryExp
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-UnaryOp
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-CastExp
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-MulExp
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-MulOp
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-AddExp
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-AddOp
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-ShiftExp
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-ShiftOp
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-RelExp
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-RelOp
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-EqExp
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-EqOp
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-BAndExp
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-BAndOp
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-BXorExp
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-BXorOp
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-BOrExp
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-BOrOp
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-LAndExp
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-LAndOp
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-LOrExp
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-LOrOp
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-CondExp
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-AssignExp
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-AssignOp
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-Exp
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-ConstExp
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-PrimExp>
+    where <?"PrimExp"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-GenSelect>
+    where <?"GenSelect"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-GenAssoc>
+    where <?"GenAssoc"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-PostfixExp>
+    where <?"PostfixExp"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-UnaryExp>
+    where <?"UnaryExp"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-UnaryOp>
+    where <?"UnaryOp"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-CastExp>
+    where <?"CastExp"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-MulExp>
+    where <?"MulExp"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-MulOp>
+    where <?"MulOp"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-AddExp>
+    where <?"AddExp"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-AddOp>
+    where <?"AddOp"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-ShiftExp>
+    where <?"ShiftExp"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-ShiftOp>
+    where <?"ShiftOp"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-RelExp>
+    where <?"RelExp"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-RelOp>
+    where <?"RelOp"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-EqExp>
+    where <?"EqExp"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-EqOp>
+    where <?"EqOp"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-BAndExp>
+    where <?"BAndExp"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-BAndOp>
+    where <?"BAndOp"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-BXorExp>
+    where <?"BXorExp"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-BXorOp>
+    where <?"BXorOp"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-BOrExp>
+    where <?"BOrExp"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-BOrOp>
+    where <?"BOrOp"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-LAndExp>
+    where <?"LAndExp"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-LAndOp>
+    where <?"LAndOp"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-LOrExp>
+    where <?"LOrExp"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-LOrOp>
+    where <?"LOrOp"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-CondExp>
+    where <?"CondExp"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-AssignExp>
+    where <?"AssignExp"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-AssignOp>
+    where <?"AssignOp"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-Exp>
+    where <?"Exp"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-ConstExp>
+    where <?"ConstExp"> sort
+
+  prettyprint-metaborgc-PrimExp :
+    DeclRef(t1__) -> [ H(
+                         [SOpt(HS(), "0")]
+                       , [t1__']
+                       )
+                     ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-ID) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-PrimExp =
+    ?DeclRef(_)
+
+  metaborgc-get-indent :
+    (t@DeclRef(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"PrimExp"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@DeclRef(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"PrimExp"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@DeclRef(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"PrimExp"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-PrimExp :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-PrimExp)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-Constant) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-PrimExp :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-PrimExp)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-GenSelect) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-PrimExp :
+    Parenthetical(t1__) -> [ H(
+                               [SOpt(HS(), "0")]
+                             , [ S("(")
+                               , t1__'
+                               , S(")")
+                               ]
+                             )
+                           ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-Exp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-GenSelect :
+    GenSelect(t1__, t2__) -> [ H(
+                                 [SOpt(HS(), "0")]
+                               , [ S("_Generic(")
+                                 , t1__'
+                                 , S(", ")
+                                 , t2__'
+                                 , S(")")
+                                 ]
+                               )
+                             ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-AssignExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-H-list(prettyprint-metaborgc-GenAssoc|", ")
+                   <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-GenSelect =
+    ?GenSelect(_, _)
+
+  metaborgc-get-indent :
+    (t@GenSelect(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"GenSelect"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@GenSelect(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"GenSelect"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ", "
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@GenSelect(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"GenSelect"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-GenAssoc :
+    GenTypeAssoc(t1__, t2__) -> [ H(
+                                    [SOpt(HS(), "0")]
+                                  , [t1__', S(" : "), t2__']
+                                  )
+                                ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-TypeName) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-AssignExp) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-GenAssoc =
+    ?GenTypeAssoc(_, _)
+
+  metaborgc-get-indent :
+    (t@GenTypeAssoc(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"GenAssoc"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@GenTypeAssoc(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"GenAssoc"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@GenTypeAssoc(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"GenAssoc"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-GenAssoc :
+    GenDefaultAssoc(t1__) -> [ H(
+                                 [SOpt(HS(), "0")]
+                               , [S("default : "), t1__']
+                               )
+                             ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-AssignExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-GenAssoc =
+    ?GenDefaultAssoc(_)
+
+  metaborgc-get-indent :
+    (t@GenDefaultAssoc(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"GenAssoc"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@GenDefaultAssoc(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"GenAssoc"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@GenDefaultAssoc(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"GenAssoc"> sort
+    with switch !index
+           case ?1 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-PostfixExp :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-PostfixExp)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-PrimExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-PostfixExp :
+    ArrayAccess(t1__, t2__) -> [ H(
+                                   [SOpt(HS(), "0")]
+                                 , [ t1__'
+                                   , S("[")
+                                   , t2__'
+                                   , S("]")
+                                   ]
+                                 )
+                               ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-PostfixExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-Exp) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-PostfixExp =
+    ?ArrayAccess(_, _)
+
+  metaborgc-get-indent :
+    (t@ArrayAccess(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"PostfixExp"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@ArrayAccess(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"PostfixExp"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@ArrayAccess(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"PostfixExp"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-PostfixExp :
+    Call(t1__, t2__) -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [ t1__'
+                            , S("(")
+                            , t2__'
+                            , S(")")
+                            ]
+                          )
+                        ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-PostfixExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-H-list(prettyprint-metaborgc-AssignExp|", ")
+                   <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-PostfixExp =
+    ?Call(_, _)
+
+  metaborgc-get-indent :
+    (t@Call(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"PostfixExp"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Call(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"PostfixExp"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ", "
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Call(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"PostfixExp"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-PostfixExp :
+    Access(t1__, t2__) -> [ H(
+                              [SOpt(HS(), "0")]
+                            , [t1__', S("."), t2__']
+                            )
+                          ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-PostfixExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-ID) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-PostfixExp =
+    ?Access(_, _)
+
+  metaborgc-get-indent :
+    (t@Access(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"PostfixExp"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Access(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"PostfixExp"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Access(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"PostfixExp"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-PostfixExp :
+    DerefAccess(t1__, t2__) -> [ H(
+                                   [SOpt(HS(), "0")]
+                                 , [t1__', S("->"), t2__']
+                                 )
+                               ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-PostfixExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-ID) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-PostfixExp =
+    ?DerefAccess(_, _)
+
+  metaborgc-get-indent :
+    (t@DerefAccess(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"PostfixExp"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@DerefAccess(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"PostfixExp"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@DerefAccess(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"PostfixExp"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-PostfixExp :
+    PostInc(t1__) -> [ H(
+                         [SOpt(HS(), "0")]
+                       , [t1__', S("++")]
+                       )
+                     ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-PostfixExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-PostfixExp =
+    ?PostInc(_)
+
+  metaborgc-get-indent :
+    (t@PostInc(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"PostfixExp"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@PostInc(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"PostfixExp"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@PostInc(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"PostfixExp"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-PostfixExp :
+    PostDec(t1__) -> [ H(
+                         [SOpt(HS(), "0")]
+                       , [t1__', S("--")]
+                       )
+                     ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-PostfixExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-PostfixExp =
+    ?PostDec(_)
+
+  metaborgc-get-indent :
+    (t@PostDec(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"PostfixExp"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@PostDec(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"PostfixExp"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@PostDec(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"PostfixExp"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-UnaryExp :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-UnaryExp)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-PostfixExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-UnaryExp :
+    PreInc(t1__) -> [ H(
+                        [SOpt(HS(), "0")]
+                      , [S("++"), t1__']
+                      )
+                    ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-UnaryExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-UnaryExp =
+    ?PreInc(_)
+
+  metaborgc-get-indent :
+    (t@PreInc(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"UnaryExp"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@PreInc(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"UnaryExp"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@PreInc(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"UnaryExp"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-UnaryExp :
+    PreDec(t1__) -> [ H(
+                        [SOpt(HS(), "0")]
+                      , [S("--"), t1__']
+                      )
+                    ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-UnaryExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-UnaryExp =
+    ?PreDec(_)
+
+  metaborgc-get-indent :
+    (t@PreDec(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"UnaryExp"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@PreDec(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"UnaryExp"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@PreDec(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"UnaryExp"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-UnaryExp :
+    UnaryOp(t1__, t2__) -> [ H(
+                               [SOpt(HS(), "0")]
+                             , [t1__', t2__']
+                             )
+                           ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-UnaryOp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-CastExp) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-UnaryExp =
+    ?UnaryOp(_, _)
+
+  metaborgc-get-indent :
+    (t@UnaryOp(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"UnaryExp"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@UnaryOp(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"UnaryExp"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@UnaryOp(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"UnaryExp"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-UnaryExp :
+    ExpSizeof(t1__) -> [ H(
+                           [SOpt(HS(), "0")]
+                         , [S("sizeof"), t1__']
+                         )
+                       ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-UnaryExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-UnaryExp =
+    ?ExpSizeof(_)
+
+  metaborgc-get-indent :
+    (t@ExpSizeof(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"UnaryExp"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@ExpSizeof(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"UnaryExp"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@ExpSizeof(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"UnaryExp"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-UnaryExp :
+    TypeSizeof(t1__) -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [ S("sizeof(")
+                            , t1__'
+                            , S(")")
+                            ]
+                          )
+                        ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-TypeName) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-UnaryExp =
+    ?TypeSizeof(_)
+
+  metaborgc-get-indent :
+    (t@TypeSizeof(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"UnaryExp"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@TypeSizeof(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"UnaryExp"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@TypeSizeof(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"UnaryExp"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-UnaryExp :
+    Alignof(t1__) -> [ H(
+                         [SOpt(HS(), "0")]
+                       , [ S("_Alignof(")
+                         , t1__'
+                         , S(")")
+                         ]
+                       )
+                     ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-TypeName) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-UnaryExp =
+    ?Alignof(_)
+
+  metaborgc-get-indent :
+    (t@Alignof(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"UnaryExp"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Alignof(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"UnaryExp"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Alignof(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"UnaryExp"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-UnaryExp :
+    NewArray(t1__, t2__, t3__) -> [ H(
+                                      [SOpt(HS(), "0")]
+                                    , [ S("new ")
+                                      , t1__'
+                                      , t2__'
+                                      , S("[")
+                                      , t3__'
+                                      , S("]")
+                                      ]
+                                    )
+                                  ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-ID) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-option(
+                     pp-one-Z(prettyprint-metaborgc-Cast) <+ pp-one-Z(prettyprint-completion-aux)
+                   )> t2__
+    with t3__' := <pp-one-Z(prettyprint-metaborgc-ID) <+ pp-one-Z(prettyprint-completion-aux)> t3__
+
+  is-metaborgc-UnaryExp =
+    ?NewArray(_, _, _)
+
+  metaborgc-get-indent :
+    ( t@NewArray(t1__, t2__, t3__)
+    , index
+    ) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"UnaryExp"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           case ?3 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    ( t@NewArray(t1__, t2__, t3__)
+    , index
+    ) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"UnaryExp"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           case ?3 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    ( t@NewArray(t1__, t2__, t3__)
+    , index
+    ) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"UnaryExp"> sort
+    with switch !index
+           case ?1 :
+             ws := " "
+           case ?2 :
+             ws := ""
+           case ?3 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-UnaryExp :
+    NewObj(t1__, t2__, t3__) -> [ H(
+                                    [SOpt(HS(), "0")]
+                                  , [ S("new ")
+                                    , t1__'
+                                    , t2__'
+                                    , S("(\"")
+                                    , t3__'
+                                    , S("\")")
+                                    ]
+                                  )
+                                ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-ID) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-option(
+                     pp-one-Z(prettyprint-metaborgc-Cast) <+ pp-one-Z(prettyprint-completion-aux)
+                   )> t2__
+    with t3__' := <pp-one-Z(prettyprint-metaborgc-ID) <+ pp-one-Z(prettyprint-completion-aux)> t3__
+
+  is-metaborgc-UnaryExp =
+    ?NewObj(_, _, _)
+
+  metaborgc-get-indent :
+    ( t@NewObj(t1__, t2__, t3__)
+    , index
+    ) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"UnaryExp"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           case ?3 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    ( t@NewObj(t1__, t2__, t3__)
+    , index
+    ) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"UnaryExp"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           case ?3 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    ( t@NewObj(t1__, t2__, t3__)
+    , index
+    ) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"UnaryExp"> sort
+    with switch !index
+           case ?1 :
+             ws := " "
+           case ?2 :
+             ws := ""
+           case ?3 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-UnaryOp :
+    Ref() -> [ H(
+                 [SOpt(HS(), "0")]
+               , [S("&")]
+               )
+             ]
+
+  is-metaborgc-UnaryOp =
+    ?Ref()
+
+  metaborgc-get-indent :
+    (t@Ref(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"UnaryOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Ref(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"UnaryOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Ref(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"UnaryOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-UnaryOp :
+    Deref() -> [ H(
+                   [SOpt(HS(), "0")]
+                 , [S("*")]
+                 )
+               ]
+
+  is-metaborgc-UnaryOp =
+    ?Deref()
+
+  metaborgc-get-indent :
+    (t@Deref(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"UnaryOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Deref(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"UnaryOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Deref(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"UnaryOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-UnaryOp :
+    Pos() -> [ H(
+                 [SOpt(HS(), "0")]
+               , [S("+")]
+               )
+             ]
+
+  is-metaborgc-UnaryOp =
+    ?Pos()
+
+  metaborgc-get-indent :
+    (t@Pos(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"UnaryOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Pos(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"UnaryOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Pos(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"UnaryOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-UnaryOp :
+    Neg() -> [ H(
+                 [SOpt(HS(), "0")]
+               , [S("-")]
+               )
+             ]
+
+  is-metaborgc-UnaryOp =
+    ?Neg()
+
+  metaborgc-get-indent :
+    (t@Neg(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"UnaryOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Neg(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"UnaryOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Neg(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"UnaryOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-UnaryOp :
+    BNot() -> [ H(
+                  [SOpt(HS(), "0")]
+                , [S("~")]
+                )
+              ]
+
+  is-metaborgc-UnaryOp =
+    ?BNot()
+
+  metaborgc-get-indent :
+    (t@BNot(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"UnaryOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@BNot(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"UnaryOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@BNot(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"UnaryOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-UnaryOp :
+    LNot() -> [ H(
+                  [SOpt(HS(), "0")]
+                , [S("!")]
+                )
+              ]
+
+  is-metaborgc-UnaryOp =
+    ?LNot()
+
+  metaborgc-get-indent :
+    (t@LNot(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"UnaryOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@LNot(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"UnaryOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@LNot(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"UnaryOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-CastExp :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-CastExp)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-UnaryExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-CastExp :
+    Cast(t1__, t2__) -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [ S("(")
+                            , t1__'
+                            , S(")")
+                            , t2__'
+                            ]
+                          )
+                        ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-TypeName) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-CastExp) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-CastExp =
+    ?Cast(_, _)
+
+  metaborgc-get-indent :
+    (t@Cast(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"CastExp"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Cast(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"CastExp"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Cast(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"CastExp"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-MulExp :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-MulExp)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-CastExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-MulExp :
+    BinOp(t1__, t2__, t3__) -> [ H(
+                                   [SOpt(HS(), "0")]
+                                 , [ t1__'
+                                   , S(" ")
+                                   , t2__'
+                                   , S(" ")
+                                   , t3__'
+                                   ]
+                                 )
+                               ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-MulExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-MulOp) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+    with t3__' := <pp-one-Z(prettyprint-metaborgc-CastExp) <+ pp-one-Z(prettyprint-completion-aux)> t3__
+
+  is-metaborgc-MulExp =
+    ?BinOp(_, _, _)
+
+  metaborgc-get-indent :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"MulExp"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           case ?3 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"MulExp"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           case ?3 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"MulExp"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           case ?3 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-MulOp :
+    Mul() -> [ H(
+                 [SOpt(HS(), "0")]
+               , [S("*")]
+               )
+             ]
+
+  is-metaborgc-MulOp =
+    ?Mul()
+
+  metaborgc-get-indent :
+    (t@Mul(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"MulOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Mul(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"MulOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Mul(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"MulOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-MulOp :
+    Div() -> [ H(
+                 [SOpt(HS(), "0")]
+               , [S("/")]
+               )
+             ]
+
+  is-metaborgc-MulOp =
+    ?Div()
+
+  metaborgc-get-indent :
+    (t@Div(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"MulOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Div(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"MulOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Div(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"MulOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-MulOp :
+    Mod() -> [ H(
+                 [SOpt(HS(), "0")]
+               , [S("%")]
+               )
+             ]
+
+  is-metaborgc-MulOp =
+    ?Mod()
+
+  metaborgc-get-indent :
+    (t@Mod(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"MulOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Mod(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"MulOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Mod(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"MulOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-AddExp :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-AddExp)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-MulExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-AddExp :
+    BinOp(t1__, t2__, t3__) -> [ H(
+                                   [SOpt(HS(), "0")]
+                                 , [ t1__'
+                                   , S(" ")
+                                   , t2__'
+                                   , S(" ")
+                                   , t3__'
+                                   ]
+                                 )
+                               ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-AddExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-AddOp) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+    with t3__' := <pp-one-Z(prettyprint-metaborgc-MulExp) <+ pp-one-Z(prettyprint-completion-aux)> t3__
+
+  is-metaborgc-AddExp =
+    ?BinOp(_, _, _)
+
+  metaborgc-get-indent :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"AddExp"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           case ?3 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"AddExp"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           case ?3 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"AddExp"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           case ?3 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-AddOp :
+    Add() -> [ H(
+                 [SOpt(HS(), "0")]
+               , [S("+")]
+               )
+             ]
+
+  is-metaborgc-AddOp =
+    ?Add()
+
+  metaborgc-get-indent :
+    (t@Add(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"AddOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Add(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"AddOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Add(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"AddOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-AddOp :
+    Sub() -> [ H(
+                 [SOpt(HS(), "0")]
+               , [S("-")]
+               )
+             ]
+
+  is-metaborgc-AddOp =
+    ?Sub()
+
+  metaborgc-get-indent :
+    (t@Sub(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"AddOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Sub(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"AddOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Sub(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"AddOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-ShiftExp :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-ShiftExp)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-AddExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-ShiftExp :
+    BinOp(t1__, t2__, t3__) -> [ H(
+                                   [SOpt(HS(), "0")]
+                                 , [ t1__'
+                                   , S(" ")
+                                   , t2__'
+                                   , S(" ")
+                                   , t3__'
+                                   ]
+                                 )
+                               ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-ShiftExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-ShiftOp) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+    with t3__' := <pp-one-Z(prettyprint-metaborgc-AddExp) <+ pp-one-Z(prettyprint-completion-aux)> t3__
+
+  is-metaborgc-ShiftExp =
+    ?BinOp(_, _, _)
+
+  metaborgc-get-indent :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"ShiftExp"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           case ?3 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"ShiftExp"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           case ?3 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"ShiftExp"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           case ?3 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-ShiftOp :
+    LShift() -> [ H(
+                    [SOpt(HS(), "0")]
+                  , [S("<<")]
+                  )
+                ]
+
+  is-metaborgc-ShiftOp =
+    ?LShift()
+
+  metaborgc-get-indent :
+    (t@LShift(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"ShiftOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@LShift(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"ShiftOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@LShift(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"ShiftOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-ShiftOp :
+    RShift() -> [ H(
+                    [SOpt(HS(), "0")]
+                  , [S(">>")]
+                  )
+                ]
+
+  is-metaborgc-ShiftOp =
+    ?RShift()
+
+  metaborgc-get-indent :
+    (t@RShift(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"ShiftOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@RShift(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"ShiftOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@RShift(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"ShiftOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-RelExp :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-RelExp)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-ShiftExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-RelExp :
+    BinOp(t1__, t2__, t3__) -> [ H(
+                                   [SOpt(HS(), "0")]
+                                 , [ t1__'
+                                   , S(" ")
+                                   , t2__'
+                                   , S(" ")
+                                   , t3__'
+                                   ]
+                                 )
+                               ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-RelExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-RelOp) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+    with t3__' := <pp-one-Z(prettyprint-metaborgc-ShiftExp) <+ pp-one-Z(prettyprint-completion-aux)> t3__
+
+  is-metaborgc-RelExp =
+    ?BinOp(_, _, _)
+
+  metaborgc-get-indent :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"RelExp"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           case ?3 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"RelExp"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           case ?3 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"RelExp"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           case ?3 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-RelOp :
+    Lt() -> [ H(
+                [SOpt(HS(), "0")]
+              , [S("<")]
+              )
+            ]
+
+  is-metaborgc-RelOp =
+    ?Lt()
+
+  metaborgc-get-indent :
+    (t@Lt(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"RelOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Lt(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"RelOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Lt(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"RelOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-RelOp :
+    Gt() -> [ H(
+                [SOpt(HS(), "0")]
+              , [S(">")]
+              )
+            ]
+
+  is-metaborgc-RelOp =
+    ?Gt()
+
+  metaborgc-get-indent :
+    (t@Gt(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"RelOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Gt(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"RelOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Gt(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"RelOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-RelOp :
+    Lte() -> [ H(
+                 [SOpt(HS(), "0")]
+               , [S("<=")]
+               )
+             ]
+
+  is-metaborgc-RelOp =
+    ?Lte()
+
+  metaborgc-get-indent :
+    (t@Lte(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"RelOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Lte(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"RelOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Lte(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"RelOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-RelOp :
+    Gte() -> [ H(
+                 [SOpt(HS(), "0")]
+               , [S(">=")]
+               )
+             ]
+
+  is-metaborgc-RelOp =
+    ?Gte()
+
+  metaborgc-get-indent :
+    (t@Gte(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"RelOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Gte(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"RelOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Gte(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"RelOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-EqExp :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-EqExp)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-RelExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-EqExp :
+    BinOp(t1__, t2__, t3__) -> [ H(
+                                   [SOpt(HS(), "0")]
+                                 , [ t1__'
+                                   , S(" ")
+                                   , t2__'
+                                   , S(" ")
+                                   , t3__'
+                                   ]
+                                 )
+                               ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-EqExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-EqOp) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+    with t3__' := <pp-one-Z(prettyprint-metaborgc-RelExp) <+ pp-one-Z(prettyprint-completion-aux)> t3__
+
+  is-metaborgc-EqExp =
+    ?BinOp(_, _, _)
+
+  metaborgc-get-indent :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"EqExp"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           case ?3 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"EqExp"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           case ?3 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"EqExp"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           case ?3 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-EqOp :
+    Eq() -> [ H(
+                [SOpt(HS(), "0")]
+              , [S("==")]
+              )
+            ]
+
+  is-metaborgc-EqOp =
+    ?Eq()
+
+  metaborgc-get-indent :
+    (t@Eq(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"EqOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Eq(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"EqOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Eq(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"EqOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-EqOp :
+    Neq() -> [ H(
+                 [SOpt(HS(), "0")]
+               , [S("!=")]
+               )
+             ]
+
+  is-metaborgc-EqOp =
+    ?Neq()
+
+  metaborgc-get-indent :
+    (t@Neq(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"EqOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Neq(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"EqOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Neq(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"EqOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-BAndExp :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-BAndExp)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-EqExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-BAndExp :
+    BinOp(t1__, t2__, t3__) -> [ H(
+                                   [SOpt(HS(), "0")]
+                                 , [ t1__'
+                                   , S(" ")
+                                   , t2__'
+                                   , S(" ")
+                                   , t3__'
+                                   ]
+                                 )
+                               ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-BAndExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-BAndOp) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+    with t3__' := <pp-one-Z(prettyprint-metaborgc-EqExp) <+ pp-one-Z(prettyprint-completion-aux)> t3__
+
+  is-metaborgc-BAndExp =
+    ?BinOp(_, _, _)
+
+  metaborgc-get-indent :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"BAndExp"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           case ?3 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"BAndExp"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           case ?3 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"BAndExp"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           case ?3 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-BAndOp :
+    BAnd() -> [ H(
+                  [SOpt(HS(), "0")]
+                , [S("&")]
+                )
+              ]
+
+  is-metaborgc-BAndOp =
+    ?BAnd()
+
+  metaborgc-get-indent :
+    (t@BAnd(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"BAndOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@BAnd(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"BAndOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@BAnd(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"BAndOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-BXorExp :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-BXorExp)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-BAndExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-BXorExp :
+    BinOp(t1__, t2__, t3__) -> [ H(
+                                   [SOpt(HS(), "0")]
+                                 , [ t1__'
+                                   , S(" ")
+                                   , t2__'
+                                   , S(" ")
+                                   , t3__'
+                                   ]
+                                 )
+                               ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-BXorExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-BXorOp) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+    with t3__' := <pp-one-Z(prettyprint-metaborgc-BAndExp) <+ pp-one-Z(prettyprint-completion-aux)> t3__
+
+  is-metaborgc-BXorExp =
+    ?BinOp(_, _, _)
+
+  metaborgc-get-indent :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"BXorExp"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           case ?3 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"BXorExp"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           case ?3 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"BXorExp"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           case ?3 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-BXorOp :
+    BXor() -> [ H(
+                  [SOpt(HS(), "0")]
+                , [S("^")]
+                )
+              ]
+
+  is-metaborgc-BXorOp =
+    ?BXor()
+
+  metaborgc-get-indent :
+    (t@BXor(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"BXorOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@BXor(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"BXorOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@BXor(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"BXorOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-BOrExp :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-BOrExp)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-BXorExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-BOrExp :
+    BinOp(t1__, t2__, t3__) -> [ H(
+                                   [SOpt(HS(), "0")]
+                                 , [ t1__'
+                                   , S(" ")
+                                   , t2__'
+                                   , S(" ")
+                                   , t3__'
+                                   ]
+                                 )
+                               ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-BOrExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-BOrOp) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+    with t3__' := <pp-one-Z(prettyprint-metaborgc-BXorExp) <+ pp-one-Z(prettyprint-completion-aux)> t3__
+
+  is-metaborgc-BOrExp =
+    ?BinOp(_, _, _)
+
+  metaborgc-get-indent :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"BOrExp"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           case ?3 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"BOrExp"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           case ?3 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"BOrExp"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           case ?3 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-BOrOp :
+    BOr() -> [ H(
+                 [SOpt(HS(), "0")]
+               , [S("|")]
+               )
+             ]
+
+  is-metaborgc-BOrOp =
+    ?BOr()
+
+  metaborgc-get-indent :
+    (t@BOr(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"BOrOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@BOr(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"BOrOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@BOr(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"BOrOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-LAndExp :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-LAndExp)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-BOrExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-LAndExp :
+    BinOp(t1__, t2__, t3__) -> [ H(
+                                   [SOpt(HS(), "0")]
+                                 , [ t1__'
+                                   , S(" ")
+                                   , t2__'
+                                   , S(" ")
+                                   , t3__'
+                                   ]
+                                 )
+                               ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-LAndExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-LAndOp) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+    with t3__' := <pp-one-Z(prettyprint-metaborgc-BOrExp) <+ pp-one-Z(prettyprint-completion-aux)> t3__
+
+  is-metaborgc-LAndExp =
+    ?BinOp(_, _, _)
+
+  metaborgc-get-indent :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"LAndExp"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           case ?3 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"LAndExp"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           case ?3 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"LAndExp"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           case ?3 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-LAndOp :
+    LAnd() -> [ H(
+                  [SOpt(HS(), "0")]
+                , [S("&&")]
+                )
+              ]
+
+  is-metaborgc-LAndOp =
+    ?LAnd()
+
+  metaborgc-get-indent :
+    (t@LAnd(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"LAndOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@LAnd(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"LAndOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@LAnd(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"LAndOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-LOrExp :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-LOrExp)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-LAndExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-LOrExp :
+    BinOp(t1__, t2__, t3__) -> [ H(
+                                   [SOpt(HS(), "0")]
+                                 , [ t1__'
+                                   , S(" ")
+                                   , t2__'
+                                   , S(" ")
+                                   , t3__'
+                                   ]
+                                 )
+                               ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-LOrExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-LOrOp) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+    with t3__' := <pp-one-Z(prettyprint-metaborgc-LAndExp) <+ pp-one-Z(prettyprint-completion-aux)> t3__
+
+  is-metaborgc-LOrExp =
+    ?BinOp(_, _, _)
+
+  metaborgc-get-indent :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"LOrExp"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           case ?3 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"LOrExp"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           case ?3 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    ( t@BinOp(t1__, t2__, t3__)
+    , index
+    ) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"LOrExp"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           case ?3 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-LOrOp :
+    LOr() -> [ H(
+                 [SOpt(HS(), "0")]
+               , [S("||")]
+               )
+             ]
+
+  is-metaborgc-LOrOp =
+    ?LOr()
+
+  metaborgc-get-indent :
+    (t@LOr(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"LOrOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@LOr(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"LOrOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@LOr(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"LOrOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-CondExp :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-CondExp)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-LOrExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-CondExp :
+    IfExp(t1__, t2__, t3__) -> [ H(
+                                   [SOpt(HS(), "0")]
+                                 , [ t1__'
+                                   , S(" ? ")
+                                   , t2__'
+                                   , S(" : ")
+                                   , t3__'
+                                   ]
+                                 )
+                               ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-LOrExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-Exp) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+    with t3__' := <pp-one-Z(prettyprint-metaborgc-CondExp) <+ pp-one-Z(prettyprint-completion-aux)> t3__
+
+  is-metaborgc-CondExp =
+    ?IfExp(_, _, _)
+
+  metaborgc-get-indent :
+    ( t@IfExp(t1__, t2__, t3__)
+    , index
+    ) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"CondExp"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           case ?3 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    ( t@IfExp(t1__, t2__, t3__)
+    , index
+    ) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"CondExp"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           case ?3 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    ( t@IfExp(t1__, t2__, t3__)
+    , index
+    ) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"CondExp"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           case ?3 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-AssignExp :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-AssignExp)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-CondExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-AssignExp :
+    AssignExp(t1__, t2__, t3__) -> [ H(
+                                       [SOpt(HS(), "0")]
+                                     , [ t1__'
+                                       , S(" ")
+                                       , t2__'
+                                       , S(" ")
+                                       , t3__'
+                                       ]
+                                     )
+                                   ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-UnaryExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-AssignOp) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+    with t3__' := <pp-one-Z(prettyprint-metaborgc-AssignExp) <+ pp-one-Z(prettyprint-completion-aux)> t3__
+
+  is-metaborgc-AssignExp =
+    ?AssignExp(_, _, _)
+
+  metaborgc-get-indent :
+    ( t@AssignExp(t1__, t2__, t3__)
+    , index
+    ) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"AssignExp"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           case ?3 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    ( t@AssignExp(t1__, t2__, t3__)
+    , index
+    ) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"AssignExp"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           case ?3 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    ( t@AssignExp(t1__, t2__, t3__)
+    , index
+    ) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"AssignExp"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           case ?3 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-AssignOp :
+    Eq() -> [ H(
+                [SOpt(HS(), "0")]
+              , [S("=")]
+              )
+            ]
+
+  is-metaborgc-AssignOp =
+    ?Eq()
+
+  metaborgc-get-indent :
+    (t@Eq(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Eq(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Eq(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-AssignOp :
+    Mul() -> [ H(
+                 [SOpt(HS(), "0")]
+               , [S("*=")]
+               )
+             ]
+
+  is-metaborgc-AssignOp =
+    ?Mul()
+
+  metaborgc-get-indent :
+    (t@Mul(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Mul(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Mul(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-AssignOp :
+    Div() -> [ H(
+                 [SOpt(HS(), "0")]
+               , [S("/=")]
+               )
+             ]
+
+  is-metaborgc-AssignOp =
+    ?Div()
+
+  metaborgc-get-indent :
+    (t@Div(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Div(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Div(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-AssignOp :
+    Mod() -> [ H(
+                 [SOpt(HS(), "0")]
+               , [S("%=")]
+               )
+             ]
+
+  is-metaborgc-AssignOp =
+    ?Mod()
+
+  metaborgc-get-indent :
+    (t@Mod(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Mod(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Mod(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-AssignOp :
+    Add() -> [ H(
+                 [SOpt(HS(), "0")]
+               , [S("+=")]
+               )
+             ]
+
+  is-metaborgc-AssignOp =
+    ?Add()
+
+  metaborgc-get-indent :
+    (t@Add(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Add(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Add(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-AssignOp :
+    Sub() -> [ H(
+                 [SOpt(HS(), "0")]
+               , [S("-=")]
+               )
+             ]
+
+  is-metaborgc-AssignOp =
+    ?Sub()
+
+  metaborgc-get-indent :
+    (t@Sub(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Sub(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Sub(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-AssignOp :
+    LShift() -> [ H(
+                    [SOpt(HS(), "0")]
+                  , [S("<<=")]
+                  )
+                ]
+
+  is-metaborgc-AssignOp =
+    ?LShift()
+
+  metaborgc-get-indent :
+    (t@LShift(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@LShift(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@LShift(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-AssignOp :
+    RShift() -> [ H(
+                    [SOpt(HS(), "0")]
+                  , [S(">>=")]
+                  )
+                ]
+
+  is-metaborgc-AssignOp =
+    ?RShift()
+
+  metaborgc-get-indent :
+    (t@RShift(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@RShift(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@RShift(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-AssignOp :
+    BAnd() -> [ H(
+                  [SOpt(HS(), "0")]
+                , [S("&=")]
+                )
+              ]
+
+  is-metaborgc-AssignOp =
+    ?BAnd()
+
+  metaborgc-get-indent :
+    (t@BAnd(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@BAnd(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@BAnd(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-AssignOp :
+    BXor() -> [ H(
+                  [SOpt(HS(), "0")]
+                , [S("^=")]
+                )
+              ]
+
+  is-metaborgc-AssignOp =
+    ?BXor()
+
+  metaborgc-get-indent :
+    (t@BXor(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@BXor(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@BXor(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-AssignOp :
+    BOr() -> [ H(
+                 [SOpt(HS(), "0")]
+               , [S("|=")]
+               )
+             ]
+
+  is-metaborgc-AssignOp =
+    ?BOr()
+
+  metaborgc-get-indent :
+    (t@BOr(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@BOr(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@BOr(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"AssignOp"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-Exp :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-Exp)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-AssignExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  prettyprint-metaborgc-Exp :
+    Comma(t1__, t2__) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [t1__', S(", "), t2__']
+                           )
+                         ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-Exp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+    with t2__' := <pp-one-Z(prettyprint-metaborgc-AssignExp) <+ pp-one-Z(prettyprint-completion-aux)> t2__
+
+  is-metaborgc-Exp =
+    ?Comma(_, _)
+
+  metaborgc-get-indent :
+    (t@Comma(t1__, t2__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"Exp"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           case ?2 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Comma(t1__, t2__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"Exp"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           case ?2 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Comma(t1__, t2__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"Exp"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           case ?2 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-ConstExp :
+    t1__ -> [ H(
+                [SOpt(HS(), "0")]
+              , [t1__']
+              )
+            ]
+    where not(is-metaborgc-ConstExp)
+    where t1__' := <pp-one-Z(prettyprint-metaborgc-CondExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-PrimExp =
+    fail
+
+  is-metaborgc-GenSelect =
+    fail
+
+  is-metaborgc-GenAssoc =
+    fail
+
+  is-metaborgc-PostfixExp =
+    fail
+
+  is-metaborgc-UnaryExp =
+    fail
+
+  is-metaborgc-UnaryOp =
+    fail
+
+  is-metaborgc-CastExp =
+    fail
+
+  is-metaborgc-MulExp =
+    fail
+
+  is-metaborgc-MulOp =
+    fail
+
+  is-metaborgc-AddExp =
+    fail
+
+  is-metaborgc-AddOp =
+    fail
+
+  is-metaborgc-ShiftExp =
+    fail
+
+  is-metaborgc-ShiftOp =
+    fail
+
+  is-metaborgc-RelExp =
+    fail
+
+  is-metaborgc-RelOp =
+    fail
+
+  is-metaborgc-EqExp =
+    fail
+
+  is-metaborgc-EqOp =
+    fail
+
+  is-metaborgc-BAndExp =
+    fail
+
+  is-metaborgc-BAndOp =
+    fail
+
+  is-metaborgc-BXorExp =
+    fail
+
+  is-metaborgc-BXorOp =
+    fail
+
+  is-metaborgc-BOrExp =
+    fail
+
+  is-metaborgc-BOrOp =
+    fail
+
+  is-metaborgc-LAndExp =
+    fail
+
+  is-metaborgc-LAndOp =
+    fail
+
+  is-metaborgc-LOrExp =
+    fail
+
+  is-metaborgc-LOrOp =
+    fail
+
+  is-metaborgc-CondExp =
+    fail
+
+  is-metaborgc-AssignExp =
+    fail
+
+  is-metaborgc-AssignOp =
+    fail
+
+  is-metaborgc-Exp =
+    fail
+
+  is-metaborgc-ConstExp =
+    fail
+
+  prettyprint-metaborgc-PrimExp :
+    amb([h|hs]) -> <prettyprint-metaborgc-PrimExp> h
+
+  prettyprint-metaborgc-GenSelect :
+    amb([h|hs]) -> <prettyprint-metaborgc-GenSelect> h
+
+  prettyprint-metaborgc-GenAssoc :
+    amb([h|hs]) -> <prettyprint-metaborgc-GenAssoc> h
+
+  prettyprint-metaborgc-PostfixExp :
+    amb([h|hs]) -> <prettyprint-metaborgc-PostfixExp> h
+
+  prettyprint-metaborgc-UnaryExp :
+    amb([h|hs]) -> <prettyprint-metaborgc-UnaryExp> h
+
+  prettyprint-metaborgc-UnaryOp :
+    amb([h|hs]) -> <prettyprint-metaborgc-UnaryOp> h
+
+  prettyprint-metaborgc-CastExp :
+    amb([h|hs]) -> <prettyprint-metaborgc-CastExp> h
+
+  prettyprint-metaborgc-MulExp :
+    amb([h|hs]) -> <prettyprint-metaborgc-MulExp> h
+
+  prettyprint-metaborgc-MulOp :
+    amb([h|hs]) -> <prettyprint-metaborgc-MulOp> h
+
+  prettyprint-metaborgc-AddExp :
+    amb([h|hs]) -> <prettyprint-metaborgc-AddExp> h
+
+  prettyprint-metaborgc-AddOp :
+    amb([h|hs]) -> <prettyprint-metaborgc-AddOp> h
+
+  prettyprint-metaborgc-ShiftExp :
+    amb([h|hs]) -> <prettyprint-metaborgc-ShiftExp> h
+
+  prettyprint-metaborgc-ShiftOp :
+    amb([h|hs]) -> <prettyprint-metaborgc-ShiftOp> h
+
+  prettyprint-metaborgc-RelExp :
+    amb([h|hs]) -> <prettyprint-metaborgc-RelExp> h
+
+  prettyprint-metaborgc-RelOp :
+    amb([h|hs]) -> <prettyprint-metaborgc-RelOp> h
+
+  prettyprint-metaborgc-EqExp :
+    amb([h|hs]) -> <prettyprint-metaborgc-EqExp> h
+
+  prettyprint-metaborgc-EqOp :
+    amb([h|hs]) -> <prettyprint-metaborgc-EqOp> h
+
+  prettyprint-metaborgc-BAndExp :
+    amb([h|hs]) -> <prettyprint-metaborgc-BAndExp> h
+
+  prettyprint-metaborgc-BAndOp :
+    amb([h|hs]) -> <prettyprint-metaborgc-BAndOp> h
+
+  prettyprint-metaborgc-BXorExp :
+    amb([h|hs]) -> <prettyprint-metaborgc-BXorExp> h
+
+  prettyprint-metaborgc-BXorOp :
+    amb([h|hs]) -> <prettyprint-metaborgc-BXorOp> h
+
+  prettyprint-metaborgc-BOrExp :
+    amb([h|hs]) -> <prettyprint-metaborgc-BOrExp> h
+
+  prettyprint-metaborgc-BOrOp :
+    amb([h|hs]) -> <prettyprint-metaborgc-BOrOp> h
+
+  prettyprint-metaborgc-LAndExp :
+    amb([h|hs]) -> <prettyprint-metaborgc-LAndExp> h
+
+  prettyprint-metaborgc-LAndOp :
+    amb([h|hs]) -> <prettyprint-metaborgc-LAndOp> h
+
+  prettyprint-metaborgc-LOrExp :
+    amb([h|hs]) -> <prettyprint-metaborgc-LOrExp> h
+
+  prettyprint-metaborgc-LOrOp :
+    amb([h|hs]) -> <prettyprint-metaborgc-LOrOp> h
+
+  prettyprint-metaborgc-CondExp :
+    amb([h|hs]) -> <prettyprint-metaborgc-CondExp> h
+
+  prettyprint-metaborgc-AssignExp :
+    amb([h|hs]) -> <prettyprint-metaborgc-AssignExp> h
+
+  prettyprint-metaborgc-AssignOp :
+    amb([h|hs]) -> <prettyprint-metaborgc-AssignOp> h
+
+  prettyprint-metaborgc-Exp :
+    amb([h|hs]) -> <prettyprint-metaborgc-Exp> h
+
+  prettyprint-metaborgc-ConstExp :
+    amb([h|hs]) -> <prettyprint-metaborgc-ConstExp> h
+
+  prettyprint-metaborgc-Constant :
+    Constant-Plhdr() -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$Constant")]
+                          )
+                        ]
+
+  is-metaborgc-Constant =
+    ?Constant-Plhdr()
+
+  prettyprint-metaborgc-GenSelect :
+    GenSelect-Plhdr() -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$GenSelect")]
+                           )
+                         ]
+
+  is-metaborgc-GenSelect =
+    ?GenSelect-Plhdr()
+
+  prettyprint-metaborgc-GenAssoc :
+    GenAssoc-Plhdr() -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$GenAssoc")]
+                          )
+                        ]
+
+  is-metaborgc-GenAssoc =
+    ?GenAssoc-Plhdr()
+
+  prettyprint-metaborgc-PrimExp :
+    PrimExp-Plhdr() -> [ H(
+                           [SOpt(HS(), "0")]
+                         , [S("$PrimExp")]
+                         )
+                       ]
+
+  is-metaborgc-PrimExp =
+    ?PrimExp-Plhdr()
+
+  prettyprint-metaborgc-PostfixExp :
+    PostfixExp-Plhdr() -> [ H(
+                              [SOpt(HS(), "0")]
+                            , [S("$PostfixExp")]
+                            )
+                          ]
+
+  is-metaborgc-PostfixExp =
+    ?PostfixExp-Plhdr()
+
+  prettyprint-metaborgc-Cast :
+    Cast-Plhdr() -> [ H(
+                        [SOpt(HS(), "0")]
+                      , [S("$Cast")]
+                      )
+                    ]
+
+  is-metaborgc-Cast =
+    ?Cast-Plhdr()
+
+  prettyprint-metaborgc-ID :
+    ID-Plhdr() -> [ H(
+                      [SOpt(HS(), "0")]
+                    , [S("$ID")]
+                    )
+                  ]
+
+  is-metaborgc-ID =
+    ?ID-Plhdr()
+
+  prettyprint-metaborgc-UnaryOp :
+    UnaryOp-Plhdr() -> [ H(
+                           [SOpt(HS(), "0")]
+                         , [S("$UnaryOp")]
+                         )
+                       ]
+
+  is-metaborgc-UnaryOp =
+    ?UnaryOp-Plhdr()
+
+  prettyprint-metaborgc-TypeName :
+    TypeName-Plhdr() -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$TypeName")]
+                          )
+                        ]
+
+  is-metaborgc-TypeName =
+    ?TypeName-Plhdr()
+
+  prettyprint-metaborgc-CastExp :
+    CastExp-Plhdr() -> [ H(
+                           [SOpt(HS(), "0")]
+                         , [S("$CastExp")]
+                         )
+                       ]
+
+  is-metaborgc-CastExp =
+    ?CastExp-Plhdr()
+
+  prettyprint-metaborgc-MulOp :
+    MulOp-Plhdr() -> [ H(
+                         [SOpt(HS(), "0")]
+                       , [S("$MulOp")]
+                       )
+                     ]
+
+  is-metaborgc-MulOp =
+    ?MulOp-Plhdr()
+
+  prettyprint-metaborgc-MulExp :
+    MulExp-Plhdr() -> [ H(
+                          [SOpt(HS(), "0")]
+                        , [S("$MulExp")]
+                        )
+                      ]
+
+  is-metaborgc-MulExp =
+    ?MulExp-Plhdr()
+
+  prettyprint-metaborgc-AddOp :
+    AddOp-Plhdr() -> [ H(
+                         [SOpt(HS(), "0")]
+                       , [S("$AddOp")]
+                       )
+                     ]
+
+  is-metaborgc-AddOp =
+    ?AddOp-Plhdr()
+
+  prettyprint-metaborgc-AddExp :
+    AddExp-Plhdr() -> [ H(
+                          [SOpt(HS(), "0")]
+                        , [S("$AddExp")]
+                        )
+                      ]
+
+  is-metaborgc-AddExp =
+    ?AddExp-Plhdr()
+
+  prettyprint-metaborgc-ShiftOp :
+    ShiftOp-Plhdr() -> [ H(
+                           [SOpt(HS(), "0")]
+                         , [S("$ShiftOp")]
+                         )
+                       ]
+
+  is-metaborgc-ShiftOp =
+    ?ShiftOp-Plhdr()
+
+  prettyprint-metaborgc-ShiftExp :
+    ShiftExp-Plhdr() -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$ShiftExp")]
+                          )
+                        ]
+
+  is-metaborgc-ShiftExp =
+    ?ShiftExp-Plhdr()
+
+  prettyprint-metaborgc-RelOp :
+    RelOp-Plhdr() -> [ H(
+                         [SOpt(HS(), "0")]
+                       , [S("$RelOp")]
+                       )
+                     ]
+
+  is-metaborgc-RelOp =
+    ?RelOp-Plhdr()
+
+  prettyprint-metaborgc-RelExp :
+    RelExp-Plhdr() -> [ H(
+                          [SOpt(HS(), "0")]
+                        , [S("$RelExp")]
+                        )
+                      ]
+
+  is-metaborgc-RelExp =
+    ?RelExp-Plhdr()
+
+  prettyprint-metaborgc-EqOp :
+    EqOp-Plhdr() -> [ H(
+                        [SOpt(HS(), "0")]
+                      , [S("$EqOp")]
+                      )
+                    ]
+
+  is-metaborgc-EqOp =
+    ?EqOp-Plhdr()
+
+  prettyprint-metaborgc-EqExp :
+    EqExp-Plhdr() -> [ H(
+                         [SOpt(HS(), "0")]
+                       , [S("$EqExp")]
+                       )
+                     ]
+
+  is-metaborgc-EqExp =
+    ?EqExp-Plhdr()
+
+  prettyprint-metaborgc-BAndOp :
+    BAndOp-Plhdr() -> [ H(
+                          [SOpt(HS(), "0")]
+                        , [S("$BAndOp")]
+                        )
+                      ]
+
+  is-metaborgc-BAndOp =
+    ?BAndOp-Plhdr()
+
+  prettyprint-metaborgc-BAndExp :
+    BAndExp-Plhdr() -> [ H(
+                           [SOpt(HS(), "0")]
+                         , [S("$BAndExp")]
+                         )
+                       ]
+
+  is-metaborgc-BAndExp =
+    ?BAndExp-Plhdr()
+
+  prettyprint-metaborgc-BXorOp :
+    BXorOp-Plhdr() -> [ H(
+                          [SOpt(HS(), "0")]
+                        , [S("$BXorOp")]
+                        )
+                      ]
+
+  is-metaborgc-BXorOp =
+    ?BXorOp-Plhdr()
+
+  prettyprint-metaborgc-BXorExp :
+    BXorExp-Plhdr() -> [ H(
+                           [SOpt(HS(), "0")]
+                         , [S("$BXorExp")]
+                         )
+                       ]
+
+  is-metaborgc-BXorExp =
+    ?BXorExp-Plhdr()
+
+  prettyprint-metaborgc-BOrOp :
+    BOrOp-Plhdr() -> [ H(
+                         [SOpt(HS(), "0")]
+                       , [S("$BOrOp")]
+                       )
+                     ]
+
+  is-metaborgc-BOrOp =
+    ?BOrOp-Plhdr()
+
+  prettyprint-metaborgc-BOrExp :
+    BOrExp-Plhdr() -> [ H(
+                          [SOpt(HS(), "0")]
+                        , [S("$BOrExp")]
+                        )
+                      ]
+
+  is-metaborgc-BOrExp =
+    ?BOrExp-Plhdr()
+
+  prettyprint-metaborgc-LAndOp :
+    LAndOp-Plhdr() -> [ H(
+                          [SOpt(HS(), "0")]
+                        , [S("$LAndOp")]
+                        )
+                      ]
+
+  is-metaborgc-LAndOp =
+    ?LAndOp-Plhdr()
+
+  prettyprint-metaborgc-LAndExp :
+    LAndExp-Plhdr() -> [ H(
+                           [SOpt(HS(), "0")]
+                         , [S("$LAndExp")]
+                         )
+                       ]
+
+  is-metaborgc-LAndExp =
+    ?LAndExp-Plhdr()
+
+  prettyprint-metaborgc-LOrOp :
+    LOrOp-Plhdr() -> [ H(
+                         [SOpt(HS(), "0")]
+                       , [S("$LOrOp")]
+                       )
+                     ]
+
+  is-metaborgc-LOrOp =
+    ?LOrOp-Plhdr()
+
+  prettyprint-metaborgc-LOrExp :
+    LOrExp-Plhdr() -> [ H(
+                          [SOpt(HS(), "0")]
+                        , [S("$LOrExp")]
+                        )
+                      ]
+
+  is-metaborgc-LOrExp =
+    ?LOrExp-Plhdr()
+
+  prettyprint-metaborgc-UnaryExp :
+    UnaryExp-Plhdr() -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$UnaryExp")]
+                          )
+                        ]
+
+  is-metaborgc-UnaryExp =
+    ?UnaryExp-Plhdr()
+
+  prettyprint-metaborgc-AssignOp :
+    AssignOp-Plhdr() -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$AssignOp")]
+                          )
+                        ]
+
+  is-metaborgc-AssignOp =
+    ?AssignOp-Plhdr()
+
+  prettyprint-metaborgc-Exp :
+    Exp-Plhdr() -> [ H(
+                       [SOpt(HS(), "0")]
+                     , [S("$Exp")]
+                     )
+                   ]
+
+  is-metaborgc-Exp =
+    ?Exp-Plhdr()
+
+  prettyprint-metaborgc-AssignExp :
+    AssignExp-Plhdr() -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$AssignExp")]
+                           )
+                         ]
+
+  is-metaborgc-AssignExp =
+    ?AssignExp-Plhdr()
+
+  prettyprint-metaborgc-ConstExp :
+    ConstExp-Plhdr() -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$ConstExp")]
+                          )
+                        ]
+
+  is-metaborgc-ConstExp =
+    ?ConstExp-Plhdr()
+
+  prettyprint-metaborgc-CondExp :
+    CondExp-Plhdr() -> [ H(
+                           [SOpt(HS(), "0")]
+                         , [S("$CondExp")]
+                         )
+                       ]
+
+  is-metaborgc-CondExp =
+    ?CondExp-Plhdr()
+
+  prettyprint-metaborgc-Constant :
+    Constant-Plhdr(_) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$Constant")]
+                           )
+                         ]
+
+  is-metaborgc-Constant =
+    ?Constant-Plhdr(_)
+
+  prettyprint-metaborgc-GenSelect :
+    GenSelect-Plhdr(_) -> [ H(
+                              [SOpt(HS(), "0")]
+                            , [S("$GenSelect")]
+                            )
+                          ]
+
+  is-metaborgc-GenSelect =
+    ?GenSelect-Plhdr(_)
+
+  prettyprint-metaborgc-GenAssoc :
+    GenAssoc-Plhdr(_) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$GenAssoc")]
+                           )
+                         ]
+
+  is-metaborgc-GenAssoc =
+    ?GenAssoc-Plhdr(_)
+
+  prettyprint-metaborgc-PrimExp :
+    PrimExp-Plhdr(_) -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$PrimExp")]
+                          )
+                        ]
+
+  is-metaborgc-PrimExp =
+    ?PrimExp-Plhdr(_)
+
+  prettyprint-metaborgc-PostfixExp :
+    PostfixExp-Plhdr(_) -> [ H(
+                               [SOpt(HS(), "0")]
+                             , [S("$PostfixExp")]
+                             )
+                           ]
+
+  is-metaborgc-PostfixExp =
+    ?PostfixExp-Plhdr(_)
+
+  prettyprint-metaborgc-Cast :
+    Cast-Plhdr(_) -> [ H(
+                         [SOpt(HS(), "0")]
+                       , [S("$Cast")]
+                       )
+                     ]
+
+  is-metaborgc-Cast =
+    ?Cast-Plhdr(_)
+
+  prettyprint-metaborgc-ID :
+    ID-Plhdr(_) -> [ H(
+                       [SOpt(HS(), "0")]
+                     , [S("$ID")]
+                     )
+                   ]
+
+  is-metaborgc-ID =
+    ?ID-Plhdr(_)
+
+  prettyprint-metaborgc-UnaryOp :
+    UnaryOp-Plhdr(_) -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$UnaryOp")]
+                          )
+                        ]
+
+  is-metaborgc-UnaryOp =
+    ?UnaryOp-Plhdr(_)
+
+  prettyprint-metaborgc-TypeName :
+    TypeName-Plhdr(_) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$TypeName")]
+                           )
+                         ]
+
+  is-metaborgc-TypeName =
+    ?TypeName-Plhdr(_)
+
+  prettyprint-metaborgc-CastExp :
+    CastExp-Plhdr(_) -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$CastExp")]
+                          )
+                        ]
+
+  is-metaborgc-CastExp =
+    ?CastExp-Plhdr(_)
+
+  prettyprint-metaborgc-MulOp :
+    MulOp-Plhdr(_) -> [ H(
+                          [SOpt(HS(), "0")]
+                        , [S("$MulOp")]
+                        )
+                      ]
+
+  is-metaborgc-MulOp =
+    ?MulOp-Plhdr(_)
+
+  prettyprint-metaborgc-MulExp :
+    MulExp-Plhdr(_) -> [ H(
+                           [SOpt(HS(), "0")]
+                         , [S("$MulExp")]
+                         )
+                       ]
+
+  is-metaborgc-MulExp =
+    ?MulExp-Plhdr(_)
+
+  prettyprint-metaborgc-AddOp :
+    AddOp-Plhdr(_) -> [ H(
+                          [SOpt(HS(), "0")]
+                        , [S("$AddOp")]
+                        )
+                      ]
+
+  is-metaborgc-AddOp =
+    ?AddOp-Plhdr(_)
+
+  prettyprint-metaborgc-AddExp :
+    AddExp-Plhdr(_) -> [ H(
+                           [SOpt(HS(), "0")]
+                         , [S("$AddExp")]
+                         )
+                       ]
+
+  is-metaborgc-AddExp =
+    ?AddExp-Plhdr(_)
+
+  prettyprint-metaborgc-ShiftOp :
+    ShiftOp-Plhdr(_) -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$ShiftOp")]
+                          )
+                        ]
+
+  is-metaborgc-ShiftOp =
+    ?ShiftOp-Plhdr(_)
+
+  prettyprint-metaborgc-ShiftExp :
+    ShiftExp-Plhdr(_) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$ShiftExp")]
+                           )
+                         ]
+
+  is-metaborgc-ShiftExp =
+    ?ShiftExp-Plhdr(_)
+
+  prettyprint-metaborgc-RelOp :
+    RelOp-Plhdr(_) -> [ H(
+                          [SOpt(HS(), "0")]
+                        , [S("$RelOp")]
+                        )
+                      ]
+
+  is-metaborgc-RelOp =
+    ?RelOp-Plhdr(_)
+
+  prettyprint-metaborgc-RelExp :
+    RelExp-Plhdr(_) -> [ H(
+                           [SOpt(HS(), "0")]
+                         , [S("$RelExp")]
+                         )
+                       ]
+
+  is-metaborgc-RelExp =
+    ?RelExp-Plhdr(_)
+
+  prettyprint-metaborgc-EqOp :
+    EqOp-Plhdr(_) -> [ H(
+                         [SOpt(HS(), "0")]
+                       , [S("$EqOp")]
+                       )
+                     ]
+
+  is-metaborgc-EqOp =
+    ?EqOp-Plhdr(_)
+
+  prettyprint-metaborgc-EqExp :
+    EqExp-Plhdr(_) -> [ H(
+                          [SOpt(HS(), "0")]
+                        , [S("$EqExp")]
+                        )
+                      ]
+
+  is-metaborgc-EqExp =
+    ?EqExp-Plhdr(_)
+
+  prettyprint-metaborgc-BAndOp :
+    BAndOp-Plhdr(_) -> [ H(
+                           [SOpt(HS(), "0")]
+                         , [S("$BAndOp")]
+                         )
+                       ]
+
+  is-metaborgc-BAndOp =
+    ?BAndOp-Plhdr(_)
+
+  prettyprint-metaborgc-BAndExp :
+    BAndExp-Plhdr(_) -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$BAndExp")]
+                          )
+                        ]
+
+  is-metaborgc-BAndExp =
+    ?BAndExp-Plhdr(_)
+
+  prettyprint-metaborgc-BXorOp :
+    BXorOp-Plhdr(_) -> [ H(
+                           [SOpt(HS(), "0")]
+                         , [S("$BXorOp")]
+                         )
+                       ]
+
+  is-metaborgc-BXorOp =
+    ?BXorOp-Plhdr(_)
+
+  prettyprint-metaborgc-BXorExp :
+    BXorExp-Plhdr(_) -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$BXorExp")]
+                          )
+                        ]
+
+  is-metaborgc-BXorExp =
+    ?BXorExp-Plhdr(_)
+
+  prettyprint-metaborgc-BOrOp :
+    BOrOp-Plhdr(_) -> [ H(
+                          [SOpt(HS(), "0")]
+                        , [S("$BOrOp")]
+                        )
+                      ]
+
+  is-metaborgc-BOrOp =
+    ?BOrOp-Plhdr(_)
+
+  prettyprint-metaborgc-BOrExp :
+    BOrExp-Plhdr(_) -> [ H(
+                           [SOpt(HS(), "0")]
+                         , [S("$BOrExp")]
+                         )
+                       ]
+
+  is-metaborgc-BOrExp =
+    ?BOrExp-Plhdr(_)
+
+  prettyprint-metaborgc-LAndOp :
+    LAndOp-Plhdr(_) -> [ H(
+                           [SOpt(HS(), "0")]
+                         , [S("$LAndOp")]
+                         )
+                       ]
+
+  is-metaborgc-LAndOp =
+    ?LAndOp-Plhdr(_)
+
+  prettyprint-metaborgc-LAndExp :
+    LAndExp-Plhdr(_) -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$LAndExp")]
+                          )
+                        ]
+
+  is-metaborgc-LAndExp =
+    ?LAndExp-Plhdr(_)
+
+  prettyprint-metaborgc-LOrOp :
+    LOrOp-Plhdr(_) -> [ H(
+                          [SOpt(HS(), "0")]
+                        , [S("$LOrOp")]
+                        )
+                      ]
+
+  is-metaborgc-LOrOp =
+    ?LOrOp-Plhdr(_)
+
+  prettyprint-metaborgc-LOrExp :
+    LOrExp-Plhdr(_) -> [ H(
+                           [SOpt(HS(), "0")]
+                         , [S("$LOrExp")]
+                         )
+                       ]
+
+  is-metaborgc-LOrExp =
+    ?LOrExp-Plhdr(_)
+
+  prettyprint-metaborgc-UnaryExp :
+    UnaryExp-Plhdr(_) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$UnaryExp")]
+                           )
+                         ]
+
+  is-metaborgc-UnaryExp =
+    ?UnaryExp-Plhdr(_)
+
+  prettyprint-metaborgc-AssignOp :
+    AssignOp-Plhdr(_) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$AssignOp")]
+                           )
+                         ]
+
+  is-metaborgc-AssignOp =
+    ?AssignOp-Plhdr(_)
+
+  prettyprint-metaborgc-Exp :
+    Exp-Plhdr(_) -> [ H(
+                        [SOpt(HS(), "0")]
+                      , [S("$Exp")]
+                      )
+                    ]
+
+  is-metaborgc-Exp =
+    ?Exp-Plhdr(_)
+
+  prettyprint-metaborgc-AssignExp :
+    AssignExp-Plhdr(_) -> [ H(
+                              [SOpt(HS(), "0")]
+                            , [S("$AssignExp")]
+                            )
+                          ]
+
+  is-metaborgc-AssignExp =
+    ?AssignExp-Plhdr(_)
+
+  prettyprint-metaborgc-ConstExp :
+    ConstExp-Plhdr(_) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$ConstExp")]
+                           )
+                         ]
+
+  is-metaborgc-ConstExp =
+    ?ConstExp-Plhdr(_)
+
+  prettyprint-metaborgc-CondExp :
+    CondExp-Plhdr(_) -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$CondExp")]
+                          )
+                        ]
+
+  is-metaborgc-CondExp =
+    ?CondExp-Plhdr(_)
+
+  prettyprint-metaborgc-AssignExp :
+    AssignExp-Opt-Plhdr() -> [ H(
+                                 []
+                               , [S("")]
+                               )
+                             ]
+
+  is-metaborgc-AssignExp =
+    ?AssignExp-Opt-Plhdr()
+
+  prettyprint-metaborgc-Cast :
+    Cast-Opt-Plhdr() -> [ H(
+                            []
+                          , [S("")]
+                          )
+                        ]
+
+  is-metaborgc-Cast =
+    ?Cast-Opt-Plhdr()

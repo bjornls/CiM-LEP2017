@@ -1,0 +1,9 @@
+module testType
+
+language CiMLEP
+
+start symbol Type
+
+test test type [[int]] parse succeeds
+test test type [[signal]] parse succeeds
+test test case sensitivity [[comp]] parse succeeds

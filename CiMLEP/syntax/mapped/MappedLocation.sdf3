@@ -1,0 +1,19 @@
+module mapped/MappedLocation
+
+imports
+  Common
+
+  
+sorts
+  MappedLocation
+  
+context-free start-symbols
+  MappedLocation
+  
+template options 
+  tokenize: "()"
+  tokenize: "[]"
+
+context-free syntax
+  //              x, y, angle
+  MappedLocation.MappedLocation = <<INT>, <INT>, <INT>>

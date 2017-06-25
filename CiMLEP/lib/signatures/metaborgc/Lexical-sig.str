@@ -1,0 +1,57 @@
+module signatures/metaborgc/Lexical-sig
+
+imports
+  signatures/metaborgc/Expressions-sig
+  signatures/metaborgc/Common-sig
+
+
+signature
+  constructors
+    CharConst         : CharConst -> Constant
+    IntConst          : IntConst -> Constant
+    OctConst          : OctConst -> Constant
+    HexConst          : HexConst -> Constant
+    FloatConst        : FloatConst -> Constant
+    StringConst       : StringConst -> Constant
+    CharConst-Plhdr   : CharConst
+    IntConst-Plhdr    : IntConst
+    OctConst-Plhdr    : OctConst
+    HexConst-Plhdr    : HexConst
+    FloatConst-Plhdr  : FloatConst
+    Constant-Plhdr    : Constant
+    StringConst-Plhdr : StringConst
+    CharConst-Plhdr   : COMPLETION-INSERTION -> CharConst
+    IntConst-Plhdr    : COMPLETION-INSERTION -> IntConst
+    OctConst-Plhdr    : COMPLETION-INSERTION -> OctConst
+    HexConst-Plhdr    : COMPLETION-INSERTION -> HexConst
+    FloatConst-Plhdr  : COMPLETION-INSERTION -> FloatConst
+    Constant-Plhdr    : COMPLETION-INSERTION -> Constant
+    StringConst-Plhdr : COMPLETION-INSERTION -> StringConst
+                      : String -> IntConst
+                      : String -> IntSuffix
+                      : String -> UnsignedSuffix
+                      : String -> LongSuffix
+                      : String -> LongLongSuffix
+                      : String -> Digit
+                      : String -> NonzeroDigit
+                      : String -> OctConst
+                      : String -> OctDigit
+                      : String -> HexConst
+                      : String -> HexPrefix
+                      : String -> HexDigit
+                      : String -> FloatConst
+                      : String -> DecFloatConst
+                      : String -> FracConst
+                      : String -> ExpPart
+                      : String -> BinExpPart
+                      : String -> HexFloatConst
+                      : String -> HexFracConst
+                      : String -> FloatSuffix
+                      : String -> UniCharName
+                      : String -> HexQuad
+                      : String -> EscSeq
+                      : String -> CharConst
+                      : String -> Char
+                      : String -> StringConst
+                      : String -> EncPrefix
+                      : String -> SChar

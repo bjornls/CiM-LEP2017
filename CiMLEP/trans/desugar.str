@@ -1,0 +1,97 @@
+module desugar
+
+imports
+	src-gen/signatures/Signal-sig
+	src-gen/signatures/Statement-sig
+	src-gen/signatures/Type-sig
+	src-gen/signatures/Component-sig
+	src-gen/signatures/Exp-sig
+
+strategies
+	
+	desugar-all = bottomup(try(desugar))
+	
+signature constructors
+	UnExp 	: UnOp * Exp 		-> Exp
+    BinExp 	: Op * Exp * Exp 	-> Exp
+    
+    Incr 	: FunctionId
+    Fold 	: TraversalDir -> FunctionId
+    Shift	: TraversalDir -> FunctionId
+    Rev 	: FunctionId
+    Copy 	: FunctionId
+    Log2 	: FunctionId
+    Max 	: FunctionId
+    Map 	: FunctionId
+    Zip 	: FunctionId
+    
+    Right : TraversalDir
+    Left : TraversalDir
+    
+    SignalDecl 	: ID * Exp -> Statement
+    SigRef 		: ID * Exp -> Exp
+    
+    Repeat 		: Exp * Exp -> Exp 
+    
+    
+	
+rules
+	
+	desugar: Add(exp1, exp2) -> BinExp(Plus(), exp1, exp2)
+	desugar: Sub(exp1, exp2) -> BinExp(Minus(), exp1, exp2)
+	desugar: Mul(exp1, exp2) -> BinExp(Times(), exp1, exp2)
+	desugar: Div(exp1, exp2) -> BinExp(DividedBy(), exp1, exp2)
+	desugar: Mod(exp1, exp2) -> BinExp(Modulo(), exp1, exp2)
+	desugar: Power(exp1, exp2) -> BinExp(ToThePower(), exp1, exp2)
+	desugar: AND(exp1, exp2) -> BinExp(And(), exp1, exp2)
+	desugar: OR(exp1, exp2) -> BinExp(Or(), exp1, exp2)
+	desugar: LT(exp1, exp2) -> BinExp(LessThan(), exp1, exp2)
+	desugar: GT(exp1, exp2) -> BinExp(GreaterThan(), exp1, exp2)
+	desugar: EQ(exp1, exp2) -> BinExp(EqualTo(), exp1, exp2)
+
+	desugar: Range(exp1, exp2) -> Interval(exp1, Int("1"), exp2)
+	desugar: VarDecl(Integer(), name) -> VarDeclInit(Integer(), name, Int("0"))
+	
+	desugar: FunApp("incr",e,p) -> FunApp(Incr(), e, p)
+	desugar: FunApp("shiftr",e,p) -> FunApp(Shift(Right()), e, p)
+	desugar: FunApp("shiftl",e,p) -> FunApp(Shift(Left()), e, p)
+	desugar: FunApp("rev",e,p) -> FunApp(Rev(), e, p)
+	desugar: FunApp("foldr",e,p) -> FunApp(Fold(Right()), e, p)
+	desugar: FunApp("foldl",e,p) -> FunApp(Fold(Left()), e, p)
+	desugar: FunApp("copy",Some(SubScr(exp)),[p]) -> Repeat(exp, p)
+	desugar: FunApp("copy",e,p) -> FunApp(Copy(), e, p)
+	desugar: FunApp("log2",e,p) -> FunApp(Log2(), e, p)
+	desugar: FunApp("max",e,p) -> FunApp(Max(), e, p)
+	desugar: FunApp("map",e,p) -> FunApp(Map(), e, p)
+	desugar: FunApp("zip",e,p) -> FunApp(Zip(), e, p)
+	
+	
+	
+	desugar: ConcurSig(vref, vref2 ) -> ConcurSig(<try(desugar-sig)>vref, <try(desugar-sig)>vref2)
+
+	desugar: ArrayDecl(Signal(),e,p) -> SignalDecl(e, p)
+	desugar: SignalAssign(insig, cskel, outsig) 
+					-> SignalAssign(<try(desugar-sig)>insig, cskel, <try(desugar-sig)>outsig)
+	
+	//	only certain instances that we want to desugar thusly
+	// i.e. the weight of the syntax knowing about signals was shifted to desugaring.
+	desugar-sig: VarRef(vid) -> SigRef(vid, None())
+	desugar-sig: Subscr(vid, ind) -> SigRef(vid, ind)
+	desugar-sig: FunApp(Zip(), n, p) -> FunApp(Zip(), n, <map(try(desugar-sig))>p)
+//	
+//	desugar: VarDecl(Array(type), name) -> VarDeclInit(Array(type), name, ManualDefinition([]))
+//	desugar: VarDecl(Integer(), name) -> VarDeclInit(Integer(), name, Int("0"))
+//	desugar: VarDecl(Boolean(), name) -> VarDeclInit(Boolean(), name, False())
+//	desugar: VarDecl(Comp(), name) -> VarDeclInit(Comp(), name, Nop())
+//	desugar: VarDecl(Coordinate(), name) -> VarDeclInit(Coordinate(), name, CoordVal("0", "0"))
+//	
+//	desugar: SingleSigRef(name) -> SigRef(name, Int("0"))
+//	
+//	desugar: AltSingleSignalAssign(signal, conskel, name) -> SignalAssign(name, Int("0"), signal, conskel)
+//	
+//	desugar: SingleModRef(name) -> ModRef(name, Int("0"))
+//	desugar: SingleCompAttrAssign(name, attr, exp) -> CompAttrAssign(name, Int("0"), attr, exp)
+//	
+//	desugar: SingleSigParam(name) -> SigParam(name, Int("1"))
+//	desugar: SingleModParam(inports, outports, name) -> ModParam(inports, outports, name, Int("1"))
+//	desugar: SingleSignalDecl(name) -> SignalDecl(name, Int("1"))

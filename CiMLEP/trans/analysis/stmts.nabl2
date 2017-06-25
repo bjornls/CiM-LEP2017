@@ -1,0 +1,64 @@
+module analysis/stmts
+
+imports
+	signatures/-
+	analysis/exp
+	
+rules
+
+[[Accolades(sts) ^ (s)]] := Stmts[[sts ^ (s)]].
+	
+Stmts[[ [] ^ (scope) ]] :=
+	
+	distinct/name V(scope) | error @NAMES.
+ 
+Stmts[[ [x|xs] ^ (scope) ]] :=
+		new sc,
+		sc ---> scope,
+    	[[ x ^ (sc) ]],
+    	Stmts[[ xs ^ (sc) ]].
+
+[[SignalDecl(sid, index) ^ (s)]] :=
+	[[index ^ (s) : ity]],
+	ity == TInteger() | error "Can only be declared with an integer",
+	Var{sid} <- s,
+	Var{sid} : TSignal(),
+	Var{sid}.origin := Sig().	
+	
+[[SignalAssign(sigIn, conskel, SigRef(sid, None())) ^ (s)]] := 
+	false | error "Output signal not specified with subscript".
+
+[[SignalAssign(sigIn, conskel, sigOut) ^ (s)]] :=
+	[[sigIn ^ (s) : ty]],
+	[[sigOut ^ (s) : ty2]]
+	,[ty,ty2] == [TSignal(),TSignal()] | error @NAMES,
+	ConSkel[[conskel ^ (s) : cty]].
+
+		
+[[VarDeclInit(type, id, value) ^ (s)]] := 
+	[[value ^ (s) : vty]],
+	[[type ^ (s) : tty]],
+	Var{id} <- s,
+	Var{id} : tty !,
+	Var{id}.origin := Local(),
+	vty == tty | error @NAMES.
+	
+[[VarDecl(type, id) ^ (scope)]] := 
+	Var{id} <- scope,
+	[[type ^ (s) : tty]],
+	Var{id} : tty,
+	Var{id}.origin := Local().
+	
+[[VarAssign(varref, value) ^ (s)]] := 
+	[[varref ^ (s) : ty]], 
+	[[value ^ (s) : ty2]],
+	t1 == ty2 | error.
+
+SubscrType[[Interval(_,_,_) ^ (s)]] := true.
+SubscrType[[exp ^ (s) ]] :=
+	[[exp ^ (s) : ty]],
+	ty == TInteger() | error "Must be an integer".
+	
+[[Integer() ^ (s) : TInteger()]] := true.
+[[Comp() ^ (s) : TComp()]] := true.
+[[TSignal() ^ (s) : TSignal()]] := true.

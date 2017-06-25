@@ -1,0 +1,16 @@
+module testSigParam
+
+language CiMLEP
+
+start symbol SigParam
+
+
+/*
+	BNF : <sigParam> ::= <id> [“[” <exp> “]”]
+    • id = [A-Za-z][A-Za-z 0-9]*
+*/
+
+
+
+
+

@@ -1,0 +1,48 @@
+module CiMLEP
+
+imports
+  
+  Common
+  Component
+  FuncBlock
+  Exp
+  mapped/MappedSystem
+
+context-free start-symbols
+  
+  Start
+
+context-free syntax
+  
+  	Start.Empty = <>
+  	Start.Program = <
+  		<{FuncBlock "\n"}*;hide>
+		<MainComponent>
+		<{Component "\n\n"}*>
+	>
+	
+	Start.MappedProgram = <<MappedSystem>>
+	
+context-free priorities
+
+{left:
+	Exp.Power
+}>{left:
+	Exp.Mul
+	Exp.Div
+	Exp.Mod
+}>{left:
+	Exp.Add
+	Exp.Sub
+}>{left:
+	Exp.LT
+	Exp.GT
+	Exp.EQ
+}>{left:
+	Exp.AND
+	Exp.OR
+}>{left:
+	Exp.Range
+	Exp.Interval
+}
+	

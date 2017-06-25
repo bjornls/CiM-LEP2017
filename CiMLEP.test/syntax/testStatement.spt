@@ -1,0 +1,25 @@
+module testStatement
+
+language CiMLEP
+
+start symbol Statement
+
+
+test statement empty block [[{}]] parse succeeds
+test assignment [[int i = 2;]] parse succeeds 
+test signal declaration [[signal i;]] parse succeeds 
+test signal declaration [[signal i[2];]] parse succeeds 
+// 
+test component statement [[in => out[1]; ]] parse succeeds
+test component statement without subscript [[in => out; ]] parse succeeds 
+
+
+test component statement with skelconn [[in => bla() => out[1]; ]] parse succeeds
+
+
+/*
+	Missing terminals
+*/
+
+test assignment without semi-colon [[int i = 2]] parse fails
+test assignment without = [[int i  2;]] parse fails

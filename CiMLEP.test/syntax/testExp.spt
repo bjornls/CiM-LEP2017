@@ -1,0 +1,133 @@
+module testExp
+
+language CiMLEP
+
+start symbol Exp
+
+//functions with correct application
+test shiftl [[shiftl(i,2)]] parse succeeds
+test shiftr [[shiftr(i,2)]] parse succeeds
+test increment [[incr(i,2)]] parse succeeds
+test reverse [[rev(array)]] parse succeeds
+test foldr [[foldr<+>(a)]] parse succeeds  
+test foldl [[foldl<+>(a)]] parse succeeds
+test map [[map<i = p + 2>(a)]] parse succeeds 
+test copy [[copy[1](b)]] parse succeeds 
+
+//functions with incorrect application 
+test shiftl [[shiftl<i = i^2>(i,2)]] parse succeeds
+test shiftr [[shiftr[foo](i,2)]] parse succeeds
+test reverse [[rev[2+2](array)]] parse succeeds
+test increment [[incr(i)]] parse succeeds 
+test foldr [[foldr[2](a)]] parse succeeds  
+test foldl [[foldl(a)]] parse succeeds
+test map [[map(a)]] parse succeeds 
+test copy [[copy<i = i^2>(b)]] parse succeeds 
+ 
+test binop [[i+i]] parse succeeds 
+/*
+	Test valid identifiers
+*/
+
+test single capital letter [[O]] parse succeeds 
+test single lower-case letter [[i]] parse succeeds
+test single lower-case letter followed by digit [[i9]] parse succeeds
+test single lower-case letter followed by digit [[I9]] parse succeeds
+test combination [[idFi9Sss]] parse succeeds 
+
+
+/*
+	Test invalid identifiers
+*/
+
+test cannot start with a digit [[1i]] parse fails
+test cannot have a special char [[$1]] parse fails
+
+
+/*
+	Test reserved identifiers
+*/
+
+test reserved identifier[[component]] parse fails 
+
+test reserved identifier array [[component[0] ]] parse fails
+
+test reserved identifier[[skeleton]] parse fails
+
+test reserved identifier[[signal]] parse fails
+
+test reserved identifier[[if]] parse fails
+
+test reserved identifier[[then]] parse fails
+
+test reserved identifier[[else]] parse fails
+
+test reserved identifier[[while]] parse fails 
+
+test reserved identifier[[do]] parse fails 
+
+test reserved identifier[[for]] parse fails
+
+test reserved identifier[[zip]] parse fails
+
+test reserved identifier[[loop]] parse fails
+
+test reserved identifier[[int]] parse fails
+
+test reserved identifier[[bool]] parse fails
+
+test reserved identifier[[coord]] parse fails 
+ 
+test reserved identifier[[block]] parse fails
+
+test reserved identifier[[log2]] parse fails
+
+test reserved identifier[[max]] parse fails
+
+test reserved identifier[[rev]] parse fails
+
+test reserved identifier[[copy]] parse fails
+
+test reserved identifier[[incr]] parse fails
+
+test reserved identifier[[shiftl]] parse fails
+
+test reserved identifier[[shiftr]] parse fails
+
+test reserved identifier[[foldl]] parse fails
+
+test reserved identifier[[foldr]] parse fails
+
+test reserved identifier[[map]] parse fails
+
+test reserved identifier[[X]] parse fails
+
+test reserved identifier[[Y]] parse fails
+
+test reserved identifier[[translate]] parse fails
+
+test reserved identifier[[rotate]] parse fails
+ 
+test reserved identifier[[mirrorX]] parse fails
+
+test reserved identifier[[mirrorY]] parse fails
+
+test reserved identifier[[inport]] parse fails
+
+test reserved identifier[[outport]] parse fails
+
+//test reserved identifier[[inports]] parse fails
+
+//test reserved identifier[[outports]] parse fails
+
+test reserved identifier[[pos]] parse fails
+
+test reserved identifier[[size]] parse fails
+
+test reserved identifier[[delay]] parse fails
+
+test reserved identifier[[time]] parse fails
+
+test reserved identifier[[rot]] parse fails
+
+test reserved identifier[[mir]] parse fails

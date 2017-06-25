@@ -1,0 +1,17 @@
+module Type
+
+imports
+  Common
+  
+sorts
+  Type
+  
+context-free start-symbols
+  Type
+  
+context-free syntax
+
+Type.Integer = <int>
+//Type.Array = <<Type>[]>
+Type.Comp = <comp>
+Type.Signal = <signal>

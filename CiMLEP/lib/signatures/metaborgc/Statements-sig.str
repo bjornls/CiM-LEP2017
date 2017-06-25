@@ -1,0 +1,73 @@
+module signatures/metaborgc/Statements-sig
+
+imports
+  signatures/metaborgc/Expressions-sig
+  signatures/metaborgc/Common-sig
+  signatures/metaborgc/Declarations-sig
+
+
+signature
+  constructors
+                          : MemberStm -> Stm
+                          : LabeledStm -> Stm
+                          : CompoundStm -> Stm
+                          : ExpStm -> Stm
+                          : SelectionStm -> Stm
+                          : IterStm -> Stm
+                          : JmpStm -> Stm
+    Sys                   : ID * ID * CompoundStm -> Stm
+    MemberStm             : AccessSpecifier * Compound -> MemberStm
+    Public                : AccessSpecifier
+    Private               : AccessSpecifier
+    Protected             : AccessSpecifier
+    Label                 : ID * Stm -> LabeledStm
+    Case                  : ConstExp * Stm -> LabeledStm
+    Default               : Stm -> LabeledStm
+    Block                 : List(BlockItem) -> CompoundStm
+    Compound              : List(BlockItem) -> Compound
+                          : Decl -> BlockItem
+                          : Stm -> BlockItem
+    ExpStm                : Exp -> ExpStm
+    If                    : Exp * Stm -> SelectionStm
+    IfElse                : Exp * Stm * Stm -> SelectionStm
+    Switch                : Exp * Stm -> SelectionStm
+    While                 : Exp * Stm -> IterStm
+    Do                    : Stm * Exp -> IterStm
+    For                   : Option(Exp) * Option(Exp) * Option(Exp) * Stm -> IterStm
+    DeclFor               : Decl * Option(Exp) * Option(Exp) * Stm -> IterStm
+    Goto                  : ID -> JmpStm
+    Continue              : JmpStm
+    Break                 : JmpStm
+    Return                : Option(Exp) -> JmpStm
+    MemberStm-Plhdr       : MemberStm
+    AccessSpecifier-Plhdr : AccessSpecifier
+    ConstExp-Plhdr        : ConstExp
+    LabeledStm-Plhdr      : LabeledStm
+    CompoundStm-Plhdr     : CompoundStm
+    Compound-Plhdr        : Compound
+    BlockItem-Plhdr       : BlockItem
+    ExpStm-Plhdr          : ExpStm
+    SelectionStm-Plhdr    : SelectionStm
+    IterStm-Plhdr         : IterStm
+    Decl-Plhdr            : Decl
+    Stm-Plhdr             : Stm
+    ID-Plhdr              : ID
+    JmpStm-Plhdr          : JmpStm
+    Exp-Plhdr             : Exp
+    MemberStm-Plhdr       : COMPLETION-INSERTION -> MemberStm
+    AccessSpecifier-Plhdr : COMPLETION-INSERTION -> AccessSpecifier
+    ConstExp-Plhdr        : COMPLETION-INSERTION -> ConstExp
+    LabeledStm-Plhdr      : COMPLETION-INSERTION -> LabeledStm
+    CompoundStm-Plhdr     : COMPLETION-INSERTION -> CompoundStm
+    Compound-Plhdr        : COMPLETION-INSERTION -> Compound
+    BlockItem-Plhdr       : COMPLETION-INSERTION -> BlockItem
+    ExpStm-Plhdr          : COMPLETION-INSERTION -> ExpStm
+    SelectionStm-Plhdr    : COMPLETION-INSERTION -> SelectionStm
+    IterStm-Plhdr         : COMPLETION-INSERTION -> IterStm
+    Decl-Plhdr            : COMPLETION-INSERTION -> Decl
+    Stm-Plhdr             : COMPLETION-INSERTION -> Stm
+    ID-Plhdr              : COMPLETION-INSERTION -> ID
+    JmpStm-Plhdr          : COMPLETION-INSERTION -> JmpStm
+    Exp-Plhdr             : COMPLETION-INSERTION -> Exp
+    BlockItem-Opt-Plhdr   : BlockItem
+    Exp-Opt-Plhdr         : Exp

@@ -1,0 +1,52 @@
+module analysis/cimlep
+
+imports
+
+  //nabl2shared
+  //nabl2runtime
+  signatures/-
+  analysis/comps
+
+signature
+
+	name resolution
+        namespaces FuncBlock Component Var
+     name resolution
+     
+     constructors
+     
+	     TSignal 	: Type 
+	     TComp 		: Type
+	     TInteger 	: Type
+	     TIntArray	: Type
+	     
+	     IsIndex	: SuperType  
+     
+     relations
+     
+     	anti-symmetric, anti-transitive super : Type * SuperType
+     
+     
+ 
+rules
+
+  init ^ (s) :=
+  	TInteger()  <super! IsIndex(),
+  	TIntArray()  <super! IsIndex(),
+  
+    new s.
+    
+[[Program(funBlocks, main, comps) ^ (globalscope) ]] := 
+	[[main ^ (globalscope)]],
+	Map1[[funBlocks ^ (globalscope)]],
+	Map1[[comps ^ (globalscope)]],
+	distinct/name D(globalscope) | error "Duplicate identifiers for FunctionBlock" @NAMES.
+
+[[FuncBlock(id, size, latency, energyCons, inPorts, outPorts) ^ (function_scope)]] := 
+	Var{id} <- function_scope,
+	Var{id}.origin := FuncBlock(),
+	Var{id} : Comp().
+	
+
+
+	

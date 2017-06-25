@@ -1,0 +1,30 @@
+module signatures/metaborgc/ExternalDefinitions-sig
+
+imports
+  signatures/metaborgc/Declarations-sig
+  signatures/metaborgc/Statements-sig
+  signatures/metaborgc/Preprocessor-sig
+
+
+signature
+  constructors
+    TranslationUnit       : List(ExternalDecl) -> TranslationUnit
+                          : FuncDef -> ExternalDecl
+                          : Decl -> ExternalDecl
+    FuncDef               : List(DeclSpec) * FuncDeclarator * List(Decl) * CompoundStm -> FuncDef
+    TranslationUnit-Plhdr : TranslationUnit
+    ExternalDecl-Plhdr    : ExternalDecl
+    FuncDef-Plhdr         : FuncDef
+    DeclSpec-Plhdr        : DeclSpec
+    FuncDeclarator-Plhdr  : FuncDeclarator
+    Decl-Plhdr            : Decl
+    CompoundStm-Plhdr     : CompoundStm
+    TranslationUnit-Plhdr : COMPLETION-INSERTION -> TranslationUnit
+    ExternalDecl-Plhdr    : COMPLETION-INSERTION -> ExternalDecl
+    FuncDef-Plhdr         : COMPLETION-INSERTION -> FuncDef
+    DeclSpec-Plhdr        : COMPLETION-INSERTION -> DeclSpec
+    FuncDeclarator-Plhdr  : COMPLETION-INSERTION -> FuncDeclarator
+    Decl-Plhdr            : COMPLETION-INSERTION -> Decl
+    CompoundStm-Plhdr     : COMPLETION-INSERTION -> CompoundStm
+    DeclSpec-Opt-Plhdr    : DeclSpec
+    Decl-Opt-Plhdr        : Decl

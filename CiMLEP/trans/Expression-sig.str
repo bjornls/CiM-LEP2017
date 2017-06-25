@@ -1,0 +1,114 @@
+module signatures/Expression-sig
+
+imports
+  signatures/Common-sig
+
+
+signature
+  sorts
+    Exp ModExp Op Attr ConnectOp
+
+  constructors
+    VarRef           : ID -> Exp
+    Int              : INT -> Exp
+    True             : Exp
+    False            : Exp
+    Plus             : Op
+    Minus            : Op
+    Times            : Op
+    DividedBy        : Op
+    ToThePower       : Op
+    Modulo           : Op
+    GreaterThan      : Op
+    LessThan         : Op
+    EqualTo          : Op
+    And              : Op
+    Or               : Op
+    ConOp            : ConnectOp -> Op
+    AppendTo         : Op
+    MaxOf            : Op
+    BinOp            : Exp * Op * Exp -> Exp
+    Outport          : Exp -> Attr
+    Outports         : Attr
+    OutportPos       : Exp -> Attr
+    OutportRot       : Exp -> Attr
+    OutportMir       : Exp -> Attr
+    GlobalOutport    : Exp -> Attr
+    GlobalOutports   : Attr
+    Inport           : Exp -> Attr
+    Inports          : Att
+    InportPos        : Exp -> Attr
+    InportRot        : Exp -> Attr
+    InportMir        : Exp -> Attr
+    GlobalInport     : Exp -> Attr
+    GlobalInports    : Attr
+    Position         : Attr
+    Size             : Attr
+    Delay            : Attr
+    Time             : Attr
+    Rotation         : Attr
+    Mirror           : Attr
+    Add              : Exp * Exp -> Exp
+    Sub              : Exp * Exp -> Exp
+    Mul              : Exp * Exp -> Exp
+    Div              : Exp * Exp -> Exp
+    Mod              : Exp * Exp -> Exp
+    Log2             : Exp -> Exp
+    Power            : Exp * Exp -> Exp
+    Max              : Exp * Exp -> Exp
+    GT               : Exp * Exp -> Exp
+    LT               : Exp * Exp -> Exp
+    EQ               : Exp * Exp -> Exp
+    AND              : Exp * Exp -> Exp
+    OR               : Exp * Exp -> Exp
+    NOT              : Exp -> Exp
+    ManualDefinition : List(Exp) -> Exp
+    Range            : Exp * Exp -> Exp
+    Interval         : Exp * Exp * Exp -> Exp
+    Reverse          : Exp -> Exp
+    FoldRight        : Op * Exp -> Exp
+    FoldLeft         : Op * Exp -> Exp
+    Map              : ID * Exp * Exp -> Exp
+    Repeat           : Exp * Exp -> Exp
+    Append           : Exp * Exp -> Exp
+    Increment        : Exp * Exp -> Exp
+    ShiftRight       : Exp * Exp -> Exp
+    ShiftLeft        : Exp * Exp -> Exp
+    PartOfArray      : Exp * Exp -> Exp
+    ConnOp           : CO -> ConnectOp
+    Linear           : ConnectOp
+    HTree            : ConnectOp
+    Crowd            : ConnectOp
+    Connect          : Exp * ConnectOp * Exp -> Exp
+    CompRef          : ID * List(Exp) -> Exp
+    FuncBlockNum     : INT -> Exp
+    Nop              : Exp
+    ModRef           : ID * Exp -> ModExp
+    SingleModRef     : ID -> ModExp
+    CompAttr         : ModExp * Attr -> Exp
+    CoordVal         : Exp * Exp -> Exp
+    CoordX           : Exp -> Exp
+    CoordY           : Exp -> Exp
+    CoordTranslate   : Exp * Exp -> Exp
+    CoordRotate      : Exp * Exp -> Exp
+    CoordMirrorX     : Exp * Exp -> Exp
+    CoordMirrorY     : Exp * Exp -> Exp
+    Att-Plhdr        : Att
+    Op-Plhdr         : Op
+    CO-Plhdr         : CO
+    ConnectOp-Plhdr  : ConnectOp
+    INT-Plhdr        : INT
+    ID-Plhdr         : ID
+    ModExp-Plhdr     : ModExp
+    Attr-Plhdr       : Attr
+    Exp-Plhdr        : Exp
+    Att-Plhdr        : COMPLETION-INSERTION -> Att
+    Op-Plhdr         : COMPLETION-INSERTION -> Op
+    CO-Plhdr         : COMPLETION-INSERTION -> CO
+    ConnectOp-Plhdr  : COMPLETION-INSERTION -> ConnectOp
+    INT-Plhdr        : COMPLETION-INSERTION -> INT
+    ID-Plhdr         : COMPLETION-INSERTION -> ID
+    ModExp-Plhdr     : COMPLETION-INSERTION -> ModExp
+    Attr-Plhdr       : COMPLETION-INSERTION -> Attr
+    Exp-Plhdr        : COMPLETION-INSERTION -> Exp
+    Exp-Opt-Plhdr    : Exp

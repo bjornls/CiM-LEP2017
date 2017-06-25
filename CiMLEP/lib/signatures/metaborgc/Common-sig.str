@@ -1,0 +1,17 @@
+module signatures/metaborgc/Common-sig
+
+signature
+  constructors
+     : String -> ID
+     : String -> INT
+     : String -> STRING
+     : String -> StringChar
+     : String -> BackSlashChar
+     : String -> CommentChar
+     : String -> InsideComment
+     : String -> Comment
+     : String -> NewLineEOF
+     : String -> EOF
+     : String -> Comma
+     : String -> Sign
+     : String -> Keyword

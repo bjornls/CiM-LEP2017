@@ -1,0 +1,649 @@
+module pp/Preprocessor-pp
+
+imports
+  libstratego-gpp
+  libspoofax/sdf/pp
+  libspoofax/term/origin
+  libstratego-sglr
+  signatures/metaborgc/Preprocessor-sig
+
+
+imports
+  signatures/metaborgc/Common-sig
+  signatures/metaborgc/Expressions-sig
+
+
+imports
+  pp/metaborgc/Common-pp
+  pp/metaborgc/Expressions-pp
+
+
+strategies
+  prettyprint-example =
+    prettyprint-metaborgc
+
+  prettyprint-metaborgc =
+    fail
+
+  prettyprint-metaborgc(|sort) =
+    fail
+
+
+strategies
+  prettyprint-SDF-start-symbols =
+    prettyprint-metaborgc-start-symbols
+
+  prettyprint-metaborgc-start-symbols =
+    fail
+
+
+strategies
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-PPToken
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-PPTokenSeq
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-PPWS
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-PPNL
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-PPHChar
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-PPQChar
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-PPHeaderName
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-PPToken>
+    where <?"PPToken"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-PPTokenSeq>
+    where <?"PPTokenSeq"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-PPWS>
+    where <?"PPWS"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-PPNL>
+    where <?"PPNL"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-PPHChar>
+    where <?"PPHChar"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-PPQChar>
+    where <?"PPQChar"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-PPHeaderName>
+    where <?"PPHeaderName"> sort
+
+  prettyprint-metaborgc-PPToken =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-PPTokenSeq =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-PPWS =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-PPNL =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-PPHChar =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-PPQChar =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-PPHeaderName =
+    ![S(<is-string>)]
+
+  prettyprint-metaborgc-PPToken :
+    amb([h|hs]) -> <prettyprint-metaborgc-PPToken> h
+
+  prettyprint-metaborgc-PPTokenSeq :
+    amb([h|hs]) -> <prettyprint-metaborgc-PPTokenSeq> h
+
+  prettyprint-metaborgc-PPWS :
+    amb([h|hs]) -> <prettyprint-metaborgc-PPWS> h
+
+  prettyprint-metaborgc-PPNL :
+    amb([h|hs]) -> <prettyprint-metaborgc-PPNL> h
+
+  prettyprint-metaborgc-PPHChar :
+    amb([h|hs]) -> <prettyprint-metaborgc-PPHChar> h
+
+  prettyprint-metaborgc-PPQChar :
+    amb([h|hs]) -> <prettyprint-metaborgc-PPQChar> h
+
+  prettyprint-metaborgc-PPHeaderName :
+    amb([h|hs]) -> <prettyprint-metaborgc-PPHeaderName> h
+
+
+strategies
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-ExternalDecl
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-StructDecl
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-Stm
+
+  prettyprint-metaborgc =
+    prettyprint-metaborgc-ControlLine
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-ExternalDecl>
+    where <?"ExternalDecl"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-StructDecl>
+    where <?"StructDecl"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-Stm>
+    where <?"Stm"> sort
+
+  prettyprint-metaborgc(|sort):
+    t -> <prettyprint-metaborgc-ControlLine>
+    where <?"ControlLine"> sort
+
+  prettyprint-metaborgc-ExternalDecl :
+    PP(t1__) -> [ H(
+                    [SOpt(HS(), "0")]
+                  , [t1__']
+                  )
+                ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-ControlLine) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-ExternalDecl =
+    ?PP(_)
+
+  metaborgc-get-indent :
+    (t@PP(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"ExternalDecl"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@PP(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"ExternalDecl"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@PP(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"ExternalDecl"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-StructDecl :
+    PP(t1__) -> [ H(
+                    [SOpt(HS(), "0")]
+                  , [t1__']
+                  )
+                ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-ControlLine) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-StructDecl =
+    ?PP(_)
+
+  metaborgc-get-indent :
+    (t@PP(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"StructDecl"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@PP(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"StructDecl"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@PP(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"StructDecl"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-Stm :
+    PP(t1__) -> [ H(
+                    [SOpt(HS(), "0")]
+                  , [t1__']
+                  )
+                ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-ControlLine) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-Stm =
+    ?PP(_)
+
+  metaborgc-get-indent :
+    (t@PP(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"Stm"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@PP(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"Stm"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@PP(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"Stm"> sort
+    with switch !index
+           case ?1 :
+             ws := ""
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-ControlLine :
+    IfH(t1__) -> [ H(
+                     [SOpt(HS(), "0")]
+                   , [S("# if "), t1__']
+                   )
+                 ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-ConstExp) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-ControlLine =
+    ?IfH(_)
+
+  metaborgc-get-indent :
+    (t@IfH(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"ControlLine"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@IfH(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"ControlLine"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@IfH(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"ControlLine"> sort
+    with switch !index
+           case ?1 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-ControlLine :
+    IfNDef(t1__) -> [ H(
+                        [SOpt(HS(), "0")]
+                      , [S("# ifndef "), t1__']
+                      )
+                    ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-PPTokenSeq) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-ControlLine =
+    ?IfNDef(_)
+
+  metaborgc-get-indent :
+    (t@IfNDef(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"ControlLine"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@IfNDef(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"ControlLine"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@IfNDef(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"ControlLine"> sort
+    with switch !index
+           case ?1 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-ControlLine :
+    Define(t1__) -> [ H(
+                        [SOpt(HS(), "0")]
+                      , [S("# define "), t1__']
+                      )
+                    ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-PPTokenSeq) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-ControlLine =
+    ?Define(_)
+
+  metaborgc-get-indent :
+    (t@Define(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"ControlLine"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Define(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"ControlLine"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Define(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"ControlLine"> sort
+    with switch !index
+           case ?1 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-ControlLine :
+    Include(t1__) -> [ H(
+                         [SOpt(HS(), "0")]
+                       , [S("# include "), t1__']
+                       )
+                     ]
+    with t1__' := <pp-one-Z(prettyprint-metaborgc-PPTokenSeq) <+ pp-one-Z(prettyprint-completion-aux)> t1__
+
+  is-metaborgc-ControlLine =
+    ?Include(_)
+
+  metaborgc-get-indent :
+    (t@Include(t1__), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"ControlLine"> sort
+    with switch !index
+           case ?1 :
+             indent := ""
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@Include(t1__), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"ControlLine"> sort
+    with switch !index
+           case ?1 :
+             separator := ""
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@Include(t1__), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"ControlLine"> sort
+    with switch !index
+           case ?1 :
+             ws := " "
+           otherwise :
+             ws := ""
+         end
+
+  prettyprint-metaborgc-ControlLine :
+    EndIf() -> [ H(
+                   [SOpt(HS(), "0")]
+                 , [S("# endif")]
+                 )
+               ]
+
+  is-metaborgc-ControlLine =
+    ?EndIf()
+
+  metaborgc-get-indent :
+    (t@EndIf(), index) -> indent
+    where sort := <ia-get-sort> t
+          ; <?"ControlLine"> sort
+    with switch !index
+           otherwise :
+             indent := ""
+         end
+
+  metaborgc-get-separator :
+    (t@EndIf(), index) -> separator
+    where sort := <ia-get-sort> t
+          ; <?"ControlLine"> sort
+    with switch !index
+           otherwise :
+             separator := ""
+         end
+
+  metaborgc-get-leading-ws :
+    (t@EndIf(), index) -> ws
+    where sort := <ia-get-sort> t
+          ; <?"ControlLine"> sort
+    with switch !index
+           otherwise :
+             ws := ""
+         end
+
+  is-metaborgc-ExternalDecl =
+    fail
+
+  is-metaborgc-StructDecl =
+    fail
+
+  is-metaborgc-Stm =
+    fail
+
+  is-metaborgc-ControlLine =
+    fail
+
+  prettyprint-metaborgc-ExternalDecl :
+    amb([h|hs]) -> <prettyprint-metaborgc-ExternalDecl> h
+
+  prettyprint-metaborgc-StructDecl :
+    amb([h|hs]) -> <prettyprint-metaborgc-StructDecl> h
+
+  prettyprint-metaborgc-Stm :
+    amb([h|hs]) -> <prettyprint-metaborgc-Stm> h
+
+  prettyprint-metaborgc-ControlLine :
+    amb([h|hs]) -> <prettyprint-metaborgc-ControlLine> h
+
+  prettyprint-metaborgc-ExternalDecl :
+    ExternalDecl-Plhdr() -> [ H(
+                                [SOpt(HS(), "0")]
+                              , [S("$ExternalDecl")]
+                              )
+                            ]
+
+  is-metaborgc-ExternalDecl =
+    ?ExternalDecl-Plhdr()
+
+  prettyprint-metaborgc-StructDecl :
+    StructDecl-Plhdr() -> [ H(
+                              [SOpt(HS(), "0")]
+                            , [S("$StructDecl")]
+                            )
+                          ]
+
+  is-metaborgc-StructDecl =
+    ?StructDecl-Plhdr()
+
+  prettyprint-metaborgc-Stm :
+    Stm-Plhdr() -> [ H(
+                       [SOpt(HS(), "0")]
+                     , [S("$Stm")]
+                     )
+                   ]
+
+  is-metaborgc-Stm =
+    ?Stm-Plhdr()
+
+  prettyprint-metaborgc-ConstExp :
+    ConstExp-Plhdr() -> [ H(
+                            [SOpt(HS(), "0")]
+                          , [S("$ConstExp")]
+                          )
+                        ]
+
+  is-metaborgc-ConstExp =
+    ?ConstExp-Plhdr()
+
+  prettyprint-metaborgc-PPTokenSeq :
+    PPTokenSeq-Plhdr() -> [ H(
+                              [SOpt(HS(), "0")]
+                            , [S("$PPTokenSeq")]
+                            )
+                          ]
+
+  is-metaborgc-PPTokenSeq =
+    ?PPTokenSeq-Plhdr()
+
+  prettyprint-metaborgc-ControlLine :
+    ControlLine-Plhdr() -> [ H(
+                               [SOpt(HS(), "0")]
+                             , [S("$ControlLine")]
+                             )
+                           ]
+
+  is-metaborgc-ControlLine =
+    ?ControlLine-Plhdr()
+
+  prettyprint-metaborgc-ExternalDecl :
+    ExternalDecl-Plhdr(_) -> [ H(
+                                 [SOpt(HS(), "0")]
+                               , [S("$ExternalDecl")]
+                               )
+                             ]
+
+  is-metaborgc-ExternalDecl =
+    ?ExternalDecl-Plhdr(_)
+
+  prettyprint-metaborgc-StructDecl :
+    StructDecl-Plhdr(_) -> [ H(
+                               [SOpt(HS(), "0")]
+                             , [S("$StructDecl")]
+                             )
+                           ]
+
+  is-metaborgc-StructDecl =
+    ?StructDecl-Plhdr(_)
+
+  prettyprint-metaborgc-Stm :
+    Stm-Plhdr(_) -> [ H(
+                        [SOpt(HS(), "0")]
+                      , [S("$Stm")]
+                      )
+                    ]
+
+  is-metaborgc-Stm =
+    ?Stm-Plhdr(_)
+
+  prettyprint-metaborgc-ConstExp :
+    ConstExp-Plhdr(_) -> [ H(
+                             [SOpt(HS(), "0")]
+                           , [S("$ConstExp")]
+                           )
+                         ]
+
+  is-metaborgc-ConstExp =
+    ?ConstExp-Plhdr(_)
+
+  prettyprint-metaborgc-PPTokenSeq :
+    PPTokenSeq-Plhdr(_) -> [ H(
+                               [SOpt(HS(), "0")]
+                             , [S("$PPTokenSeq")]
+                             )
+                           ]
+
+  is-metaborgc-PPTokenSeq =
+    ?PPTokenSeq-Plhdr(_)
+
+  prettyprint-metaborgc-ControlLine :
+    ControlLine-Plhdr(_) -> [ H(
+                                [SOpt(HS(), "0")]
+                              , [S("$ControlLine")]
+                              )
+                            ]
+
+  is-metaborgc-ControlLine =
+    ?ControlLine-Plhdr(_)
