@@ -10,7 +10,7 @@ component main<i[8] | o[4]>(){
 	 int n = 2;
 	 i[0:2*n^2] => matrix_mult(n) => o[0:n^2];
 }
-
+ 
 component matrix_mult<A[n^2], B[n^2] | out[n^2]>(int n){
 	int i = 0;
 }

@@ -48,9 +48,7 @@ context-free syntax
   Exp.Mul = <<Exp> * <Exp>> {left}
   Exp.Div = <<Exp> / <Exp>> {left}
   Exp.Mod = <<Exp> % <Exp>> {left}
-//  Exp.Log2 = <log2(<Exp>)> {left}
   Exp.Power = <<Exp>^<Exp>> {left}
-//  Exp.Max = <max(<Exp>, <Exp>)> {left}
 	Exp.FuncBlockNum  = <#<INT>>
 	
   
@@ -69,13 +67,9 @@ context-free syntax
   Exp.Range = <<Exp> : <Exp>> {left}
   Exp.Interval = <<Exp> : <Exp> : <Exp>> {left, prefer}
    
-  /*Array to Array*/
- // Exp.Append = <<Exp> ++ <Exp>> {left}
-  Exp.Subscr = <<ID>[<Exp>]>{left}
   
-  //Exp.App = <<ID>(<{Exp ","}*>)>
+  
   Exp.FunApp = <<FID><FunOp?>(<{Exp ","}*>)>{left}
- // Exp.CompApp = <<ID>(<{Exp ","}*>)>{left}
   FunOp.OpApp = <\<<Op>\>>
   FunOp.Func = <\<<Exp> = <Exp>\>>
   FunOp.SubScr = <[<Exp>]>
@@ -89,7 +83,8 @@ context-free syntax
   ConnectOp.Crowd = <*_C_*>
   
   Exp.Connect = <<Exp> <ConnectOp> <Exp>> {right}
- // Subscr.Subscr = <[<Exp>]>
+  
+  Exp.Subscr = <<ID>[<Exp>]>{left}  
   Exp.ConcurSigLoop = <loop\<++\>(<Exp> = <Exp>; <Exp>)>
   Exp.ConcurSig = <<Exp> ++ <Exp>> {left}
  

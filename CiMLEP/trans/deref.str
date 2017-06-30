@@ -3,24 +3,17 @@ module deref
 imports
 	src-gen/signatures/-
 	analysis/cimlep
-//	exp-trans
-//	lib
 	helper
 	program-trans
 	nabl2/api
 	signal-trans
-//	skeleton-trans
 	component-trans
-//	system-trans
-//   // runtime/types/query
 	exp-trans
 	statement-trans
 	lib
 	indicies
 	desugar
-//
-//
-//	
+
 
 signature constructors
 	Array : Type -> Type
@@ -175,22 +168,7 @@ rules
 			index := <get-var-index> name;
 			realIndex := <subt>(index, 1);
 			resVarArray* := <set-index> (realIndex, elem, varArray*)
-			
-//	deref-statement(|ast, modArray*, varArray*, sigArray*, compTuples*):
-//		ArrayAssign(name, array*, exp) -> (modArray*, resVarArray*, sigArray*, newCompTuples*)
-//		with
-//			index := <get-var-index> name;
-//			type := <get-type> name;
-//			(newCompTuples*, elems*) := <deref-by-type(|ast, modArray*, varArray*, compTuples*)>(type, exp);
-//			thisVar := <index(|index)> varArray*;
-//			(unusedCompTuples, indices*) := <array-to-list(|ast, modArray*, varArray*, newCompTuples*, Integer())> array*;
-//			if <eq>(<length> indices*, <length> elems*) then
-//				newVar := <set-indices>(<map(dec)> indices*, elems*, thisVar);
-//				resVarArray* := <set-index> (<dec> index, newVar, varArray*)
-//			else
-//				resVarArray* := <debug; fail>"Cannot assign an array to another array of a different length."
-//			end
-//			
+						
 	deref-statement(|ast, modArray*, varArray*, sigArray*, compTuples*):
 		SignalAssign(signal, None(), SigRef(name,array)) -> (modArray*, varArray*, resSigArray*, compTuples*)
 		with
@@ -223,34 +201,13 @@ rules
 	
 	deref-statement(|ast, modArray*, varArray*, sigArray*, compTuples*):
 		SignalDecl(name, size) -> (modArray*, varArray*, sigArray*, compTuples*)
+			
+	/*
 	
-//	deref-statement(|ast, modArray*, varArray*, sigArray*, compTuples*):
-//		CompAttrAssign(name, index, attr, exp) -> (resModArray*, varArray*, sigArray*, compTuples*)
-//		with
-//			modIndex := <get-mod-index> name;
-//			arrayIndex := <deref-by-type(|ast, modArray*, varArray*, compTuples*)>(Integer(), index);
-//			currentMod* := <index(|modIndex)> modArray*;
-//			attrValue := <deref-by-type(|ast, modArray*, varArray*, compTuples*)>(<get-type> exp, exp);
-//			newAttr* := [(arrayIndex, attr, attrValue)];
-//			newMod := [currentMod*, newAttr*];
-//			resModArray* := <set-index>(<subt>(modIndex, 1), newMod, modArray*)			
-//			
-//	loop-over-array(|ast, varIndex, statement, modArray*, varArray*, sigArray*, compTuples*):
-//		[newVarValue | array*] -> (resModArray*, resVarArray*, resSigArray*, resCompTuples*)
-//		with
-//			newVarArray* := <set-index>(<subt>(varIndex, 1), newVarValue, varArray*);
-//			(newModArray*, newerVarArray*, newSigArray, newCompTuples*) := <deref-statement(|ast, modArray*, newVarArray*, sigArray*, compTuples*)> statement;
-//			(resModArray*, resVarArray*, resSigArray*, resCompTuples*) := <loop-over-array(|ast, varIndex, statement, newModArray*, newerVarArray*, newSigArray, newCompTuples*)> array*
-//			
-//	loop-over-array(|ast, varIndex, statements*, modArray*, varArray*, sigArray*, compTuples*):
-//		[] -> (modArray*, varArray*, sigArray*, compTuples*)
-//			
-//	/*
-//	
-//	Dereference expressions by type
-//	
-//	*/
-//	
+	Dereference expressions by type
+	
+	*/
+	
 	deref-by-type(|ast, modArray*, varArray*, compTuples*):
 		(Array(TComp()), exp) -> (resCompTuples*, elem*)
 		with
@@ -403,10 +360,7 @@ rules
 				num := <get-lib-index; int-to-string> name;
 				res := FuncBlockNum(num)  
 			end
-			
-//	deref-skel(|ast, varArray*, compTuples*):
-//		BinOp(skel1, ConOp(op), skel2) -> <deref-skel(|ast, varArray*, compTuples*)>Connect(skel1, op, skel2)
-		
+					
 	deref-skel(|ast, varArray*, compTuples*):
 		CompRef((num, args), size) -> (compTuples*, CompRef((num, args), size))
 		
@@ -424,10 +378,7 @@ rules
 				(newCompTuples*, statements*) := <unroll-and-dereference(|ast, argArray*, compTuples*)> comp;
 				resCompTuples* := [((index, argArray*),statements*), newCompTuples*]
 			end
-		
-//	deref-skel(|ast, varArray*, compTuples*):
-//		Nop() -> (compTuples*, Nop())
-//	
+			
 	deref-skel(|ast, varArray*, compTuples*):
 		Connect(skel1, conOp, skel2) -> (resCompTuples*, res)
 		with
@@ -459,10 +410,7 @@ rules
 		[] -> (compTuples*, res*)
 		with
 			res* := []
-			
-//	con-op-get-index:
-//		ConnOp(name) -> ConnOp(<get-skel-index> name)
-//		
+	
 	con-op-get-index:
 		otherOp -> otherOp
 		
@@ -478,7 +426,7 @@ rules
 		[] -> (compTuples*, resArgArray*)
 		with
 			resArgArray* := []
-//		
+		
 	add-to-signal:
 		(OutputAssign(inArray1, inSig1, conskel1), OutputAssign(inArray2, inSig2,conskel2)) -> <add-to-signal>(OutputAssign(inArray1, inSig1, conskel1), inArray2, inSig2,conskel2)
 		
@@ -528,73 +476,7 @@ rules
 			; dec-occ := <nabl2-get-resolved-name(|a); Fst> ref-occ
 			; type    := <nabl2-get-type(|a)> dec-occ
 			
-			
-//	add-to-signal:
-//		(SignalAssign(inSig, None(), num, inArray), array, signal, None()) -> SignalAssign(newInSig, Some(ConSkel(skel)), num, newInArray)
-//		with
-//			if <eq>(<isect;length>(inArray, array), 0) then
-//				newInArray := <conc>(inArray, array);
-//				skel := <copy>(<add>(<length> inArray, <length> array), Nop());
-//				conOp := Linear();
-//				if <eq>(<signal-get-length> inSig, 0) then
-//					newInSig := signal
-//				else
-//					newInSig := ConcurSig(inSig, signal)
-//				end
-//			else
-//				<debug(!"Cannot assign to the same signal port twice.")> (inArray, array)
-//			end
-//			
-//	add-to-signal:
-//		(SignalAssign(inSig, None(), num, inArray), array, signal, Some(ConSkel(skel))) -> SignalAssign(newInSig, Some(ConSkel(newSkel)), num, newInArray)
-//		with
-//			if <eq>(<isect;length>(inArray, array), 0) then
-//				newInArray := <conc>(inArray, array);
-//				if <eq>(<signal-get-length> inSig, 0) then
-//					newInSig := signal;
-//					newSkel := skel
-//				else
-//					newInSig := ConcurSig(inSig, signal);
-//					nops* := <copy>(<signal-get-length> inSig, Nop());
-//					newSkel := <merge>(nops*, skel)
-//				end
-//			else
-//				<debug(!"Cannot assign to the same signal port twice.")> (inArray, array)
-//			end
-//			
-//	add-to-signal:
-//		(SignalAssign(inSig, Some(ConSkel(inSkel)), num, inArray), array, signal, None()) -> SignalAssign(newInSig, Some(ConSkel(newSkel)), num, newInArray)
-//		with
-//			if <eq>(<isect;length>(inArray, array), 0) then
-//				newInArray := <conc>(inArray, array);
-//				skel := <copy>(<length> array, Nop());
-//				if <eq>(<signal-get-length> inSig, 0) then
-//					newInSig := signal;
-//					newSkel := skel
-//				else
-//					newInSig := ConcurSig(inSig, signal);
-//					newSkel := <merge>(inSkel, skel)
-//				end
-//			else
-//				<debug(!"Cannot assign to the same signal port twice.")> (inArray, array)
-//			end
-//			
-//	add-to-signal:
-//		(SignalAssign(inSig, Some(ConSkel(inSkel)), num,inArray), array, signal, Some(ConSkel(skel))) -> SignalAssign( newInSig, Some(ConSkel(newSkel)), num, newInArray)
-//		with
-//			if <eq>(<isect;length>(inArray, array), 0) then
-//				newInArray := <conc>(inArray, array);
-//				if <eq>(<signal-get-length> inSig, 0) then
-//					newInSig := signal;
-//					newSkel := skel
-//				else
-//					newInSig := ConcurSig(inSig, signal);
-//					newSkel := <merge>(inSkel, skel)
-//				end
-//			else
-//				<debug(!"Cannot assign to the same signal port twice.")> (inArray, array)
-//			end
-//			
+		
 	fold-to-value(|ast, modArray*, varArray*, compTuples*):
 		FunApp(Fold(Right()), Some(OpApp(op)), [ar]) -> (resCompTuples*, res)
 		with
@@ -623,6 +505,3 @@ rules
 			(unusedCompTuples*, res*) := <deref-by-type(|ast, modArray*, varArray*, compTuples*)>(type, BinExp(op, skel1, skel2))
 	
 	array-get-type:Array(type) -> type
-//			
-//	add(|num):
-//		a -> <add>(a, num)

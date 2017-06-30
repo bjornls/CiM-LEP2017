@@ -124,7 +124,7 @@ test duplicate local variables [[
 ]] >= 1 errors
 
 /*
-	correct tests that are buggy
+	correct (buggy?) tests 
 */
 
 //test duplicate local variables with funcblock id[[
@@ -140,4 +140,8 @@ test cannot assign value to variable which is defined later[[
   int h;
 ]] >= 1 errors
 
+test cannot assign value to variable which is defined later[[
+  h = 0;
+  int h;
+]] >= 1 errors
 

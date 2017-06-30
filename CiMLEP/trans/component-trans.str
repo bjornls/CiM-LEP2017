@@ -42,7 +42,7 @@ rules
 		Component(_, _, _, argdecls*, statement) -> <fail>
 		with
 			signals* := <statement-get-sigdecls> statement;
-			res* := []//<map(signal-decl-get-size)> signals*
+			res* := <map(signal-decl-get-size)> signals* 
 			
 	get-num-sigs: 
 		Component(_, insigs*, outsigs*, _, statement) -> res

@@ -73,25 +73,12 @@ rules
 	desugar: SignalAssign(insig, cskel, outsig) 
 					-> SignalAssign(<try(desugar-sig)>insig, cskel, <try(desugar-sig)>outsig)
 	
-	//	only certain instances that we want to desugar thusly
+	//	desugaring signals
 	// i.e. the weight of the syntax knowing about signals was shifted to desugaring.
 	desugar-sig: VarRef(vid) -> SigRef(vid, None())
 	desugar-sig: Subscr(vid, ind) -> SigRef(vid, ind)
 	desugar-sig: FunApp(Zip(), n, p) -> FunApp(Zip(), n, <map(try(desugar-sig))>p)
-//	
-//	desugar: VarDecl(Array(type), name) -> VarDeclInit(Array(type), name, ManualDefinition([]))
-//	desugar: VarDecl(Integer(), name) -> VarDeclInit(Integer(), name, Int("0"))
-//	desugar: VarDecl(Boolean(), name) -> VarDeclInit(Boolean(), name, False())
-//	desugar: VarDecl(Comp(), name) -> VarDeclInit(Comp(), name, Nop())
-//	desugar: VarDecl(Coordinate(), name) -> VarDeclInit(Coordinate(), name, CoordVal("0", "0"))
-//	
-//	desugar: SingleSigRef(name) -> SigRef(name, Int("0"))
-//	
-//	desugar: AltSingleSignalAssign(signal, conskel, name) -> SignalAssign(name, Int("0"), signal, conskel)
-//	
-//	desugar: SingleModRef(name) -> ModRef(name, Int("0"))
-//	desugar: SingleCompAttrAssign(name, attr, exp) -> CompAttrAssign(name, Int("0"), attr, exp)
-//	
-//	desugar: SingleSigParam(name) -> SigParam(name, Int("1"))
-//	desugar: SingleModParam(inports, outports, name) -> ModParam(inports, outports, name, Int("1"))
-//	desugar: SingleSignalDecl(name) -> SignalDecl(name, Int("1"))
+
+	
+	
+	

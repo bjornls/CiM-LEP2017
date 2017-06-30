@@ -12,9 +12,9 @@ imports
   
 rules
 	
-//	signal-decl-get-size:
-//		SignalDecl(name, size) -> <exp-to-int(|"error", [], [])> size
-//		
+	signal-decl-get-size:
+		SignalDecl(name, size) -> <exp-to-int(|"error", [], [])> size
+		
 	signal-get-index: 
 		name -> 1
 		

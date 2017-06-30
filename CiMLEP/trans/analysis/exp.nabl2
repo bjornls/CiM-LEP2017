@@ -124,6 +124,13 @@ ConSkel[[Some(ConSkel(comp)) ^ (s) : ty]] :=
 		[[ var ^ (s) : vty ]],
 		[[ var2 ^ (s) : vty2 ]],
 		[vty, vty2] == [TSignal(), TSignal()] | error.
+		
+[[ManualDefinition(varAr) ^ (s) : Array(TComp())]] := 
+	Map1T[[varAr ^ (s) : tys]],
+	Map1[[tys ^ (s)]].
+	
+IsComp[[TComp() ^ (s)]] := true.
+IsComp[[_ ^ (s)]] := false | error "Expecting Component".
 
 	
 	

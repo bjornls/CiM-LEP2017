@@ -12,6 +12,5 @@ context-free start-symbols
 context-free syntax
 
 Type.Integer = <int>
-//Type.Array = <<Type>[]>
 Type.Comp = <comp>
 Type.Signal = <signal>

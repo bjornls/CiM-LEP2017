@@ -32,10 +32,6 @@ context-free syntax
   Statement.VarDecl = <<Type> <ID>;>
   Statement.VarDeclInit = <<Type> <ID> = <Exp>;>
   
-//  //for 
-//  Statement.SignalDecl = <<ID>[<Exp>];>
-  
-  //Statement.SingleSignalDecl = <signal <ID>;>
   Statement.ArrayDecl = <<Type> <ID>[<Exp>];>
   
   Statement.OutputAssign = <deprecated_out[<Exp>] \<= <Signal> \<= <Exp>;>

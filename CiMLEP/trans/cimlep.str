@@ -9,7 +9,7 @@ imports
   gen-dfg 
   gen-mapping
   pp/metaborgc/-
-  tmp/temp
+  concrete-syntax/to-systemc 
   gen-systemc
 
 rules // Debugging
@@ -42,6 +42,6 @@ rules // Debugging
     with
       ext      := <get-extension> path;
       filename := "generated_system.h";
-      result   := <gen-systemc; bar; pp-start-symbols; !V([], <id>); box2text-string(|120)>ast;
+      result   := <gen-systemc; cim-to-systemc; pp-start-symbols; !V([], <id>); box2text-string(|120)>ast;
       <run-time; debug(!"after pp ")>"" 
       
