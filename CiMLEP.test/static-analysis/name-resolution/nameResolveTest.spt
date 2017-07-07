@@ -15,14 +15,14 @@ test resolve parameter to sig parameter [[
 	}
 ]] resolve #1 to #2
 
-test resolve parameter to sig parameter [[
+test resolve parameter in main function to sig parameter [[
 	FuncBlock(add,  (40,32), 180, 125, ((0,0), 90, 1)((0,32), 270, 0), ((40,0), 90, 0));
 	FuncBlock(mul, (120,160), 803, 4407, ((0,0), 0, 0)((32,160), 180, 0), ((120,64), 90, 0));
 	
-	component main<a[ [[n]] ], b[n] | out[1]>(int [[n]]){
+	component main<a[ [[n]] ], b[n] | out[1]>(int [[n]]){ 
 		
 	}
-]] resolve #1 to #2
+]] resolve #1 to #2 
 
 test resolve to funcblock identifier [[
 	FuncBlock([[add]],  (40,32), 180, 125, ((0,0), 90, 1)((0,32), 270, 0), ((40,0), 90, 0));

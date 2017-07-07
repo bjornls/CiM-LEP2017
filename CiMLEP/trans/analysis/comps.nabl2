@@ -11,18 +11,18 @@ rules
 	distinct/name D(mainscope) | error @NAMES,
 	Map1[[sigParamsIn ^ (mainscope)]],
 	Map1[[sigParamsOut ^ (mainscope)]],
-	Map1[[params ^ (mainscope)]],
+	Map1T[[params ^ (mainscope) : ptys]],
 	[[stmt ^ (mainscope)]].
 	
 [[Component(id,sigParamsIn,sigParamsOut,params,stmt) ^ (globalscope)]] := 
 	Component{id} <- globalscope,
-	Component{id} : TComp(),  
+	Component{id} : CompFunc(ptys),  
 	new compscope,
 	compscope ---> globalscope,
 	distinct/name D(compscope) | error @NAMES,
 	Map1[[sigParamsIn ^ (compscope)]],
 	Map1[[sigParamsOut ^ (compscope)]],
-	Map1[[params ^ (compscope)]],
+	Map1T[[params ^ (compscope) : ptys]],
 	[[stmt ^ (compscope)]].	
 
 [[SigParam(id, value) ^ (scope)]] := 
@@ -33,7 +33,7 @@ rules
 	vty == TInteger() | error.
 	
 	
-[[ParamDecl(type, id) ^ (scope)]] := 
+[[ParamDecl(type, id) ^ (scope) : ty]] := 
 	Var{id} <- scope,
 	[[type ^ (scope) : ty]],
 	Var{id} : ty,

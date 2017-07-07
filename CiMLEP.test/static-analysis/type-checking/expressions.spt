@@ -124,7 +124,7 @@ test duplicate local variables [[
 ]] >= 1 errors
 
 /*
-	correct (buggy?) tests 
+	tests that throw errors even if they should be caught
 */
 
 //test duplicate local variables with funcblock id[[
@@ -144,4 +144,25 @@ test cannot assign value to variable which is defined later[[
   h = 0;
   int h;
 ]] >= 1 errors
+
+/*
+	CompRef tests
+*/
+
+test correct compref[[
+  comp c = foo(2);
+]] 0 errors
+
+test incorrect compref type[[
+  comp c = foo(add);
+]] >= 1 errors
+
+test overloading compref[[
+  comp c = foo(2, 2);
+]] >= 1 errors
+
+
+
+
+
 

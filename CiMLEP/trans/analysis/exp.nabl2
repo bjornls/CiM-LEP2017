@@ -98,7 +98,9 @@ ConSkel[[Some(ConSkel(comp)) ^ (s) : ty]] :=
 [[CompRef(cid, params) ^ (s) : TComp()]] :=
 	Component{cid} -> s,
 	Component{cid} |-> d,
-	Map1T[[params ^ (s) : ttys]].
+	d : CompFunc(ptys),
+	Map1T[[params ^ (s) : ttys]],
+	ptys == ttys | error "Arguments do not match the component".
 	
 [[BinExp(_, exp1, exp2) ^ (s) : TInteger()]] :=	
 	[[exp1 ^ (s) : ty1]],

@@ -15,7 +15,7 @@ component matrix_mult<A[n^2], B[n^2] | out[n^2]>(int n){
 } 
 
 component inner_product<a[n], b[n] | out[1]>(int n){
-	zip(a[0 : n], b[0:n]) => recur(n, mul, add) => out[0];
+	zip(a[0 : n], b[0:n]) => recur(n, mul, add) => out[0]; 
 }
 
 component recur<in[2*n] | out[1]>(int n, comp combiner, comp reducer){

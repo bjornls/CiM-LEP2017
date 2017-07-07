@@ -5,7 +5,7 @@ imports
 	src-gen/signatures/SystemC/-
 
 signature constructors
-	InitVariables : InitVars 
+	InitVariables : InitVars
 	InitInputSigs : InitVars
 
 rules
@@ -15,6 +15,8 @@ rules
 	with
 		arg_in:= IntConst(inarg);
 		arg_out:= IntConst(outarg);
+		x_initvars* := <systemc-init-var-to-ast>"";
+		x_initsigs* := <systemc-init-sig-to-ast>""; 
 		x_moduledecls* := <map(systemc-module-to-ast); concat>sysc-modules-decls;
 		x_moduleconns* := <map(systemc-module-to-ast); concat>sysc-module-conns;
 		y := 
@@ -38,32 +40,20 @@ template <int input_size = arg_in, int output_size = arg_out>
 class generated_system: sc_module
 {
 public: 
-	sc_in<sc_int<32> > *input_sigs;
-    sc_out<sc_int<32> > *output_sigs;
-    sc_in<bool> clk;
-    sc_in<bool> reset;
-    sc_out<bool> *done;
-    sc_in<bool> valid;
+	x_initvars*
 	
     x_moduledecls*
     
     SC_CTOR(generated_system)
     {
-    	input_sigs = new sc_in<sc_int<32> >[input_size];
-	    output_sigs = new sc_out<sc_int<32> >[output_size];
-	    done = new sc_out<bool>[output_size];
-	    mod1 = new multiplier_signed("mod1");
-	    mod1->clk(clk);
-	    mod1->reset(reset);
-	    mod1->output(mod1_out);
-	    mod1->done(mod1_done);
+    	x_initsigs*
     
     	x_moduleconns*
 	}
 
 };
 
-#endif  ]|
+#endif]|
 		
 		
 systemc-module-to-ast:
